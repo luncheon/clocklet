@@ -1,0 +1,28 @@
+{
+  "name": "clocklet",
+  "version": "0.0.0",
+  "description": "An opinionated clock-style timepicker",
+  "repository": "luncheon/clocklet",
+  "main": "dist/clocklet.min.js",
+  "scripts": {
+    "start": "concurrently --kill-others \"npm run watch:js\" \"npm run watch:css\"",
+    "build": "npm run build:js && npm run build:css",
+    "build:js": "rollup    -c -i src/index.ts -o dist/clocklet.js && uglifyjs -m -c join_vars=true -o dist/clocklet.min.js dist/clocklet.js",
+    "watch:js": "rollup -w -c -i src/index.ts -o dist/clocklet.js",
+    "build:css": "stylus    -o dist/clocklet.css src/style.styl && cleancss -o dist/clocklet.min.css dist/clocklet.css",
+    "watch:css": "stylus -w -o dist/clocklet.css src/style.styl"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "WTFPL",
+  "devDependencies": {
+    "clean-css-cli": "^4.1.10",
+    "concurrently": "^3.5.1",
+    "lenientime": "github:luncheon/lenientime",
+    "rollup": "^0.56.3",
+    "rollup-plugin-node-resolve": "^3.0.3",
+    "stylus": "^0.54.5",
+    "typescript": "^2.7.2",
+    "uglify-js": "^3.3.12"
+  }
+}

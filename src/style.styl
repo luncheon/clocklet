@@ -1,0 +1,133 @@
+$clocklet-hand-color = rgb(68,187,255)
+$clocklet-tick-selected-text-color = white
+$clocklet-tick-hover-background-color = #8df
+
+dimensions($top, $right = $top, $bottom = $top, $left = $right)
+  left    $left
+  top     $top
+  right   $right
+  bottom  $bottom
+
+.clocklet
+.clocklet *
+  touch-action        manipulation
+  -webkit-user-select none
+  -moz-user-select    none
+  -ms-user-select     none
+  user-select         none
+  -webkit-tap-highlight-color transparent
+  position            absolute
+  font-size           inherit
+
+.clocklet
+  font-size         16px
+  box-sizing        border-box
+  width             300px
+  height            300px
+  margin-top        1px
+  padding           8px
+  border            1px solid #ddd
+  background-color  #eee
+  box-shadow        4px 4px 4px rgba(128,128,128,.5)
+  transition        opacity .2s ease-out
+  z-index           99999
+  border-radius     3px
+  transform-origin  0 0
+
+  &:not(.clocklet_shown)
+    opacity           0
+    pointer-events    none
+
+.clocklet__plate
+  position          relative
+  height            100%
+  border-radius     50%
+  background-color  white
+
+.clocklet-dial
+  dimensions        0
+  margin            auto
+  border-radius     50%
+
+.clocklet-dial__hand
+  dimensions        20px 0 50% 0
+  margin            auto
+  transform-origin  50% 100%
+  background-color  alpha($clocklet-hand-color,.6)
+
+.clocklet-dial__tick
+  width             1.75em
+  height            1.75em
+  margin           -.875em
+  border-radius     50%
+  padding           0
+  outline           0
+  border            0
+  cursor            pointer
+  background-color  transparent
+  color             inherit
+  font-family       inherit
+  font-weight       inherit
+  &::before
+    content           attr(data-clocklet-tick-value)
+
+.clocklet:not([data-value=""]) .clocklet-dial__tick--selected
+  background-color  $clocklet-hand-color
+  color             white
+
+.clocklet:not([data-clocklet-dragging]) .clocklet-dial__tick:hover
+  background-color  $clocklet-tick-hover-background-color
+  @media(hover none)
+    background-color  transparent
+
+.clocklet__toggle-am-pm
+  dimensions        calc(50% + 12px) calc(50% - 24px) calc(50% - 36px) calc(50% - 24px)
+  border-radius     12px
+  cursor            pointer
+  background-color  alpha(#ccc,.6)
+  &::before
+    content           "AM"
+    position          relative
+    display           flex
+    align-items       center
+    justify-content   center
+    width             32px
+    height            32px
+    margin            -4px
+    border-radius     50%
+    background-color  $clocklet-hand-color
+    color             white
+    transition        left .1s ease-out
+    left              0
+  &[data-clocklet-am-pm="pm"]::before
+    content           "PM"
+    left              calc(100% - 24px)
+
+.clocklet__hands-origin
+  dimensions        calc(50% - 5px)
+  border-radius     50%
+  background-color  $clocklet-hand-color
+
+.clocklet[data-value=""]
+  .clocklet__hands-origin
+  .clocklet-dial__hand
+    display           none
+
+.clocklet__dial-hour
+  width             128px
+  height            128px
+  > .clocklet-dial__hand
+    width             8px
+  > .clocklet-dial__tick[data-clocklet-tick-value="0"]::before
+    content           "12"
+
+.clocklet__dial-minute
+  width             100%
+  height            100%
+  > .clocklet-dial__hand
+    width             2px
+  > .clocklet-dial__tick
+    transform         scale(.6)
+    &[data-clocklet-tick-value$="0"]
+    &[data-clocklet-tick-value$="5"]
+      transform         none

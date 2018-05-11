@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clocklet - An opinionated clock-style timepicker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/themes/prism.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Frank+Ruhl+Libre:400,500|Playball|Source+Sans+Pro:400,700">
+    <style>
+      * { -webkit-overflow-scrolling: touch; }
+      body { font-family: 'Source Sans Pro'; min-height: 1000px; }
+      h1 { margin: .25em 0; font-size: 350%; font-weight: normal; font-family: "Frank Ruhl Libre", serif; letter-spacing: -2px; }
+      h1 > strong { font-weight: normal; font-family: Playball, cursive; letter-spacing: 0; padding-left: 2px; }
+      h2 { margin: .25em 0; font-family: "Frank Ruhl Libre"; font-weight: normal; }
+      h3 { margin: .5em 0; }
+      p { margin: 0; }
+      pre[class*="language-"], :not(pre) > code[class*="language-"] { font-family: Inconsolata; margin: 0; padding: .2em .5em; }
+      code[class*="language-"] { line-height: 1.2; font-family: Inconsolata; font-size: 87.5%; }
+      svg { vertical-align: middle; }
+      iframe { border: 0; }
+      .philosophy, .features { margin: 20px 0; }
+      .philosophy div, .features div { margin-left: 1.5em; }
+      .feather { width: 1em; height: 1em; margin-right: .5em; }
+      .features .feather { color: #00cc88; }
+      .philosophy .feather { color: #0070cc; }
+      .not-confident { font-size: 87.5%; padding-left: .5em; }
+      .example { margin-left: 1.25em; }
+      .example > * { display: inline-block; vertical-align: top; margin: .25em; }
+      .example pre { width: 768px; }
+    </style>
+  </head>
+  <body>
+    <script>onerror = alert</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-64398169-1"></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments)} gtag('js', new Date()); gtag('config', 'UA-64398169-1');</script>
+
+    <div style="display: flex; align-items: baseline;">
+      <h1>Clock<strong>let</strong></h1>
+      <a href="https://github.com/luncheon/clocklet">
+        <img src="https://cdn.jsdelivr.net/npm/octicons@7.0.1/build/svg/mark-github.svg" alt="GitHub" style="height: 3em; margin-left: 1em; vertical-align: bottom;">
+      </a>
+    </div>
+    <p>An opinionated clock-style timepicker.</p>
+
+    <section class="philosophy">
+      <h2>Philosophy, Opinions, Goals</h2>
+      <div>
+        <i data-feather="alert-triangle"></i><strong><a target="_blank" href="https://www.joelonsoftware.com/2000/04/27/designing-for-people-who-have-better-things-to-do-with-their-lives-part-two/">Users can’t control the mouse very well.</a></strong>
+        <div>
+          <i data-feather="tag"></i>Timepickers MUST NOT disable keyboard input.
+        </div>
+        <div>
+          <i data-feather="tag"></i>Click targets used frequently SHOULD be large enough.
+        </div>
+      </div>
+      <div>
+        <i data-feather="heart"></i><strong>Less surprise</strong>; follows the mental model of users.
+        <div>
+          <i data-feather="tag"></i>Timepickers that look like clocks can be intuitive.<br>
+          <span style="display: inline-block; width: 1.5em;"></span> - Most datepickers look like calendars.
+        </div>
+        <div>
+          <i data-feather="tag"></i><a target="_blank" href="https://material.io/guidelines/components/pickers.html#pickers-time-pickers">Many clock-style timepickers have a state that represents either "entering hour" or "entering minute".</a><br>
+          <span style="display: inline-block; width: 1.5em;"></span>I never want to care the state.<br>
+          <span style="display: inline-block; width: 1.5em;"></span>Both hour and minute should be displayed and selectable at any time.
+        </div>
+      </div>
+      <div>
+        <i data-feather="edit-2"></i><strong>Less clicks, less key inputs</strong>
+      </div>
+      <div>
+        <i data-feather="link-2"></i>See also: <a target="_blank" href="https://www.nngroup.com/articles/date-input/">Date-Input Form Fields: UX Design Guidelines</a>
+      </div>
+    </section>
+
+    <section class="features">
+      <h2>Features</h2>
+      <div>
+        <i data-feather="check-square"></i>Keyboard and numpad friendly (by <a target="_blank" href="https://luncheon.github.io/lenientime/demo/">Lenientime</a>)
+        <div>
+          <i data-feather="check-square"></i>Autocomplete - e.g. "1"-&gt;"01:00", "12"-&gt;"12:00", "1234"-&gt;"12:34"
+        </div>
+        <div>
+          <i data-feather="check-square"></i>Up and down arrow key support
+        </div>
+      </div>
+      <div>
+        <i data-feather="check-square"></i>Mouse and touch friendly
+      </div>
+      <div>
+        <i data-feather="square"></i>Sexy and stylish<span class="not-confident">- not confident</span>
+      </div>
+    </section>
+
+    <section class="examples">
+      <h2>Examples</h2>
+      <div class="example">
+        <div><pre><code class="language-html"
+>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/input-clear-icon/input-clear-icon.min.css"&gt;
+&lt;link rel="stylesheet" href="https://luncheon.github.io/clocklet/dist/clocklet.min.css"&gt;
+
+&lt;link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin&gt;
+&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre:500"&gt;
+&lt;style&gt;.clocklet { font-family: "Frank Ruhl Libre", serif; font-weight: 500; }&lt;/style&gt;
+
+&lt;script src="https://cdn.jsdelivr.net/npm/input-clear-icon/input-clear-icon.medium.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://luncheon.github.io/clocklet/dist/clocklet.min.js"&gt;&lt;/script&gt;
+
+&lt;input data-clocklet input-clear-icon maxlength="5"&gt;
+</code></pre></div>
+        <iframe src="1.html" width="320" height="360"></iframe>
+      </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>feather.replace()</script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/components/prism-markup.min.js"></script>
+  </body>
+</html>
