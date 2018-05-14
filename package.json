@@ -16,13 +16,13 @@
   "author": "",
   "license": "WTFPL",
   "devDependencies": {
-    "clean-css-cli": "^4.1.10",
+    "clean-css-cli": "^4.1.11",
     "concurrently": "^3.5.1",
     "lenientime": "github:luncheon/lenientime",
-    "rollup": "^0.56.3",
-    "rollup-plugin-node-resolve": "^3.0.3",
+    "rollup": "^0.58.2",
+    "rollup-plugin-node-resolve": "^3.3.0",
     "stylus": "^0.54.5",
-    "typescript": "^2.7.2",
-    "uglify-js": "^3.3.12"
+    "typescript": "^2.8.3",
+    "uglify-js": "^3.3.25"
   }
 }
