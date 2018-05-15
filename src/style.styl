@@ -30,7 +30,7 @@ dimensions($top, $right = $top, $bottom = $top, $left = $right)
   background-color  #eee
   box-shadow        4px 4px 4px rgba(128,128,128,.5)
   transition        opacity .2s ease-out
-  z-index           99999
+  z-index           99998
   border-radius     3px
   transform-origin  0 0
 
@@ -48,6 +48,12 @@ dimensions($top, $right = $top, $bottom = $top, $left = $right)
   dimensions        0
   margin            auto
   border-radius     50%
+
+.clocklet-dial__hand
+.clocklet-dial__tick
+.clocklet__toggle-am-pm
+.clocklet__hands-origin
+  z-index             99999
 
 .clocklet-dial__hand
   dimensions        20px 0 50% 0
@@ -114,8 +120,8 @@ dimensions($top, $right = $top, $bottom = $top, $left = $right)
     display           none
 
 .clocklet__dial-hour
-  width             128px
-  height            128px
+  width             56%
+  height            56%
   > .clocklet-dial__hand
     width             8px
   > .clocklet-dial__tick[data-clocklet-tick-value="0"]::before

@@ -21,6 +21,7 @@
     "lenientime": "github:luncheon/lenientime",
     "rollup": "^0.58.2",
     "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-pug": "^0.1.6",
     "stylus": "^0.54.5",
     "typescript": "^2.8.3",
     "uglify-js": "^3.3.25"

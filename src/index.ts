@@ -1,8 +1,9 @@
-import adjustOnArrowKeys from 'lenientime/es/input-helpers/adjust-on-arrow-keys'
-import complete from 'lenientime/es/input-helpers/complete'
-import lenientime from 'lenientime/es/core'
-import div from './div'
-import ClockletDial from './dial';
+import adjustOnArrowKeys  from 'lenientime/es/input-helpers/adjust-on-arrow-keys'
+import complete           from 'lenientime/es/input-helpers/complete'
+import lenientime         from 'lenientime/es/core'
+
+import ClockletDial       from './dial'
+import template           from './template.pug'
 
 {
   const lenientimeOptions = { dataAttributeName: 'clocklet' }
@@ -10,14 +11,15 @@ import ClockletDial from './dial';
   adjustOnArrowKeys(lenientimeOptions)
 }
 
+document.body.innerHTML += template
+
 const isTouchDevice     = matchMedia('(hover: none)').matches
-const clockletElement   = document.body.appendChild(div('clocklet'))
-const plateElement      = clockletElement.appendChild(div('clocklet__plate'))
-const dialMinute        = new ClockletDial(plateElement, 'minute', 60, m => m % 5 ? 46 : 39)
-const dialHour          = new ClockletDial(plateElement, 'hour',   12, h => 42)
-const toggleAmPmElement = plateElement.appendChild(div('clocklet__toggle-am-pm'))
+const clockletElement   = document.body.getElementsByClassName('clocklet')[0] as HTMLElement
+const plateElement      = clockletElement.firstElementChild as HTMLElement
+const dialMinute        = new ClockletDial(plateElement, 'minute', 60)
+const dialHour          = new ClockletDial(plateElement, 'hour',   12)
+const toggleAmPmElement = plateElement.getElementsByClassName('clocklet__toggle-am-pm')[0] as HTMLElement
 let targetInputElement: HTMLInputElement | undefined
-plateElement.appendChild(div('clocklet__hands-origin'))
 
 addEventListener('focus', event => {
   const target = event.target as HTMLInputElement

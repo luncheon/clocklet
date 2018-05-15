@@ -1,4 +1,5 @@
 import resolve from 'rollup-plugin-node-resolve'
+import pug from 'rollup-plugin-pug'
 
 export default {
   output: {
@@ -6,6 +7,10 @@ export default {
   },
   plugins: [
     resolve(),
+    pug({
+      pugRuntime: false,
+      staticPattern: /\S/,
+    }),
     typescript(),
   ],
 }
