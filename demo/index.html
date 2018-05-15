@@ -7,7 +7,7 @@
     <title>Clocklet - An opinionated clock-style timepicker</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/themes/prism.css">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Frank+Ruhl+Libre:400,500|Playball|Source+Sans+Pro:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Frank+Ruhl+Libre|Playball|Source+Sans+Pro:400,700">
     <style>
       * { -webkit-overflow-scrolling: touch; }
       body { font-family: 'Source Sans Pro'; min-height: 1000px; }
@@ -25,7 +25,6 @@
       .feather { width: 1em; height: 1em; margin-right: .5em; }
       .features .feather { color: #00cc88; }
       .philosophy .feather { color: #0070cc; }
-      .not-confident { font-size: 87.5%; padding-left: .5em; }
       .example { margin-left: 1.25em; }
       .example > * { display: inline-block; vertical-align: top; margin: .25em; }
       .example pre { width: 768px; }
@@ -79,18 +78,16 @@
       <h2>Features</h2>
       <div>
         <i data-feather="check-square"></i>Keyboard and numpad friendly (by <a target="_blank" href="https://luncheon.github.io/lenientime/demo/">Lenientime</a>)
-        <div>
-          <i data-feather="check-square"></i>Autocomplete - e.g. "1"-&gt;"01:00", "12"-&gt;"12:00", "1234"-&gt;"12:34"
-        </div>
-        <div>
-          <i data-feather="check-square"></i>Up and down arrow key support
-        </div>
+        <div><i data-feather="check-square"></i>Autocomplete - e.g. "1"-&gt;"01:00", "12"-&gt;"12:00", "1234"-&gt;"12:34"</div>
+        <div><i data-feather="check-square"></i>Up and down arrow key support</div>
       </div>
+      <div><i data-feather="check-square"></i>Mouse and touch friendly</div>
+      <div><i data-feather="square"></i>[Current time] button</div>
+      <div><i data-feather="square"></i>Select from the input history</div>
       <div>
-        <i data-feather="check-square"></i>Mouse and touch friendly
-      </div>
-      <div>
-        <i data-feather="square"></i>Sexy and stylish<span class="not-confident">- not confident</span>
+        <i data-feather="square"></i>Customization
+        <div><i data-feather="square"></i>Customize the time format of the input element</div>
+        <div><i data-feather="square"></i>Customize the placement of the popup</div>
       </div>
     </section>
 
@@ -98,17 +95,21 @@
       <h2>Examples</h2>
       <div class="example">
         <div><pre><code class="language-html"
->&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/input-clear-icon/input-clear-icon.min.css"&gt;
-&lt;link rel="stylesheet" href="https://luncheon.github.io/clocklet/dist/clocklet.min.css"&gt;
-
-&lt;link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin&gt;
+>&lt;link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin&gt;
 &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre:500"&gt;
-&lt;style&gt;.clocklet { font-family: "Frank Ruhl Libre", serif; font-weight: 500; }&lt;/style&gt;
-
-&lt;script src="https://cdn.jsdelivr.net/npm/input-clear-icon/input-clear-icon.medium.min.js"&gt;&lt;/script&gt;
+<!-- &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/input-clear-icon/input-clear-icon.medium.min.css"&gt;-->
+&lt;link rel="stylesheet" href="https://luncheon.github.io/clocklet/dist/clocklet.min.css"&gt;
+&lt;style&gt;
+  .clocklet {
+    font-family: "Frank Ruhl Libre", serif;
+    font-weight: 500;
+    color: #333;
+  }
+&lt;/style&gt;
+<!-- &lt;script src="https://cdn.jsdelivr.net/npm/input-clear-icon/input-clear-icon.min.js"&gt;&lt;/script&gt; -->
 &lt;script src="https://luncheon.github.io/clocklet/dist/clocklet.min.js"&gt;&lt;/script&gt;
 
-&lt;input data-clocklet input-clear-icon maxlength="5"&gt;
+&lt;input data-clocklet maxlength="5"&gt;
 </code></pre></div>
         <iframe src="1.html" width="320" height="360"></iframe>
       </div>
