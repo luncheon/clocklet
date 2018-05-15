@@ -1,0 +1,30 @@
+$clocklet-active-color = rgb(68,187,255)
+
+.clocklet
+  border            1px solid #ddd
+  background-color  #eee
+  box-shadow        4px 4px 4px rgba(128,128,128,.5)
+
+.clocklet__plate
+  background-color  white
+
+.clocklet-dial__hand
+  background-color  lighten($clocklet-active-color, 50%)
+
+.clocklet:not([data-value=""]) .clocklet-dial__tick--selected
+  background-color  lighten($clocklet-active-color, 10%)
+  color             white
+
+.clocklet:not([data-clocklet-dragging]) .clocklet-dial__tick:hover
+  background-color  lighten($clocklet-active-color, 30%)
+
+.clocklet__toggle-am-pm
+  background-color  alpha(#ccc,.6)
+  &::before
+    background-color  lighten($clocklet-active-color, 10%)
+    color             white
+  &:hover::before
+    background-color  lighten($clocklet-active-color, 30%)
+
+.clocklet__hands-origin
+  background-color  $clocklet-active-color

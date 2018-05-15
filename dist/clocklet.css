@@ -1,3 +1,34 @@
+.clocklet {
+  border: 1px solid #ddd;
+  background-color: #eee;
+  box-shadow: 4px 4px 4px rgba(128,128,128,0.5);
+}
+.clocklet__plate {
+  background-color: #fff;
+}
+.clocklet-dial__hand {
+  background-color: #a1ddff;
+}
+.clocklet:not([data-value=""]) .clocklet-dial__tick--selected {
+  background-color: #57c2ff;
+  color: #fff;
+}
+.clocklet:not([data-clocklet-dragging]) .clocklet-dial__tick:hover {
+  background-color: #7ccfff;
+}
+.clocklet__toggle-am-pm {
+  background-color: rgba(204,204,204,0.6);
+}
+.clocklet__toggle-am-pm::before {
+  background-color: #57c2ff;
+  color: #fff;
+}
+.clocklet__toggle-am-pm:hover::before {
+  background-color: #7ccfff;
+}
+.clocklet__hands-origin {
+  background-color: #4bf;
+}
 .clocklet,
 .clocklet * {
   touch-action: manipulation;
@@ -12,13 +43,10 @@
 .clocklet {
   font-size: 16px;
   box-sizing: border-box;
-  width: 300px;
-  height: 300px;
+  width: 270px;
+  height: 270px;
   margin-top: 1px;
   padding: 8px;
-  border: 1px solid #ddd;
-  background-color: #eee;
-  box-shadow: 4px 4px 4px rgba(128,128,128,0.5);
   transition: opacity 0.2s ease-out;
   z-index: 99998;
   border-radius: 3px;
@@ -32,7 +60,6 @@
   position: relative;
   height: 100%;
   border-radius: 50%;
-  background-color: #fff;
 }
 .clocklet-dial {
   left: 0;
@@ -44,18 +71,17 @@
 }
 .clocklet-dial__hand,
 .clocklet-dial__tick,
-.clocklet__toggle-am-pm,
+.clocklet__toggle-am-pm::before,
 .clocklet__hands-origin {
   z-index: 99999;
 }
 .clocklet-dial__hand {
   left: 0;
-  top: 20px;
+  top: 6.4%;
   right: 0;
   bottom: 50%;
   margin: auto;
   transform-origin: 50% 100%;
-  background-color: rgba(68,187,255,0.6);
 }
 .clocklet-dial__tick {
   width: 1.75em;
@@ -74,18 +100,6 @@
 .clocklet-dial__tick::before {
   content: attr(data-clocklet-tick-value);
 }
-.clocklet:not([data-value=""]) .clocklet-dial__tick--selected {
-  background-color: #4bf;
-  color: #fff;
-}
-.clocklet:not([data-clocklet-dragging]) .clocklet-dial__tick:hover {
-  background-color: #8df;
-}
-@media (hover: none) {
-  .clocklet:not([data-clocklet-dragging]) .clocklet-dial__tick:hover {
-    background-color: transparent;
-  }
-}
 .clocklet__toggle-am-pm {
   left: calc(50% - 24px);
   top: calc(50% + 12px);
@@ -93,7 +107,6 @@
   bottom: calc(50% - 36px);
   border-radius: 12px;
   cursor: pointer;
-  background-color: rgba(204,204,204,0.6);
 }
 .clocklet__toggle-am-pm::before {
   content: "AM";
@@ -105,8 +118,6 @@
   height: 32px;
   margin: -4px;
   border-radius: 50%;
-  background-color: #4bf;
-  color: #fff;
   transition: left 0.1s ease-out;
   left: 0;
 }
@@ -120,15 +131,14 @@
   right: calc(50% - 5px);
   bottom: calc(50% - 5px);
   border-radius: 50%;
-  background-color: #4bf;
 }
 .clocklet[data-value=""] .clocklet__hands-origin,
 .clocklet[data-value=""] .clocklet-dial__hand {
   display: none;
 }
 .clocklet__dial-hour {
-  width: 56%;
-  height: 56%;
+  width: calc(40% + 56px);
+  height: calc(40% + 56px);
 }
 .clocklet__dial-hour > .clocklet-dial__hand {
   width: 8px;
