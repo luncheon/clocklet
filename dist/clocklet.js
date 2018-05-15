@@ -1,7 +1,7 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
-    (factory());
+    (global.clocklet = factory());
 }(this, (function () { 'use strict';
 
     function padStart(source, minLength, pad) {
@@ -682,27 +682,156 @@
         }, true);
     }
 
+    var isTouchDevice = matchMedia('(hover: none)').matches;
+
     var ClockletDial = /** @class */ (function () {
-        function ClockletDial(plateElement, id, maxValue) {
-            this.id = id;
+        function ClockletDial(dial, maxValue, setValue) {
+            this.dial = dial;
             this.maxValue = maxValue;
-            this.dialElement = plateElement.getElementsByClassName("clocklet__dial-" + this.id)[0];
-            this.handElement = this.dialElement.getElementsByClassName("clocklet-dial__hand")[0];
+            this.setValue = setValue;
+            this.hand = this.dial.getElementsByClassName("clocklet-dial__hand")[0];
+            this.dragging = false;
+            if (isTouchDevice) {
+                dial.addEventListener('touchstart', this.onDragStart.bind(this));
+                dial.addEventListener('touchmove', this.onDrag.bind(this));
+                dial.addEventListener('touchend', this.onDragEnd.bind(this));
+            }
+            else {
+                dial.addEventListener('mousedown', this.onDragStart.bind(this));
+                addEventListener('mousemove', this.onDrag.bind(this), true);
+                addEventListener('mouseup', this.onDragEnd.bind(this), true);
+            }
         }
         ClockletDial.prototype.value = function (value) {
-            this.handElement.style.transform = "rotate(" + value * 360 / this.maxValue + "deg)";
+            this.hand.style.transform = "rotate(" + value * 360 / this.maxValue + "deg)";
             var selectedClassName = "clocklet-dial__tick--selected";
-            var previousSelected = this.dialElement.getElementsByClassName(selectedClassName)[0];
-            var currentSelected = this.dialElement.querySelector(".clocklet-dial__tick[data-clocklet-tick-value=\"" + value + "\"]");
+            var previousSelected = this.dial.getElementsByClassName(selectedClassName)[0];
+            var currentSelected = this.dial.querySelector("[data-clocklet-tick-value=\"" + value + "\"]");
             if (previousSelected !== currentSelected) {
                 previousSelected && previousSelected.classList.remove(selectedClassName);
                 currentSelected && currentSelected.classList.add(selectedClassName);
             }
         };
         ClockletDial.prototype.contains = function (element) {
-            return this.dialElement.contains(element);
+            return this.dial.contains(element);
+        };
+        ClockletDial.prototype.onDragStart = function (event) {
+            if (event.touches && event.touches.length > 1) {
+                this.dragging = false;
+                return;
+            }
+            this.dragging = true;
+            var tickValue = event.target.dataset.clockletTickValue;
+            tickValue && this.setValue(tickValue);
+            event.preventDefault();
+        };
+        ClockletDial.prototype.onDrag = function (event) {
+            if (!this.dragging) {
+                return;
+            }
+            var coordinate = event.targetTouches ? event.targetTouches[0] : event;
+            var targetElement = document.elementFromPoint(coordinate.clientX, coordinate.clientY);
+            var targetDataset = targetElement && targetElement.dataset;
+            var tickValue = targetDataset && targetDataset.clockletTickValue;
+            if (tickValue && this.dial.contains(targetElement)) {
+                this.setValue(tickValue);
+            }
+            else {
+                var dialRect = this.dial.getBoundingClientRect();
+                var x = coordinate.clientX - dialRect.left - dialRect.width / 2; // event x from the center of this dial
+                var y = coordinate.clientY - dialRect.top - dialRect.height / 2;
+                var angle = Math.atan2(y, x); // angle = π/2 - 2πΘ, Θ = value / maxValue
+                this.setValue(Math.round(angle * this.maxValue / (2 * Math.PI) + this.maxValue / 4 + this.maxValue) % this.maxValue);
+            }
+            event.preventDefault();
+        };
+        ClockletDial.prototype.onDragEnd = function (event) {
+            this.dragging = false;
+            event.preventDefault();
         };
         return ClockletDial;
+    }());
+
+    var Clocklet = /** @class */ (function () {
+        function Clocklet(root) {
+            var _this = this;
+            this.root = root;
+            this.plate = this.root.firstElementChild;
+            this.hour = new ClockletDial(this.plate.getElementsByClassName('clocklet__dial-hour')[0], 12, function (value) { return _this.value({ h: value }); });
+            this.minute = new ClockletDial(this.plate.getElementsByClassName('clocklet__dial-minute')[0], 60, function (value) { return _this.value({ m: value }); });
+            this.ampm = this.plate.getElementsByClassName('clocklet__toggle-am-pm')[0];
+            addEventListener('input', function (event) { return event.target === _this.input && _this.updateHighlight(); }, true);
+            root.addEventListener('mousedown', function (event) { return event.preventDefault(); });
+            if (isTouchDevice) {
+                this.plate.addEventListener('touchstart', this.onDragStart.bind(this));
+                this.plate.addEventListener('touchend', this.onDragEnd.bind(this));
+            }
+            else {
+                this.plate.addEventListener('mousedown', this.onDragStart.bind(this));
+                addEventListener('mouseup', this.onDragEnd.bind(this), true);
+            }
+        }
+        Clocklet.prototype.open = function (input) {
+            var inputRect = input.getBoundingClientRect();
+            this.root.style.left = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left + 'px';
+            this.root.style.top = document.documentElement.scrollTop + document.body.scrollTop + inputRect.bottom + 'px';
+            this.root.classList.add('clocklet_shown');
+            this.input = input;
+            this.updateHighlight();
+        };
+        Clocklet.prototype.close = function () {
+            this.input = undefined;
+            this.root.classList.remove('clocklet_shown');
+        };
+        Clocklet.prototype.value = function (time) {
+            if (!this.input) {
+                return;
+            }
+            if (time.a === undefined) {
+                time = { h: time.h, m: time.m, a: this.ampm.dataset.clockletAmPm };
+            }
+            this.input.value = lenientime(this.input.value).with(time).format(this.input.dataset.clockletFormat || 'HH:mm');
+            if (!isTouchDevice && this.input.type === 'text') {
+                if (time.h !== undefined) {
+                    this.input.setSelectionRange(0, 2);
+                }
+                else if (time.m !== undefined) {
+                    this.input.setSelectionRange(3, 5);
+                }
+            }
+            var inputEvent = document.createEvent('CustomEvent');
+            inputEvent.initCustomEvent('input', true, false, 'clocklet');
+            this.input.dispatchEvent(inputEvent);
+        };
+        Clocklet.prototype.updateHighlight = function () {
+            if (!this.input) {
+                return;
+            }
+            var time = lenientime(this.input.value);
+            this.root.dataset.value = this.input.value && time.HHmm;
+            this.hour.value(time.hour % 12);
+            this.minute.value(time.minute);
+            this.ampm.dataset.clockletAmPm = time.a;
+        };
+        Clocklet.prototype.onDragStart = function (event) {
+            if (!this.input) {
+                return;
+            }
+            var target = event.target;
+            if (this.ampm.contains(target)) {
+                this.value({ a: this.ampm.dataset.clockletAmPm === 'pm' ? 'am' : 'pm' });
+            }
+            else if (this.hour.contains(target)) {
+                this.root.dataset.clockletDragging = 'hour';
+            }
+            else if (this.minute.contains(target)) {
+                this.root.dataset.clockletDragging = 'minute';
+            }
+        };
+        Clocklet.prototype.onDragEnd = function () {
+            delete this.root.dataset.clockletDragging;
+        };
+        return Clocklet;
     }());
 
     var template = "<div class=\"clocklet\"><div class=\"clocklet__plate\"><div class=\"clocklet-dial clocklet__dial-minute\"><div class=\"clocklet-dial__hand\"></div><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"0\" style=\"left:50%;top:10%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"1\" style=\"left:54.8%;top:4.3%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"2\" style=\"left:59.6%;top:5%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"3\" style=\"left:64.2%;top:6.3%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"4\" style=\"left:68.7%;top:8%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"5\" style=\"left:70%;top:15.4%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"6\" style=\"left:77%;top:12.8%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"7\" style=\"left:80.8%;top:15.8%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"8\" style=\"left:84.2%;top:19.2%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"9\" style=\"left:87.2%;top:23%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"10\" style=\"left:84.6%;top:30%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"11\" style=\"left:92%;top:31.3%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"12\" style=\"left:93.7%;top:35.8%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"13\" style=\"left:95%;top:40.4%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"14\" style=\"left:95.7%;top:45.2%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"15\" style=\"left:90%;top:50%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"16\" style=\"left:95.7%;top:54.8%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"17\" style=\"left:95%;top:59.6%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"18\" style=\"left:93.7%;top:64.2%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"19\" style=\"left:92%;top:68.7%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"20\" style=\"left:84.6%;top:70%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"21\" style=\"left:87.2%;top:77%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"22\" style=\"left:84.2%;top:80.8%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"23\" style=\"left:80.8%;top:84.2%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"24\" style=\"left:77%;top:87.2%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"25\" style=\"left:70%;top:84.6%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"26\" style=\"left:68.7%;top:92%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"27\" style=\"left:64.2%;top:93.7%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"28\" style=\"left:59.6%;top:95%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"29\" style=\"left:54.8%;top:95.7%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"30\" style=\"left:50%;top:90%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"31\" style=\"left:45.2%;top:95.7%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"32\" style=\"left:40.4%;top:95%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"33\" style=\"left:35.8%;top:93.7%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"34\" style=\"left:31.3%;top:92%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"35\" style=\"left:30%;top:84.6%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"36\" style=\"left:23%;top:87.2%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"37\" style=\"left:19.2%;top:84.2%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"38\" style=\"left:15.8%;top:80.8%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"39\" style=\"left:12.8%;top:77%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"40\" style=\"left:15.4%;top:70%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"41\" style=\"left:8%;top:68.7%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"42\" style=\"left:6.3%;top:64.2%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"43\" style=\"left:5%;top:59.6%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"44\" style=\"left:4.3%;top:54.8%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"45\" style=\"left:10%;top:50%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"46\" style=\"left:4.3%;top:45.2%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"47\" style=\"left:5%;top:40.4%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"48\" style=\"left:6.3%;top:35.8%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"49\" style=\"left:8%;top:31.3%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"50\" style=\"left:15.4%;top:30%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"51\" style=\"left:12.8%;top:23%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"52\" style=\"left:15.8%;top:19.2%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"53\" style=\"left:19.2%;top:15.8%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"54\" style=\"left:23%;top:12.8%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"55\" style=\"left:30%;top:15.4%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"56\" style=\"left:31.3%;top:8%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"57\" style=\"left:35.8%;top:6.3%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"58\" style=\"left:40.4%;top:5%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"59\" style=\"left:45.2%;top:4.3%\"></button></div><div class=\"clocklet-dial clocklet__dial-hour\"><div class=\"clocklet-dial__hand\"></div><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"0\" style=\"left:50%;top:11%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"1\" style=\"left:69.5%;top:16.2%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"2\" style=\"left:83.8%;top:30.5%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"3\" style=\"left:89%;top:50%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"4\" style=\"left:83.8%;top:69.5%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"5\" style=\"left:69.5%;top:83.8%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"6\" style=\"left:50%;top:89%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"7\" style=\"left:30.5%;top:83.8%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"8\" style=\"left:16.2%;top:69.5%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"9\" style=\"left:11%;top:50%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"10\" style=\"left:16.2%;top:30.5%\"></button><button class=\"clocklet-dial__tick\" data-clocklet-tick-value=\"11\" style=\"left:30.5%;top:16.2%\"></button></div><div class=\"clocklet__toggle-am-pm\"></div><div class=\"clocklet__hands-origin\"></div></div></div>";
@@ -713,117 +842,15 @@
         adjustOnArrowKeys(lenientimeOptions);
     }
     document.body.innerHTML += template;
-    var isTouchDevice = matchMedia('(hover: none)').matches;
-    var clockletElement = document.body.getElementsByClassName('clocklet')[0];
-    var plateElement = clockletElement.firstElementChild;
-    var dialMinute = new ClockletDial(plateElement, 'minute', 60);
-    var dialHour = new ClockletDial(plateElement, 'hour', 12);
-    var toggleAmPmElement = plateElement.getElementsByClassName('clocklet__toggle-am-pm')[0];
-    var targetInputElement;
+    var clocklet = new Clocklet(document.body.getElementsByClassName('clocklet')[0]);
     addEventListener('focus', function (event) {
         var target = event.target;
-        if (target.tagName !== 'INPUT' || target.readOnly || target.disabled || !('clocklet' in target.dataset)) {
-            return;
-        }
-        var targetRect = target.getBoundingClientRect();
-        clockletElement.style.left = document.documentElement.scrollLeft + document.body.scrollLeft + targetRect.left + 'px';
-        clockletElement.style.top = document.documentElement.scrollTop + document.body.scrollTop + targetRect.bottom + 'px';
-        clockletElement.classList.add('clocklet_shown');
-        targetInputElement = target;
-        updateHighlight();
-    }, true);
-    addEventListener('blur', function (event) {
-        if (targetInputElement) {
-            targetInputElement = undefined;
-            clockletElement.classList.remove('clocklet_shown');
+        if (target.tagName === 'INPUT' && !target.readOnly && !target.disabled && 'clocklet' in target.dataset) {
+            clocklet.open(target);
         }
     }, true);
-    addEventListener('input', function (event) { return targetInputElement === event.target && updateHighlight(); }, true);
-    {
-        var clockletDataset_1 = clockletElement.dataset;
-        var onDragEnd = function () { return delete clockletDataset_1.clockletDragging; };
-        var onDragStart = function (event) {
-            if (!targetInputElement) {
-                return;
-            }
-            if (event instanceof TouchEvent && event.touches.length > 1) {
-                delete clockletDataset_1.clockletDragging;
-                return;
-            }
-            var target = event.target;
-            if (toggleAmPmElement.contains(target)) {
-                setValue(targetInputElement, { a: toggleAmPmElement.dataset.clockletAmPm === 'pm' ? 'am' : 'pm' });
-            }
-            else {
-                var tickValue = target.dataset.clockletTickValue;
-                var targetDialIsHour = dialHour.contains(target);
-                tickValue && setValue(targetInputElement, targetDialIsHour ? { h: tickValue } : { m: tickValue });
-                clockletDataset_1.clockletDragging = targetDialIsHour ? 'hour' : 'minute';
-            }
-            event.preventDefault();
-        };
-        var onDrag = function (event) {
-            var dragging = clockletDataset_1.clockletDragging;
-            if (!targetInputElement || !dragging) {
-                return;
-            }
-            var coordinate = event instanceof TouchEvent ? event.targetTouches[0] : event;
-            var targetElement = document.elementFromPoint(coordinate.clientX, coordinate.clientY);
-            var targetDataset = targetElement && targetElement.dataset;
-            var tickValue = targetDataset && targetDataset.clockletTickValue;
-            if (dragging === 'hour' && tickValue && targetElement.classList.contains('clocklet__tick-hour')) {
-                setValue(targetInputElement, { h: tickValue });
-            }
-            else if (dragging === 'minute' && tickValue && targetElement.classList.contains('clocklet__tick-minute')) {
-                setValue(targetInputElement, { m: tickValue });
-            }
-            else {
-                var plateRect = plateElement.getBoundingClientRect();
-                var x = coordinate.clientX - plateRect.left - plateRect.width / 2; // event x from the center of clocklet
-                var y = coordinate.clientY - plateRect.top - plateRect.height / 2;
-                var angle = Math.atan2(y, x);
-                setValue(targetInputElement, dragging === 'hour' ? { h: Math.round(angle / Math.PI * 6 + 15) % 12 } : { m: Math.round(angle / Math.PI * 30 + 75) % 60 });
-            }
-            event.preventDefault();
-        };
-        clockletElement.addEventListener('mousedown', function (event) { return event.preventDefault(); });
-        if (isTouchDevice) {
-            plateElement.addEventListener('touchstart', onDragStart);
-            plateElement.addEventListener('touchmove', onDrag);
-            plateElement.addEventListener('touchend', onDragEnd);
-        }
-        else {
-            plateElement.addEventListener('mousedown', onDragStart);
-            addEventListener('mousemove', onDrag, true);
-            addEventListener('mouseup', onDragEnd, true);
-        }
-    }
-    function setValue(input, time) {
-        if (time.a === undefined) {
-            time = { h: time.h, m: time.m, a: toggleAmPmElement.dataset.clockletAmPm };
-        }
-        input.value = lenientime(input.value).with(time).format(input.dataset.clockletFormat || 'HH:mm');
-        if (!isTouchDevice && input.type === 'text') {
-            if (time.h !== undefined) {
-                input.setSelectionRange(0, 2);
-            }
-            else if (time.m !== undefined) {
-                input.setSelectionRange(3, 5);
-            }
-        }
-        var inputEvent = document.createEvent('CustomEvent');
-        inputEvent.initCustomEvent('input', true, false, 'clocklet');
-        input.dispatchEvent(inputEvent);
-    }
-    function updateHighlight() {
-        if (!targetInputElement) {
-            return;
-        }
-        clockletElement.dataset.value = targetInputElement.value;
-        var time = lenientime(targetInputElement.value);
-        dialHour.value(time.hour % 12);
-        dialMinute.value(time.minute);
-        toggleAmPmElement.dataset.clockletAmPm = time.a;
-    }
+    addEventListener('blur', function (event) { return clocklet.close(); }, true);
+
+    return clocklet;
 
 })));
