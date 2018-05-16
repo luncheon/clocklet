@@ -130,6 +130,9 @@
   background-color: #eee;
   box-shadow: 4px 4px 4px rgba(128,128,128,0.5);
 }
+.clocklet[data-clocklet-placement^="top"] {
+  box-shadow: 4px -4px 4px rgba(128,128,128,0.5);
+}
 .clocklet-plate {
   background-color: #fff;
 }

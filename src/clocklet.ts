@@ -1,6 +1,7 @@
 import lenientime     from 'lenientime/es/core'
-import ClockletDial   from './dial'
 import isTouchDevice  from './is-touch-device'
+import ClockletDial   from './dial'
+import { ClockletOptions, mergeDefaultOptions }  from './options'
 
 export default class Clocklet {
   plate   = this.root.firstElementChild as HTMLElement
@@ -27,10 +28,13 @@ export default class Clocklet {
     this.ampm.addEventListener('mousedown', () => this.value({ a: this.ampm.dataset.clockletAmpm === 'pm' ? 'am' : 'pm' }))
   }
 
-  public open(input: HTMLInputElement) {
-    const inputRect                 = input.getBoundingClientRect()
-    this.root.style.left = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left   + 'px'
-    this.root.style.top  = document.documentElement.scrollTop  + document.body.scrollTop  + inputRect.bottom + 'px'
+  public open(input: HTMLInputElement, options?: Partial<ClockletOptions>) {
+    const mergedOptions   = mergeDefaultOptions(options)
+    const inputRect       = input.getBoundingClientRect()
+    const placement       = mergedOptions.placement.split(' ')
+    this.root.dataset.clockletPlacement = mergedOptions.placement
+    this.root.style.left  = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left   - (placement[1] === 'right'  ? this.root.offsetWidth  - inputRect.width : 0) + 'px'
+    this.root.style.top   = document.documentElement.scrollTop  + document.body.scrollTop  + inputRect.bottom - (placement[0] === 'top'    ? this.root.offsetHeight + inputRect.height + 1 : 0) + 'px'
     this.root.classList.add('clocklet--shown')
     this.input = input
     this.updateHighlight()

@@ -756,6 +756,30 @@
         return ClockletDial;
     }());
 
+    var defaultOptions = {
+        placement: 'bottom',
+    };
+    function mergeDefaultOptions(options) {
+        if (options) {
+            return Object.keys(defaultOptions).reduce(function (merged, prop) { return (merged[prop] = options[prop] || defaultOptions[prop], merged); }, {});
+        }
+        else {
+            return defaultOptions;
+        }
+    }
+    function parseOptions(optionsString) {
+        if (!optionsString) {
+            return;
+        }
+        var options = {};
+        for (var _i = 0, _a = optionsString.split(';'); _i < _a.length; _i++) {
+            var s = _a[_i];
+            var index = s.indexOf(':');
+            options[s.slice(0, index).trim().replace(/[a-zA-Z0-9_]-[a-z]/g, function ($0) { return $0[0] + $0[2].toUpperCase(); })] = s.slice(index + 1).trim();
+        }
+        return options;
+    }
+
     var Clocklet = /** @class */ (function () {
         function Clocklet(root) {
             var _this = this;
@@ -768,10 +792,13 @@
             root.addEventListener('mousedown', function (event) { return event.preventDefault(); });
             this.ampm.addEventListener('mousedown', function () { return _this.value({ a: _this.ampm.dataset.clockletAmpm === 'pm' ? 'am' : 'pm' }); });
         }
-        Clocklet.prototype.open = function (input) {
+        Clocklet.prototype.open = function (input, options) {
+            var mergedOptions = mergeDefaultOptions(options);
             var inputRect = input.getBoundingClientRect();
-            this.root.style.left = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left + 'px';
-            this.root.style.top = document.documentElement.scrollTop + document.body.scrollTop + inputRect.bottom + 'px';
+            var placement = mergedOptions.placement.split(' ');
+            this.root.dataset.clockletPlacement = mergedOptions.placement;
+            this.root.style.left = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left - (placement[1] === 'right' ? this.root.offsetWidth - inputRect.width : 0) + 'px';
+            this.root.style.top = document.documentElement.scrollTop + document.body.scrollTop + inputRect.bottom - (placement[0] === 'top' ? this.root.offsetHeight + inputRect.height + 1 : 0) + 'px';
             this.root.classList.add('clocklet--shown');
             this.input = input;
             this.updateHighlight();
@@ -833,7 +860,7 @@
     addEventListener('focus', function (event) {
         var target = event.target;
         if (target.tagName === 'INPUT' && !target.readOnly && !target.disabled && 'clocklet' in target.dataset) {
-            clocklet.open(target);
+            clocklet.open(target, parseOptions(target.dataset.clocklet));
         }
     }, true);
     addEventListener('blur', function (event) { return clocklet.close(); }, true);
