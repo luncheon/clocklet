@@ -1,15 +1,15 @@
 .clocklet
-  .clocklet__plate
-    .clocklet-dial.clocklet__dial-minute
-      .clocklet-dial__hand
-      for val, index in Array(60)
-        button.clocklet-dial__tick(data-clocklet-tick-value=index style=tickPosition(index, 60, index % 5 ? 46 : 40))
-    .clocklet-dial.clocklet__dial-hour
-      .clocklet-dial__hand
-      for val, index in Array(12)
-        button.clocklet-dial__tick(data-clocklet-tick-value=index style=tickPosition(index, 12, 39))
-    .clocklet__toggle-am-pm
-    .clocklet__hands-origin
+  .clocklet-plate
+    .clocklet-dial.clocklet-dial--minute
+      .clocklet-hand.clocklet-hand--minute
+      for _, index in Array(60)
+        button.clocklet-tick.clocklet-tick--minute(data-clocklet-tick-value=index style=tickPosition(index, 60, index % 5 ? 46 : 40))
+    .clocklet-dial.clocklet-dial--hour
+      .clocklet-hand.clocklet-hand--hour
+      for _, index in Array(12)
+        button.clocklet-tick.clocklet-tick--hour(data-clocklet-tick-value=index style=tickPosition(index, 12, 39))
+    .clocklet-ampm
+    .clocklet-hand-origin
 
 -
   function tickPosition(value, maxValue, radius) {

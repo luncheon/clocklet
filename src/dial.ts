@@ -1,24 +1,24 @@
 import isTouchDevice from './is-touch-device'
 
 export default class ClockletDial {
-  hand = this.dial.getElementsByClassName(`clocklet-dial__hand`)[0] as HTMLElement
+  hand = this.dial.getElementsByClassName(`clocklet-hand`)[0] as HTMLElement
   private dragging = false
 
-  constructor(public dial: HTMLElement, private maxValue: number, private setValue: (value: string | number) => void) {
+  constructor(public dial: HTMLElement, private maxValue: number, private setValue: (value: string | number) => void, private onDragStart: () => void, private onDragEnd: () => void) {
     if (isTouchDevice) {
-      dial.addEventListener('touchstart', this.onDragStart.bind(this))
-      dial.addEventListener('touchmove',  this.onDrag.bind(this))
-      dial.addEventListener('touchend',   this.onDragEnd.bind(this))
+      dial.addEventListener('touchstart', this._onDragStart.bind(this))
+      dial.addEventListener('touchmove',  this._onDrag.bind(this))
+      dial.addEventListener('touchend',   this._onDragEnd.bind(this))
     } else {
-      dial.addEventListener('mousedown',  this.onDragStart.bind(this))
-      addEventListener('mousemove',       this.onDrag.bind(this), true)
-      addEventListener('mouseup',         this.onDragEnd.bind(this), true)
+      dial.addEventListener('mousedown',  this._onDragStart.bind(this))
+      addEventListener('mousemove',       this._onDrag.bind(this), true)
+      addEventListener('mouseup',         this._onDragEnd.bind(this), true)
     }
   }
 
   public value(value: number) {
     this.hand.style.transform = `rotate(${value * 360 / this.maxValue}deg)`
-    const selectedClassName   = `clocklet-dial__tick--selected`
+    const selectedClassName   = `clocklet-tick--selected`
     const previousSelected    = this.dial.getElementsByClassName(selectedClassName)[0]
     const currentSelected     = this.dial.querySelector(`[data-clocklet-tick-value="${value}"]`)
     if (previousSelected !== currentSelected) {
@@ -31,7 +31,7 @@ export default class ClockletDial {
     return this.dial.contains(element)
   }
 
-  private onDragStart(event: Event & Readonly<{ touches?: TouchList }>) {
+  private _onDragStart(event: Event & Readonly<{ touches?: TouchList }>) {
     if (event.touches && event.touches.length > 1) {
       this.dragging = false
       return
@@ -40,9 +40,10 @@ export default class ClockletDial {
     const tickValue = (event.target as HTMLElement).dataset.clockletTickValue
     tickValue && this.setValue(tickValue)
     event.preventDefault()
+    this.onDragStart()
   }
 
-  private onDrag(event: Event & Readonly<{ clientX: number, clientY: number, targetTouches?: TouchList }>) {
+  private _onDrag(event: Event & Readonly<{ clientX: number, clientY: number, targetTouches?: TouchList }>) {
     if (!this.dragging) {
       return
     }
@@ -62,8 +63,9 @@ export default class ClockletDial {
     event.preventDefault()
   }
 
-  private onDragEnd(event: Event) {
+  private _onDragEnd(event: Event) {
     this.dragging = false
     event.preventDefault()
+    this.onDragEnd()
   }
 }
