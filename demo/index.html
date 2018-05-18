@@ -20,11 +20,10 @@
       code[class*="language-"] { line-height: 1.2; font-family: Inconsolata; font-size: 87.5%; }
       svg { vertical-align: middle; }
       iframe { border: 0; }
-      .philosophy, .features { margin: 20px 0; }
-      .philosophy div, .features div { margin-left: 1.5em; }
+      .features { margin: 20px 0; }
+      .features div { margin-left: 1.5em; }
       .feather { width: 1em; height: 1em; margin-right: .5em; }
       .features .feather { color: #00cc88; }
-      .philosophy .feather { color: #0070cc; }
       .example { margin-left: 1.25em; }
       .example > * { display: inline-block; vertical-align: top; margin: .25em; }
       .example pre { width: 768px; }
@@ -49,7 +48,9 @@
       <div>
         <i data-feather="check-square"></i>Mouse and touch friendly
         <div><i data-feather="check-square"></i>3 clicks are sufficient to pick a time - am/pm, hour, minute</div>
+        <div><i data-feather="check-square"></i>Click targets often used are large enough</div>
         <div><i data-feather="check-square"></i>No scrolling</div>
+        <div><i data-feather="check-square"></i>Unlike Material Design, both hour and minute are available at the same time;<br><i class="feather" style="display: inline-block;"></i>the transition between hour-entering and minute-entering is confusing and bothering</div>
       </div>
       <div>
         <i data-feather="check-square"></i>Keyboard and numpad friendly (by <a target="_blank" href="https://luncheon.github.io/lenientime/demo/">Lenientime</a>)
@@ -57,12 +58,7 @@
         <div><i data-feather="check-square"></i>Up and down arrow key support</div>
       </div>
       <!-- <div><i data-feather="square"></i>[Current time] button</div> -->
-      <div><i data-feather="square"></i>Record history and reuse it</div>
-      <div>
-        <i data-feather="square"></i>Customization
-        <div><i data-feather="square"></i>Customize the time format of the input element</div>
-        <div><i data-feather="square"></i>Customize the placement of the popup</div>
-      </div>
+      <!-- <div><i data-feather="square"></i>Record history and reuse it</div> -->
     </section>
 
     <section class="examples">
@@ -71,7 +67,6 @@
         <div><pre><code class="language-html"
 >&lt;link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin&gt;
 &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre:500"&gt;
-<!-- &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/input-clear-icon/input-clear-icon.medium.min.css"&gt;-->
 &lt;link rel="stylesheet" href="https://luncheon.github.io/clocklet/dist/clocklet.min.css"&gt;
 &lt;style&gt;
   .clocklet {
@@ -80,7 +75,6 @@
     color: #333;
   }
 &lt;/style&gt;
-<!-- &lt;script src="https://cdn.jsdelivr.net/npm/input-clear-icon/input-clear-icon.min.js"&gt;&lt;/script&gt; -->
 &lt;script src="https://luncheon.github.io/clocklet/dist/clocklet.min.js"&gt;&lt;/script&gt;
 
 &lt;input data-clocklet maxlength="5"&gt;
