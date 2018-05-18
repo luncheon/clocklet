@@ -6,7 +6,13 @@ import { parseOptions }   from './options'
 import template           from './template.pug'
 
 {
-  const lenientimeOptions = { dataAttributeName: 'clocklet' }
+  const lenientimeOptions = {
+    dataAttributeName: 'clocklet',
+    formatSelector: (input: HTMLInputElement) => {
+      const options = parseOptions(input.dataset.clocklet)
+      return options && options.format
+    }
+  }
   complete(lenientimeOptions)
   adjustOnArrowKeys(lenientimeOptions)
 }

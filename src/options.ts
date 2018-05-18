@@ -1,4 +1,5 @@
 const defaultOptions = {
+  format: 'HH:mm',
   placement: 'bottom left' as 'top left' | 'top right' | 'bottom left' | 'bottom right',
 }
 

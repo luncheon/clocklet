@@ -23,6 +23,7 @@ export default class Clocklet {
   )
   ampm    = this.plate.getElementsByClassName('clocklet-ampm')[0] as HTMLElement
   input: HTMLInputElement | undefined
+  format: string | undefined
 
   constructor(public root: HTMLElement) {
     addEventListener('input', event => event.target === this.input && this.updateHighlight(), true)
@@ -34,6 +35,7 @@ export default class Clocklet {
     const mergedOptions   = mergeDefaultOptions(options)
     const inputRect       = input.getBoundingClientRect()
     const placement       = mergedOptions.placement.split(' ')
+    this.format           = options && options.format
     this.root.dataset.clockletPlacement = mergedOptions.placement
     this.root.style.left  = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left   - (placement[1] === 'right'  ? this.root.offsetWidth  - inputRect.width : 0) + 'px'
     this.root.style.top   = document.documentElement.scrollTop  + document.body.scrollTop  + inputRect.bottom - (placement[0] === 'top'    ? this.root.offsetHeight + inputRect.height + 1 : 0) + 'px'
@@ -55,7 +57,7 @@ export default class Clocklet {
       time = { h: time.h, m: time.m, a: this.ampm.dataset.clockletAmpm as 'am' | 'pm' }
     }
     const _time = lenientime(this.input.value).with(time.a !== undefined ? time : { h: time.h, m: time.m, a: this.ampm.dataset.clockletAmpm as 'am' | 'pm' })
-    const template = this.input.dataset.clockletFormat || 'HH:mm'
+    const template = this.format || 'HH:mm'
     this.input.value = _time.format(template)
     if (!isTouchDevice && this.input.type === 'text') {
       const token =

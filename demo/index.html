@@ -19,14 +19,15 @@
       pre[class*="language-"], :not(pre) > code[class*="language-"] { font-family: Inconsolata; margin: 0; padding: .2em .5em; }
       code[class*="language-"] { line-height: 1.2; font-family: Inconsolata; font-size: 87.5%; }
       svg { vertical-align: middle; }
-      iframe { border: 0; }
+      iframe { border: 0; display: inline-block; vertical-align: top; }
       .features { margin: 20px 0; }
       .features div { margin-left: 1.5em; }
       .feather { width: 1em; height: 1em; margin-right: .5em; }
       .features .feather { color: #00cc88; }
       .example { margin-left: 1.25em; }
-      .example > * { display: inline-block; vertical-align: top; margin: .25em; }
-      .example pre { width: 768px; }
+      .example > * { margin: .25em; }
+      .example > pre { width: 720px; }
+      .example > iframe, .example > pre { display: inline-block; }
     </style>
   </head>
   <body>
@@ -64,9 +65,8 @@
     <section class="examples">
       <h2>Examples</h2>
       <div class="example">
-        <div><pre><code class="language-html"
->&lt;link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin&gt;
-&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre:500"&gt;
+        <pre><code class="language-html"
+>&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Frank+Ruhl+Libre:500"&gt;
 &lt;link rel="stylesheet" href="https://luncheon.github.io/clocklet/dist/clocklet.min.css"&gt;
 &lt;style&gt;
   .clocklet {
@@ -78,8 +78,26 @@
 &lt;script src="https://luncheon.github.io/clocklet/dist/clocklet.min.js"&gt;&lt;/script&gt;
 
 &lt;input data-clocklet maxlength="5"&gt;
-</code></pre></div>
+</code></pre>
         <iframe src="1.html" width="320" height="360"></iframe>
+      </div>
+
+      <div class="example">
+        <pre><code class="language-html"
+>&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato"&gt;
+&lt;link rel="stylesheet" href="https://luncheon.github.io/clocklet/dist/clocklet.min.css"&gt;
+&lt;style&gt;
+  .clocklet[data-clocklet-placement^="top"] {
+    font-family: Lato, sans-serif;
+    border-radius: 50%;
+    box-shadow: 4px 2px 8px rgba(128,128,128,.5);
+  }
+&lt;/style&gt;
+&lt;script src="https://luncheon.github.io/clocklet/dist/clocklet.min.js"&gt;&lt;/script&gt;
+
+&lt;input data-clocklet="format: h:mm a; placement: top right;" maxlength="8"&gt;
+</code></pre>
+        <iframe src="2.html" width="320" height="360"></iframe>
       </div>
     </section>
 
