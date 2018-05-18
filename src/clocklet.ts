@@ -1,6 +1,8 @@
-import lenientime     from 'lenientime/es/core'
-import isTouchDevice  from './is-touch-device'
-import ClockletDial   from './dial'
+import lenientime from 'lenientime/es/core'
+import Lenientime from 'lenientime/es/core/lenientime'
+import { tokenizeTemplate } from 'lenientime/es/core/token'
+import isTouchDevice from './is-touch-device'
+import ClockletDial from './dial'
 import { ClockletOptions, mergeDefaultOptions }  from './options'
 
 export default class Clocklet {
@@ -52,13 +54,16 @@ export default class Clocklet {
     if (time.a === undefined) {
       time = { h: time.h, m: time.m, a: this.ampm.dataset.clockletAmpm as 'am' | 'pm' }
     }
-    this.input.value = lenientime(this.input.value).with(time).format(this.input.dataset.clockletFormat || 'HH:mm')
+    const _time = lenientime(this.input.value).with(time.a !== undefined ? time : { h: time.h, m: time.m, a: this.ampm.dataset.clockletAmpm as 'am' | 'pm' })
+    const template = this.input.dataset.clockletFormat || 'HH:mm'
+    this.input.value = _time.format(template)
     if (!isTouchDevice && this.input.type === 'text') {
-      if (time.h !== undefined) {
-        this.input.setSelectionRange(0, 2)
-      } else if (time.m !== undefined) {
-        this.input.setSelectionRange(3, 5)
-      }
+      const token =
+        time.h !== undefined ? findHourToken(_time, template) :
+        time.m !== undefined ? findMinuteToken(_time, template) :
+        time.a !== undefined ? findAmpmToken(_time, template) || findHourToken(_time, template) :
+        undefined
+      token && this.input.setSelectionRange(token.index, token.index + token.value.length)
     }
     const inputEvent = document.createEvent('CustomEvent')
     inputEvent.initCustomEvent('input', true, false, 'clocklet')
@@ -82,4 +87,33 @@ export default class Clocklet {
       this.ampm.dataset.clockletAmpm = 'am'
     }
   }
+}
+
+function findHourToken(time: Lenientime, template: string) {
+  return findToken(time, template, /[Hhk]$/)
+}
+
+function findMinuteToken(time: Lenientime, template: string) {
+  return findToken(time, template, /m$/)
+}
+
+function findAmpmToken(time: Lenientime, template: string) {
+  return findToken(time, template, /a/i)
+}
+
+function findToken(time: Lenientime, template: string, pattern: RegExp) {
+  let index = 0
+  for (const token of tokenizeTemplate(template)) {
+    if (token.literal) {
+      index += token.property.length
+    } else {
+      const value = time[token.property as keyof Lenientime]
+      if (pattern.test(token.property)) {
+        return { index, value }
+      } else {
+        index += value.length;
+      }
+    }
+  }
+  return
 }

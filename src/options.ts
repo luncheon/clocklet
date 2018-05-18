@@ -1,5 +1,5 @@
 const defaultOptions = {
-  placement: 'bottom' as 'top left' | 'top right' | 'bottom left' | 'bottom right',
+  placement: 'bottom left' as 'top left' | 'top right' | 'bottom left' | 'bottom right',
 }
 
 export type ClockletOptions = Readonly<typeof defaultOptions>
