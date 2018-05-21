@@ -1,0 +1,72 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Clocklet - An opinionated clock-style timepicker
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/themes/prism.css")
+    link(rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="")
+    link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Frank+Ruhl+Libre|Playball|Source+Sans+Pro:400,700")
+    style.
+      * { -webkit-overflow-scrolling: touch; }
+      body { font-family: 'Source Sans Pro'; min-height: 1000px; }
+      h1 { margin: .25em 0; font-size: 350%; font-weight: normal; font-family: "Frank Ruhl Libre", serif; letter-spacing: -2px; }
+      h1 > strong { font-weight: normal; font-family: Playball, cursive; letter-spacing: 0; padding-left: 2px; }
+      h2 { margin: .25em 0; font-family: "Frank Ruhl Libre"; font-weight: normal; }
+      h3 { margin: .5em 0; }
+      p { margin: 0; }
+      pre[class*="language-"], :not(pre) > code[class*="language-"] { font-family: Inconsolata; margin: 0; padding: .2em .5em; }
+      code[class*="language-"] { line-height: 1.2; font-family: Inconsolata; font-size: 87.5%; }
+      svg { vertical-align: middle; }
+      iframe { border: 0; display: inline-block; vertical-align: top; }
+      .features { margin: 20px 0; }
+      .features div { margin-left: 1.5em; }
+      .feather { width: 1em; height: 1em; margin-right: .5em; }
+      .features .feather { color: #00cc88; }
+      .example { margin: 0 0 2em 1.25em; }
+      .example > pre { width: 720px; }
+      .example > iframe, .example > pre { display: inline-block; }
+  body
+    script(async="" src="https://www.googletagmanager.com/gtag/js?id=UA-64398169-1")
+    script window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments)} gtag('js', new Date()); gtag('config', 'UA-64398169-1');
+    div(style="display: flex; align-items: baseline;")
+      h1 Clock#[strong let]
+      a(href="https://github.com/luncheon/clocklet")
+        img(src="https://cdn.jsdelivr.net/npm/octicons@7.0.1/build/svg/mark-github.svg" alt="GitHub" style="height: 3em; margin-left: 1em; vertical-align: bottom;")
+    p An opinionated clock-style timepicker.
+
+    section.features
+      h2 Features
+      mixin feature
+        div
+          i(data-feather="check-square")
+          block
+      +feature Intuitive - it looks like a clock
+      +feature
+        | Mouse and touch friendly
+        +feature 3 clicks are sufficient to pick a time - am/pm, hour, minute
+        +feature Click targets often used are large enough
+        +feature No scrolling
+        +feature
+          | Unlike Material Design, both hour and minute are available at the same time;
+          br
+          i.feather(style="display: inline-block;")
+          | the transition between hour-entering and minute-entering is confusing and bothering
+      +feature Keyboard and numpad friendly (by <a target="_blank" href="https://luncheon.github.io/lenientime/demo/">Lenientime</a>)
+        +feature Autocomplete - e.g. "1"->"01:00", "12"->"12:00", "1234"->"12:34"
+        +feature Up and down arrow key support
+
+    section.examples
+      h2 Examples
+      .example
+        pre: code.language-html: include:escape-html 1.html
+        iframe(src="1.html" width="320" height="320")
+      .example
+        pre: code.language-html: include:escape-html 2.html
+        iframe(src="2.html" width="320" height="360")
+
+    script(src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js")
+    script feather.replace()
+    script(src="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/prism.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/components/prism-markup.min.js")

@@ -751,6 +751,7 @@
     }());
 
     var defaultOptions = {
+        className: '',
         format: 'HH:mm',
         placement: 'bottom left',
     };
@@ -791,11 +792,13 @@
             var mergedOptions = mergeDefaultOptions(options);
             var inputRect = input.getBoundingClientRect();
             var placement = mergedOptions.placement.split(' ');
-            this.format = options && options.format;
-            this.root.dataset.clockletPlacement = mergedOptions.placement;
-            this.root.style.left = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left - (placement[1] === 'right' ? this.root.offsetWidth - inputRect.width : 0) + 'px';
-            this.root.style.top = document.documentElement.scrollTop + document.body.scrollTop + inputRect.bottom - (placement[0] === 'top' ? this.root.offsetHeight + inputRect.height + 1 : 0) + 'px';
-            this.root.classList.add('clocklet--shown');
+            var root = this.root;
+            root.className = 'clocklet ' + mergedOptions.className;
+            root.dataset.clockletPlacement = mergedOptions.placement;
+            root.dataset.clockletFormat = mergedOptions.format;
+            root.style.left = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left - (placement[1] === 'right' ? root.offsetWidth - inputRect.width : 0) + 'px';
+            root.style.top = document.documentElement.scrollTop + document.body.scrollTop + inputRect.bottom - (placement[0] === 'top' ? root.offsetHeight + inputRect.height + 1 : 0) + 'px';
+            root.classList.add('clocklet--shown');
             this.input = input;
             this.updateHighlight();
         };
@@ -811,7 +814,7 @@
                 time = { h: time.h, m: time.m, a: this.ampm.dataset.clockletAmpm };
             }
             var _time = lenientime(this.input.value).with(time.a !== undefined ? time : { h: time.h, m: time.m, a: this.ampm.dataset.clockletAmpm });
-            var template = this.format || 'HH:mm';
+            var template = this.root.dataset.clockletFormat || 'HH:mm';
             this.input.value = _time.format(template);
             if (!isTouchDevice && this.input.type === 'text') {
                 var token = time.h !== undefined ? findHourToken(_time, template) :

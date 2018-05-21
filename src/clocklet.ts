@@ -23,7 +23,6 @@ export default class Clocklet {
   )
   ampm    = this.plate.getElementsByClassName('clocklet-ampm')[0] as HTMLElement
   input: HTMLInputElement | undefined
-  format: string | undefined
 
   constructor(public root: HTMLElement) {
     addEventListener('input', event => event.target === this.input && this.updateHighlight(), true)
@@ -32,14 +31,16 @@ export default class Clocklet {
   }
 
   public open(input: HTMLInputElement, options?: Partial<ClockletOptions>) {
-    const mergedOptions   = mergeDefaultOptions(options)
-    const inputRect       = input.getBoundingClientRect()
-    const placement       = mergedOptions.placement.split(' ')
-    this.format           = options && options.format
-    this.root.dataset.clockletPlacement = mergedOptions.placement
-    this.root.style.left  = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left   - (placement[1] === 'right'  ? this.root.offsetWidth  - inputRect.width : 0) + 'px'
-    this.root.style.top   = document.documentElement.scrollTop  + document.body.scrollTop  + inputRect.bottom - (placement[0] === 'top'    ? this.root.offsetHeight + inputRect.height + 1 : 0) + 'px'
-    this.root.classList.add('clocklet--shown')
+    const mergedOptions             = mergeDefaultOptions(options)
+    const inputRect                 = input.getBoundingClientRect()
+    const placement                 = mergedOptions.placement.split(' ')
+    const root                      = this.root
+    root.className                  = 'clocklet ' + mergedOptions.className
+    root.dataset.clockletPlacement  = mergedOptions.placement
+    root.dataset.clockletFormat     = mergedOptions.format
+    root.style.left                 = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left   - (placement[1] === 'right'  ? root.offsetWidth  - inputRect.width : 0) + 'px'
+    root.style.top                  = document.documentElement.scrollTop  + document.body.scrollTop  + inputRect.bottom - (placement[0] === 'top'    ? root.offsetHeight + inputRect.height + 1 : 0) + 'px'
+    root.classList.add('clocklet--shown')
     this.input = input
     this.updateHighlight()
   }
@@ -57,7 +58,7 @@ export default class Clocklet {
       time = { h: time.h, m: time.m, a: this.ampm.dataset.clockletAmpm as 'am' | 'pm' }
     }
     const _time = lenientime(this.input.value).with(time.a !== undefined ? time : { h: time.h, m: time.m, a: this.ampm.dataset.clockletAmpm as 'am' | 'pm' })
-    const template = this.format || 'HH:mm'
+    const template = this.root.dataset.clockletFormat || 'HH:mm'
     this.input.value = _time.format(template)
     if (!isTouchDevice && this.input.type === 'text') {
       const token =

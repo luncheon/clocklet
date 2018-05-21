@@ -5,12 +5,14 @@
   "repository": "luncheon/clocklet",
   "main": "dist/clocklet.min.js",
   "scripts": {
-    "start": "concurrently --kill-others \"npm run watch:js\" \"npm run watch:css\"",
-    "build": "npm run build:js && npm run build:css",
+    "start": "concurrently --kill-others \"npm run watch:js\" \"npm run watch:css\" \"npm run watch:demo\"",
+    "build": "npm run build:js && npm run build:css && npm run build:demo",
     "build:js": "rollup    -c -n clocklet -i src/index.ts -o dist/clocklet.js && uglifyjs -m -c join_vars=true -o dist/clocklet.min.js dist/clocklet.js",
     "watch:js": "rollup -w -c -n clocklet -i src/index.ts -o dist/clocklet.js",
     "build:css": "stylus    -o dist/clocklet.css src/style.styl && cleancss -o dist/clocklet.min.css dist/clocklet.css",
-    "watch:css": "stylus -w -o dist/clocklet.css src/style.styl"
+    "watch:css": "stylus -w -o dist/clocklet.css src/style.styl",
+    "build:demo": "pug    -o demo demo/index.pug",
+    "watch:demo": "pug -w -o demo demo/index.pug"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +20,9 @@
   "devDependencies": {
     "clean-css-cli": "^4.1.11",
     "concurrently": "^3.5.1",
+    "jstransformer-escape-html": "^1.1.0",
     "lenientime": "github:luncheon/lenientime",
+    "pug-cli": "^1.0.0-alpha6",
     "rollup": "^0.58.2",
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-pug": "^0.1.6",

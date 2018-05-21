@@ -18,6 +18,8 @@ dimensions($top, $right = $top, $bottom = $top, $left = $right)
 
 .clocklet
   font-size         16px
+  left              0
+  top               0
   width             270px
   height            270px
   margin-top        1px
@@ -25,11 +27,19 @@ dimensions($top, $right = $top, $bottom = $top, $left = $right)
   transition        opacity .2s ease-out
   z-index           99998
   border-radius     3px
-  transform-origin  0 0
 
   &:not(.clocklet--shown)
     opacity           0
     pointer-events    none
+
+  &[data-clocklet-placement="bottom left"]
+    transform-origin  0 0
+  &[data-clocklet-placement="bottom right"]
+    transform-origin  100% 0
+  &[data-clocklet-placement="top left"]
+    transform-origin  0 100%
+  &[data-clocklet-placement="top right"]
+    transform-origin  100% 100%
 
 .clocklet-plate
   position          relative
