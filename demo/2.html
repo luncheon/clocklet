@@ -10,20 +10,21 @@
       font-weight: 500;
       border-radius: 50%;
     }
+    input {
+      width: 100%;
+    }
   </style>
 </head>
-<body>
+<body style="margin-top: 280px;">
   <input
     data-clocklet="format: h:mm AA; placement: top left;"
     maxlength="8"
     placeholder="h:mm AA"
-    style="margin-top: 280px;"
   >
   <input
     data-clocklet="class-name: clocklet-circle; format: hh:mm a; placement: top right;"
     placeholder="hh:mm a"
     maxlength="8"
-    style="margin-left: 120px;"
   >
   <script src="https://luncheon.github.io/clocklet/dist/clocklet.js"></script>
 </body>

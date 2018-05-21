@@ -10,8 +10,8 @@ html
     link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Frank+Ruhl+Libre|Playball|Source+Sans+Pro:400,700")
     style.
       * { -webkit-overflow-scrolling: touch; }
-      body { font-family: 'Source Sans Pro'; min-height: 1000px; }
-      h1 { margin: .25em 0; font-size: 350%; font-weight: normal; font-family: "Frank Ruhl Libre", serif; letter-spacing: -2px; }
+      body { font-family: 'Source Sans Pro'; margin: 8px 16px 32px 16px; }
+      h1 { margin: 0; font-size: 350%; font-weight: normal; font-family: "Frank Ruhl Libre", serif; letter-spacing: -2px; }
       h1 > strong { font-weight: normal; font-family: Playball, cursive; letter-spacing: 0; padding-left: 2px; }
       h2 { margin: .25em 0; font-family: "Frank Ruhl Libre"; font-weight: normal; }
       h3 { margin: .5em 0; }
@@ -20,11 +20,15 @@ html
       code[class*="language-"] { line-height: 1.2; font-family: Inconsolata; font-size: 87.5%; }
       svg { vertical-align: middle; }
       iframe { border: 0; display: inline-block; vertical-align: top; }
+      table { margin: 0 20px; border-collapse: collapse; }
+      th, td { padding: .375em .75em; border: 1px solid #dfe2e5; }
+      tbody > tr:nth-child(even) { background-color: #f6f8fa; }
+      th { border-bottom: 3px #c6cbd0 double; }
       .features { margin: 20px 0; }
       .features div { margin-left: 1.5em; }
       .feather { width: 1em; height: 1em; margin-right: .5em; }
       .features .feather { color: #00cc88; }
-      .example { margin: 0 0 2em 1.25em; }
+      .example { margin: 0 0 1em 1.25em; }
       .example > pre { width: 720px; }
       .example > iframe, .example > pre { display: inline-block; }
   body
@@ -65,6 +69,32 @@ html
       .example
         pre: code.language-html: include:escape-html 2.html
         iframe(src="2.html" width="320" height="360")
+
+    section.options
+      h2 Options
+      table
+        thead
+          tr
+            th Name
+            th Type
+            th Default
+            th Description
+        tbody
+          tr
+            td className
+            td string
+            td ""
+            td Class name to set to the root element of the popup
+          tr
+            td placement
+            td "top left" | "bottom left" | <br>"top right" | "bottom right"
+            td "bottom left"
+            td Popup placement
+          tr
+            td format
+            td string
+            td "HH:mm"
+            td Time format (template) of the input element
 
     script(src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js")
     script feather.replace()
