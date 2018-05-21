@@ -1,7 +1,7 @@
 {
   "name": "clocklet",
   "version": "0.0.0",
-  "description": "An opinionated clock-style timepicker",
+  "description": "An opinionated clock-style vanilla-js timepicker",
   "repository": "luncheon/clocklet",
   "main": "dist/clocklet.min.js",
   "scripts": {
