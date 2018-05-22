@@ -3,10 +3,14 @@ body { font-family: 'Source Sans Pro'; margin: 8px 16px 32px 16px; }
 h1 { margin: 0; font-size: 350%; font-family: "Frank Ruhl Libre", serif; font-weight: normal; letter-spacing: -2px; }
 h1 > strong { font-weight: normal; font-family: Playball, cursive; letter-spacing: 0; padding-left: 2px; }
 h2 { margin: .25em 0; font-family: "Frank Ruhl Libre"; font-weight: normal; }
-h3 { margin: .5em 0; font-family: "Frank Ruhl Libre"; font-weight: normal; }
+h3 { margin: .5em 0; font-weight: normal; }
+section { margin-bottom: 2em; }
 p { margin: 0; }
 pre[class*="language-"], :not(pre) > code[class*="language-"] { font-family: Inconsolata; margin: 0; padding: .2em .5em; }
 code[class*="language-"] { line-height: 1.2; font-family: Inconsolata; font-size: 87.5%; }
+q { font-family: Inconsolata; font-size: 93.75%; }
+q::before, q::after { content: ''; }
+label { display: inline-flex; align-items: center; margin-left: .5em; }
 svg { vertical-align: middle; }
 iframe { border: 0; display: inline-block; vertical-align: top; }
 table { margin: 0 20px; border-collapse: collapse; }
@@ -19,62 +23,118 @@ th { border-bottom: 3px #c6cbd0 double; }
 .features .feather { color: #00cc88; }
 .example { margin: 0 0 1em 1.25em; }
 .example > pre { width: 720px; }
-.example > iframe, .example > pre { display: inline-block; }</style></head><body><script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-64398169-1"></script><script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments)} gtag('js', new Date()); gtag('config', 'UA-64398169-1');</script><div style="display: flex; align-items: baseline;"><h1>Clock<strong>let</strong></h1><a href="https://github.com/luncheon/clocklet"><img src="https://cdn.jsdelivr.net/npm/octicons@7.0.1/build/svg/mark-github.svg" alt="GitHub" style="height: 3em; margin-left: 1em; vertical-align: bottom;"></a></div><p>An opinionated clock-style vanilla-js timepicker.</p><section class="features"><h2>Features</h2><div><i data-feather="check-square"></i>Intuitive - it looks like a clock</div><div><i data-feather="check-square"></i>Mouse and touch friendly<div><i data-feather="check-square"></i>3 clicks are sufficient to pick a time - am/pm, hour, minute</div><div><i data-feather="check-square"></i>Click targets often used are large enough</div><div><i data-feather="check-square"></i>No scrolling</div><div><i data-feather="check-square"></i>Unlike Material Design, both hour and minute are available at the same time;<br><i class="feather" style="display: inline-block;"></i>the transition between hour-entering and minute-entering is confusing and bothering</div></div><div><i data-feather="check-square"></i>Keyboard and numpad friendly (by <a target="_blank" href="https://luncheon.github.io/lenientime/demo/">Lenientime</a>)<div><i data-feather="check-square"></i>Autocomplete - e.g. "1"->"01:00", "12"->"12:00", "1234"->"12:34"</div><div><i data-feather="check-square"></i>Up and down arrow key support</div></div></section><section class="examples"><h2>Examples</h2><div class="example"><h3>Usage</h3><pre><code class="language-html">&lt;head&gt;
-  &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/clocklet.min.css&quot;&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;input data-clocklet maxlength=&quot;5&quot; value=&quot;12:34&quot;&gt;
-  &lt;script src=&quot;../dist/clocklet.js&quot;&gt;&lt;/script&gt;
-&lt;/body&gt;
-</code></pre><iframe src="1.html" width="320" height="320"></iframe></div><div class="example"><h3>Options</h3><pre><code class="language-html">&lt;head&gt;
-  &lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Lato|Frank+Ruhl+Libre:500&quot;&gt;
-  &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/clocklet.css&quot;&gt;
-  &lt;style&gt;
-    .clocklet-1 {
-      font-family: Lato, sans-serif;
-    }
-    .clocklet-2 {
-      font-family: &quot;Frank Ruhl Libre&quot;, serif;
-      font-weight: 500;
-      border-radius: 50%;
-    }
-    input {
-      width: 100%;
-    }
-  &lt;/style&gt;
-&lt;/head&gt;
-&lt;body style=&quot;margin-top: 280px;&quot;&gt;
-  &lt;input
-    data-clocklet=&quot;class-name: clocklet-1; format: h:mm AA; placement: top;&quot;
-    maxlength=&quot;8&quot;
-    placeholder=&quot;h:mm AA&quot;
-  &gt;
-  &lt;input
-    data-clocklet=&quot;class-name: clocklet-2; format: hh:mm a; alignment: right;&quot;
-    placeholder=&quot;hh:mm a&quot;
-    maxlength=&quot;8&quot;
-  &gt;
-  &lt;script src=&quot;../dist/clocklet.js&quot;&gt;&lt;/script&gt;
-&lt;/body&gt;
-</code></pre><iframe src="2.html" width="320" height="640"></iframe></div><div class="example"><h3>Events</h3><pre><code class="language-html">&lt;head&gt;
-  &lt;link rel=&quot;stylesheet&quot; href=&quot;https://luncheon.github.io/clocklet/dist/clocklet.min.css&quot;&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;input data-clocklet maxlength=&quot;5&quot; value=&quot;12:34&quot;&gt;
-  &lt;script src=&quot;https://luncheon.github.io/clocklet/dist/clocklet.js&quot;&gt;&lt;/script&gt;
-  &lt;script&gt;
-    document.body
-      .querySelector(&#39;input&#39;)
-      .addEventListener(&#39;clocklet.opening&#39;, function (event) {
-        if (/iPhone/.test(navigator.userAgent)) {
-          event.preventDefault();
-          setTimeout(function () {
-            clocklet.openWithoutEvents(event.target, event.detail.options);
-            clocklet.root.style.transform =
-              &#39;scale(&#39; + window.innerWidth / document.documentElement.clientWidth + &#39;)&#39;;
-          }, 100);
-        }
-      });
-  &lt;/script&gt;
-&lt;/body&gt;
-</code></pre><iframe src="3.html" width="320" height="320"></iframe></div></section><section class="options"><h2>Options</h2><table><thead><tr><th>Name</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td>className</td><td>string</td><td>""</td><td>Class name to set to the root element of the popup.</td></tr><tr><td>placement</td><td>"top" | "bottom"</td><td>"bottom"</td><td>Popup placement.</td></tr><tr><td>alignment</td><td>"left" | "right"</td><td>"left"</td><td>Popup alignment.</td></tr><tr><td>zIndex</td><td>number | string</td><td>""</td><td>Popup z-order. If this value is an empty string, [(the input element z-index) + 1] is used.</td></tr><tr><td>format</td><td>string</td><td>"HH:mm"</td><td>Time format (template) of the input element</td></tr></tbody></table></section><script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script><script>feather.replace()</script><script src="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/prism.min.js"></script><script src="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/components/prism-markup.min.js"></script></body></html>
+.example > iframe, .example > pre { display: inline-block; }</style><link rel="stylesheet" href="https://luncheon.github.io/clocklet/dist/clocklet.min.css"></head><body><script async src="https://www.googletagmanager.com/gtag/js?id=UA-64398169-1"></script><script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments)} gtag('js', new Date()); gtag('config', 'UA-64398169-1');</script><script src="https://luncheon.github.io/clocklet/dist/clocklet.min.js"></script><div style="display: flex; align-items: baseline;"><h1>Clock<strong>let</strong></h1><a href="https://github.com/luncheon/clocklet"><img src="https://cdn.jsdelivr.net/npm/octicons@7.0.1/build/svg/mark-github.svg" alt="GitHub" style="height: 3em; margin-left: 1em; vertical-align: bottom;"></a></div><p>An opinionated clock-style vanilla-js timepicker.</p><section class="features"><h2>Features</h2><div><i data-feather="check-square"></i>Intuitive - it looks like a clock</div><div><i data-feather="check-square"></i>Mouse and touch friendly<div><i data-feather="check-square"></i>3 clicks are sufficient to pick a time - am/pm, hour, minute</div><div><i data-feather="check-square"></i>Click targets often used are large enough</div><div><i data-feather="check-square"></i>No need to scroll</div><div><i data-feather="check-square"></i>Unlike Material Design, both hour and minute are available at the same time;<br><i class="feather" style="display: inline-block;"></i>the transition between hour-entering and minute-entering is confusing and bothering</div></div><div><i data-feather="check-square"></i>Keyboard and numpad friendly (by <a target="_blank" href="https://luncheon.github.io/lenientime/demo/">Lenientime</a>)<div><i data-feather="check-square"></i>Autocomplete - e.g. "1"->"01:00", "12"->"12:00", "1234"->"12:34"</div><div><i data-feather="check-square"></i>Up and down arrow key support</div></div></section><section class="options"><h2>Options</h2><table><thead><tr><th>Name</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><q>className</q></td><td><q>string</q></td><td><q>""</q></td><td>Class name to set to the root element of the popup.</td></tr><tr><td><q>placement</q></td><td><q>"top" | "bottom"</q></td><td><q>"bottom"</q></td><td>Popup placement.</td></tr><tr><td><q>alignment</q></td><td><q>"left" | "right"</q></td><td><q>"left"</q></td><td>Popup alignment.</td></tr><tr><td><q>zIndex</q></td><td><q>number | string</q></td><td><q>""</q></td><td>Popup z-order. If this value is an empty string, [(the input element z-index) + 1] is used.</td></tr><tr><td><q>format</q></td><td><q>string</q></td><td><q>"HH:mm"</q></td><td>Time format (template) of the input element</td></tr></tbody></table></section><section class="events"><h2>Events</h2><table><thead><tr><th>Type</th><th>Bubbles</th><th>Cancelable</th><th>event.details</th><th>Description</th></tr></thead><tbody><tr><td><q>clocklet.opening</q></td><td><q>true</q></td><td><q>true</q></td><td><q>{ options: { ...resolvedOptions } }</q></td><td>Raises before showing the clocklet popup.</td></tr><tr><td><q>clocklet.opened</q></td><td><q>true</q></td><td><q>false</q></td><td><q>{ options: { ...resolvedOptions } }</q></td><td>Raises after showing the clocklet popup.</td></tr><tr><td><q>clocklet.closing</q></td><td><q>true</q></td><td><q>true</q></td><td><q>{}</q></td><td>Raises before hiding the clocklet popup.</td></tr><tr><td><q>clocklet.closed</q></td><td><q>true</q></td><td><q>false</q></td><td><q>{}</q></td><td>Raises after hiding the clocklet popup.</td></tr><tr><td><q>input</q></td><td><q>true</q></td><td><q>false</q></td><td><q>"clocklet"</q></td><td>Raises after changing the input value.</td></tr></tbody></table></section><section class="examples"><h2>Examples</h2><div class="example"><h3>Default</h3><pre><code class="language-html">&lt;input data-clocklet maxlength=&quot;5&quot; value=&quot;12:34&quot;&gt;
+</code></pre><div class="demo"><input data-clocklet maxlength="5" value="12:34">
+</div></div><div class="example"><h3>Options</h3><pre><code class="language-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Lato|Frank+Ruhl+Libre:500&quot;&gt;
+
+&lt;style&gt;
+  .clocklet-options-1 {
+    font-family: Lato, sans-serif;
+    border-radius: 50%;
+  }
+  .clocklet-options-2 {
+    font-family: &quot;Frank Ruhl Libre&quot;, serif;
+    font-weight: 500;
+  }
+&lt;/style&gt;
+
+&lt;input
+  data-clocklet=&quot;class-name: clocklet-options-1; format: h:mm AA; placement: top;&quot;
+  maxlength=&quot;8&quot;
+  placeholder=&quot;h:mm AA&quot;
+&gt;
+
+&lt;input
+  data-clocklet=&quot;class-name: clocklet-options-2; format: hh:mm a; alignment: right;&quot;
+  placeholder=&quot;hh:mm a&quot;
+  maxlength=&quot;8&quot;
+&gt;
+</code></pre><div class="demo"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Frank+Ruhl+Libre:500">
+
+<style>
+  .clocklet-options-1 {
+    font-family: Lato, sans-serif;
+    border-radius: 50%;
+  }
+  .clocklet-options-2 {
+    font-family: "Frank Ruhl Libre", serif;
+    font-weight: 500;
+  }
+</style>
+
+<input
+  data-clocklet="class-name: clocklet-options-1; format: h:mm AA; placement: top;"
+  maxlength="8"
+  placeholder="h:mm AA"
+>
+
+<input
+  data-clocklet="class-name: clocklet-options-2; format: hh:mm a; alignment: right;"
+  placeholder="hh:mm a"
+  maxlength="8"
+>
+</div></div><div class="example"><h3>Events</h3><pre><code class="language-html">&lt;input class=&quot;clocklet-events&quot; data-clocklet=&quot;placement: top;&quot; maxlength=&quot;5&quot; value=&quot;12:34&quot;&gt;
+
+&lt;label&gt;&lt;input class=&quot;clocklet-cancel-opening&quot; type=&quot;checkbox&quot;&gt;Cancel opening&lt;/label&gt;
+&lt;label&gt;&lt;input class=&quot;clocklet-cancel-closing&quot; type=&quot;checkbox&quot;&gt;Cancel closing&lt;/label&gt;
+
+&lt;script&gt;
+  (function () {
+    var inputElement = document.querySelector(&#39;.clocklet-events&#39;);
+
+    inputElement.addEventListener(&#39;clocklet.opening&#39;, function (event) {
+      console.log(event.type, event.target, event.detail.options)
+      if (document.querySelector(&#39;.clocklet-cancel-opening&#39;).checked) {
+        event.preventDefault();
+      }
+    });
+
+    inputElement.addEventListener(&#39;clocklet.opened&#39;, function (event) {
+      console.log(event.type, event.target, event.detail.options)
+    });
+
+    inputElement.addEventListener(&#39;clocklet.closing&#39;, function (event) {
+      console.log(event.type, event.target)
+      if (document.querySelector(&#39;.clocklet-cancel-closing&#39;).checked) {
+        event.preventDefault();
+      }
+    });
+
+    inputElement.addEventListener(&#39;clocklet.closed&#39;, function (event) {
+      console.log(event.type, event.target)
+    });
+  })();
+&lt;/script&gt;
+</code></pre><div class="demo" style="display: flex; align-items: center;"><input class="clocklet-events" data-clocklet="placement: top;" maxlength="5" value="12:34">
+
+<label><input class="clocklet-cancel-opening" type="checkbox">Cancel opening</label>
+<label><input class="clocklet-cancel-closing" type="checkbox">Cancel closing</label>
+
+<script>
+  (function () {
+    var inputElement = document.querySelector('.clocklet-events');
+
+    inputElement.addEventListener('clocklet.opening', function (event) {
+      console.log(event.type, event.target, event.detail.options)
+      if (document.querySelector('.clocklet-cancel-opening').checked) {
+        event.preventDefault();
+      }
+    });
+
+    inputElement.addEventListener('clocklet.opened', function (event) {
+      console.log(event.type, event.target, event.detail.options)
+    });
+
+    inputElement.addEventListener('clocklet.closing', function (event) {
+      console.log(event.type, event.target)
+      if (document.querySelector('.clocklet-cancel-closing').checked) {
+        event.preventDefault();
+      }
+    });
+
+    inputElement.addEventListener('clocklet.closed', function (event) {
+      console.log(event.type, event.target)
+    });
+  })();
+</script>
+</div></div></section><script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script><script>feather.replace()</script><script src="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/prism.min.js"></script><script src="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/components/prism-markup.min.js"></script></body></html>

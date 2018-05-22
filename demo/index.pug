@@ -14,10 +14,14 @@ html
       h1 { margin: 0; font-size: 350%; font-family: "Frank Ruhl Libre", serif; font-weight: normal; letter-spacing: -2px; }
       h1 > strong { font-weight: normal; font-family: Playball, cursive; letter-spacing: 0; padding-left: 2px; }
       h2 { margin: .25em 0; font-family: "Frank Ruhl Libre"; font-weight: normal; }
-      h3 { margin: .5em 0; font-family: "Frank Ruhl Libre"; font-weight: normal; }
+      h3 { margin: .5em 0; font-weight: normal; }
+      section { margin-bottom: 2em; }
       p { margin: 0; }
       pre[class*="language-"], :not(pre) > code[class*="language-"] { font-family: Inconsolata; margin: 0; padding: .2em .5em; }
       code[class*="language-"] { line-height: 1.2; font-family: Inconsolata; font-size: 87.5%; }
+      q { font-family: Inconsolata; font-size: 93.75%; }
+      q::before, q::after { content: ''; }
+      label { display: inline-flex; align-items: center; margin-left: .5em; }
       svg { vertical-align: middle; }
       iframe { border: 0; display: inline-block; vertical-align: top; }
       table { margin: 0 20px; border-collapse: collapse; }
@@ -31,9 +35,12 @@ html
       .example { margin: 0 0 1em 1.25em; }
       .example > pre { width: 720px; }
       .example > iframe, .example > pre { display: inline-block; }
+    link(rel="stylesheet" href="https://luncheon.github.io/clocklet/dist/clocklet.min.css")
   body
-    script(async="" src="https://www.googletagmanager.com/gtag/js?id=UA-64398169-1")
+    script(async src="https://www.googletagmanager.com/gtag/js?id=UA-64398169-1")
     script window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments)} gtag('js', new Date()); gtag('config', 'UA-64398169-1');
+    script(src="https://luncheon.github.io/clocklet/dist/clocklet.min.js")
+
     div(style="display: flex; align-items: baseline;")
       h1 Clock#[strong let]
       a(href="https://github.com/luncheon/clocklet")
@@ -51,7 +58,7 @@ html
         | Mouse and touch friendly
         +feature 3 clicks are sufficient to pick a time - am/pm, hour, minute
         +feature Click targets often used are large enough
-        +feature No scrolling
+        +feature No need to scroll
         +feature
           | Unlike Material Design, both hour and minute are available at the same time;
           br
@@ -60,21 +67,6 @@ html
       +feature Keyboard and numpad friendly (by <a target="_blank" href="https://luncheon.github.io/lenientime/demo/">Lenientime</a>)
         +feature Autocomplete - e.g. "1"->"01:00", "12"->"12:00", "1234"->"12:34"
         +feature Up and down arrow key support
-
-    section.examples
-      h2 Examples
-      .example
-        h3 Usage
-        pre: code.language-html: include:escape-html 1.html
-        iframe(src="1.html" width="320" height="320")
-      .example
-        h3 Options
-        pre: code.language-html: include:escape-html 2.html
-        iframe(src="2.html" width="320" height="640")
-      .example
-        h3 Events
-        pre: code.language-html: include:escape-html 3.html
-        iframe(src="3.html" width="320" height="320")
 
     section.options
       h2 Options
@@ -87,30 +79,87 @@ html
             th Description
         tbody
           tr
-            td className
-            td string
-            td ""
+            td: q className
+            td: q string
+            td: q ""
             td Class name to set to the root element of the popup.
           tr
-            td placement
-            td "top" | "bottom"
-            td "bottom"
+            td: q placement
+            td: q "top" | "bottom"
+            td: q "bottom"
             td Popup placement.
           tr
-            td alignment
-            td "left" | "right"
-            td "left"
+            td: q alignment
+            td: q "left" | "right"
+            td: q "left"
             td Popup alignment.
           tr
-            td zIndex
-            td number | string
-            td ""
+            td: q zIndex
+            td: q number | string
+            td: q ""
             td Popup z-order. If this value is an empty string, [(the input element z-index) + 1] is used.
           tr
-            td format
-            td string
-            td "HH:mm"
+            td: q format
+            td: q string
+            td: q "HH:mm"
             td Time format (template) of the input element
+
+    section.events
+      h2 Events
+      table
+        thead
+          tr
+            th Type
+            th Bubbles
+            th Cancelable
+            th event.details
+            th Description
+        tbody
+          tr
+            td: q clocklet.opening
+            td: q true
+            td: q true
+            td: q { options: { ...resolvedOptions } }
+            td Raises before showing the clocklet popup.
+          tr
+            td: q clocklet.opened
+            td: q true
+            td: q false
+            td: q { options: { ...resolvedOptions } }
+            td Raises after showing the clocklet popup.
+          tr
+            td: q clocklet.closing
+            td: q true
+            td: q true
+            td: q {}
+            td Raises before hiding the clocklet popup.
+          tr
+            td: q clocklet.closed
+            td: q true
+            td: q false
+            td: q {}
+            td Raises after hiding the clocklet popup.
+          tr
+            td: q input
+            td: q true
+            td: q false
+            td: q "clocklet"
+            td Raises after changing the input value.
+
+    section.examples
+      h2 Examples
+      .example
+        h3 Default
+        pre: code.language-html: include:escape-html 1.html
+        .demo: include 1.html
+      .example
+        h3 Options
+        pre: code.language-html: include:escape-html 2.html
+        .demo: include 2.html
+      .example
+        h3 Events
+        pre: code.language-html: include:escape-html 3.html
+        .demo(style="display: flex; align-items: center;"): include 3.html
 
     script(src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js")
     script feather.replace()
