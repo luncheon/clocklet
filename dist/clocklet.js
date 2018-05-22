@@ -791,9 +791,19 @@
             this.ampm.addEventListener('mousedown', function () { return _this.value({ a: _this.ampm.dataset.clockletAmpm === 'pm' ? 'am' : 'pm' }); });
         }
         Clocklet.prototype.open = function (input, options) {
+            this._open(input, options, true);
+        };
+        Clocklet.prototype.openWithoutEvents = function (input, options) {
+            this._open(input, options, false);
+        };
+        Clocklet.prototype._open = function (input, options, withEvents) {
             var mergedOptions = mergeDefaultOptions(options);
             var inputRect = input.getBoundingClientRect();
             var root = this.root;
+            var eventDetail = { options: mergedOptions };
+            if (withEvents && dispatchCustomEvent(input, 'clocklet.opening', true, true, eventDetail).defaultPrevented) {
+                return;
+            }
             root.className = 'clocklet ' + mergedOptions.className;
             root.dataset.clockletPlacement = mergedOptions.placement;
             root.dataset.clockletAlignment = mergedOptions.alignment;
@@ -804,10 +814,21 @@
             root.classList.add('clocklet--shown');
             this.input = input;
             this.updateHighlight();
+            withEvents && dispatchCustomEvent(input, 'clocklet.opened', true, false, eventDetail);
         };
         Clocklet.prototype.close = function () {
+            var input = this.input;
+            var eventDetail = {};
+            if (!input) {
+                return;
+            }
+            if (dispatchCustomEvent(input, 'clocklet.closing', true, true, eventDetail).defaultPrevented) {
+                input.focus();
+                return;
+            }
             this.input = undefined;
             this.root.classList.remove('clocklet--shown');
+            dispatchCustomEvent(input, 'clocklet.closed', true, false, eventDetail);
         };
         Clocklet.prototype.value = function (time) {
             if (!this.input) {
@@ -826,9 +847,7 @@
                             undefined;
                 token && this.input.setSelectionRange(token.index, token.index + token.value.length);
             }
-            var inputEvent = document.createEvent('CustomEvent');
-            inputEvent.initCustomEvent('input', true, false, 'clocklet');
-            this.input.dispatchEvent(inputEvent);
+            dispatchCustomEvent(this.input, 'input', true, false, 'clocklet');
         };
         Clocklet.prototype.updateHighlight = function () {
             if (!this.input) {
@@ -850,6 +869,12 @@
         };
         return Clocklet;
     }());
+    function dispatchCustomEvent(target, type, bubbles, cancelable, detail) {
+        var event = document.createEvent('CustomEvent');
+        event.initCustomEvent(type, bubbles, cancelable, detail);
+        target.dispatchEvent(event);
+        return event;
+    }
     function findHourToken(time, template) {
         return findToken(time, template, /[Hhk]$/);
     }

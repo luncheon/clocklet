@@ -11,10 +11,10 @@ html
     style.
       * { -webkit-overflow-scrolling: touch; }
       body { font-family: 'Source Sans Pro'; margin: 8px 16px 32px 16px; }
-      h1 { margin: 0; font-size: 350%; font-weight: normal; font-family: "Frank Ruhl Libre", serif; letter-spacing: -2px; }
+      h1 { margin: 0; font-size: 350%; font-family: "Frank Ruhl Libre", serif; font-weight: normal; letter-spacing: -2px; }
       h1 > strong { font-weight: normal; font-family: Playball, cursive; letter-spacing: 0; padding-left: 2px; }
       h2 { margin: .25em 0; font-family: "Frank Ruhl Libre"; font-weight: normal; }
-      h3 { margin: .5em 0; }
+      h3 { margin: .5em 0; font-family: "Frank Ruhl Libre"; font-weight: normal; }
       p { margin: 0; }
       pre[class*="language-"], :not(pre) > code[class*="language-"] { font-family: Inconsolata; margin: 0; padding: .2em .5em; }
       code[class*="language-"] { line-height: 1.2; font-family: Inconsolata; font-size: 87.5%; }
@@ -64,11 +64,17 @@ html
     section.examples
       h2 Examples
       .example
+        h3 Usage
         pre: code.language-html: include:escape-html 1.html
         iframe(src="1.html" width="320" height="320")
       .example
+        h3 Options
         pre: code.language-html: include:escape-html 2.html
-        iframe(src="2.html" width="320" height="360")
+        iframe(src="2.html" width="320" height="640")
+      .example
+        h3 Events
+        pre: code.language-html: include:escape-html 3.html
+        iframe(src="3.html" width="320" height="320")
 
     section.options
       h2 Options

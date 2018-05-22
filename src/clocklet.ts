@@ -31,9 +31,21 @@ export default class Clocklet {
   }
 
   public open(input: HTMLInputElement, options?: Partial<ClockletOptions>) {
+    this._open(input, options, true)
+  }
+
+  public openWithoutEvents(input: HTMLInputElement, options?: Partial<ClockletOptions>) {
+    this._open(input, options, false)
+  }
+
+  private _open(input: HTMLInputElement, options: Partial<ClockletOptions> | undefined, withEvents: boolean) {
     const mergedOptions             = mergeDefaultOptions(options)
     const inputRect                 = input.getBoundingClientRect()
     const root                      = this.root
+    const eventDetail               = { options: mergedOptions }
+    if (withEvents && dispatchCustomEvent(input, 'clocklet.opening', true, true, eventDetail).defaultPrevented) {
+      return
+    }
     root.className                  = 'clocklet ' + mergedOptions.className
     root.dataset.clockletPlacement  = mergedOptions.placement
     root.dataset.clockletAlignment  = mergedOptions.alignment
@@ -44,11 +56,22 @@ export default class Clocklet {
     root.classList.add('clocklet--shown')
     this.input = input
     this.updateHighlight()
+    withEvents && dispatchCustomEvent(input, 'clocklet.opened', true, false, eventDetail)
   }
 
   public close() {
+    const input = this.input
+    const eventDetail = {}
+    if (!input) {
+      return
+    }
+    if (dispatchCustomEvent(input, 'clocklet.closing', true, true, eventDetail).defaultPrevented) {
+      input.focus()
+      return
+    }
     this.input = undefined
     this.root.classList.remove('clocklet--shown')
+    dispatchCustomEvent(input, 'clocklet.closed', true, false, eventDetail)
   }
 
   private value(time: { h?: number | string, m?: number | string, a?: 'am' | 'pm' }) {
@@ -69,9 +92,7 @@ export default class Clocklet {
         undefined
       token && this.input.setSelectionRange(token.index, token.index + token.value.length)
     }
-    const inputEvent = document.createEvent('CustomEvent')
-    inputEvent.initCustomEvent('input', true, false, 'clocklet')
-    this.input.dispatchEvent(inputEvent)
+    dispatchCustomEvent(this.input, 'input', true, false, 'clocklet')
   }
 
   private updateHighlight() {
@@ -91,6 +112,13 @@ export default class Clocklet {
       this.ampm.dataset.clockletAmpm = 'am'
     }
   }
+}
+
+function dispatchCustomEvent(target: EventTarget, type: string, bubbles: boolean, cancelable: boolean, detail: any) {
+  const event = document.createEvent('CustomEvent')
+  event.initCustomEvent(type, bubbles, cancelable, detail)
+  target.dispatchEvent(event)
+  return event
 }
 
 function findHourToken(time: Lenientime, template: string) {

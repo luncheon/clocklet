@@ -1,0 +1,21 @@
+<head>
+  <link rel="stylesheet" href="https://luncheon.github.io/clocklet/dist/clocklet.min.css">
+</head>
+<body>
+  <input data-clocklet maxlength="5" value="12:34">
+  <script src="https://luncheon.github.io/clocklet/dist/clocklet.js"></script>
+  <script>
+    document.body
+      .querySelector('input')
+      .addEventListener('clocklet.opening', function (event) {
+        if (/iPhone/.test(navigator.userAgent)) {
+          event.preventDefault();
+          setTimeout(function () {
+            clocklet.openWithoutEvents(event.target, event.detail.options);
+            clocklet.root.style.transform =
+              'scale(' + window.innerWidth / document.documentElement.clientWidth + ')';
+          }, 100);
+        }
+      });
+  </script>
+</body>

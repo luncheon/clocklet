@@ -31,14 +31,14 @@ dimensions($top, $right = $top, $bottom = $top, $left = $right)
     opacity           0
     pointer-events    none
 
-  &[data-clocklet-placement="bottom left"]
-    transform-origin  0 0
-  &[data-clocklet-placement="bottom right"]
-    transform-origin  100% 0
-  &[data-clocklet-placement="top left"]
-    transform-origin  0 100%
-  &[data-clocklet-placement="top right"]
-    transform-origin  100% 100%
+[data-clocklet-placement="bottom"][data-clocklet-alignment="left"]
+  transform-origin     0    0
+[data-clocklet-placement="bottom"][data-clocklet-alignment="right"]
+  transform-origin  100%    0
+[data-clocklet-placement="top"][data-clocklet-alignment="left"]
+  transform-origin     0 100%
+[data-clocklet-placement="top"][data-clocklet-alignment="right"]
+  transform-origin  100% 100%
 
 .clocklet-plate
   position          relative

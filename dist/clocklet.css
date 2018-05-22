@@ -25,16 +25,16 @@
   opacity: 0;
   pointer-events: none;
 }
-.clocklet[data-clocklet-placement="bottom left"] {
+[data-clocklet-placement="bottom"][data-clocklet-alignment="left"] {
   transform-origin: 0 0;
 }
-.clocklet[data-clocklet-placement="bottom right"] {
+[data-clocklet-placement="bottom"][data-clocklet-alignment="right"] {
   transform-origin: 100% 0;
 }
-.clocklet[data-clocklet-placement="top left"] {
+[data-clocklet-placement="top"][data-clocklet-alignment="left"] {
   transform-origin: 0 100%;
 }
-.clocklet[data-clocklet-placement="top right"] {
+[data-clocklet-placement="top"][data-clocklet-alignment="right"] {
   transform-origin: 100% 100%;
 }
 .clocklet-plate {
