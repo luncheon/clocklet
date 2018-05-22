@@ -84,12 +84,22 @@ html
             td className
             td string
             td ""
-            td Class name to set to the root element of the popup
+            td Class name to set to the root element of the popup.
           tr
             td placement
-            td "top left" | "bottom left" | <br>"top right" | "bottom right"
-            td "bottom left"
-            td Popup placement
+            td "top" | "bottom"
+            td "bottom"
+            td Popup placement.
+          tr
+            td alignment
+            td "left" | "right"
+            td "left"
+            td Popup alignment.
+          tr
+            td zIndex
+            td number | string
+            td ""
+            td Popup z-order. If this value is an empty string, [(the input element z-index) + 1] is used.
           tr
             td format
             td string

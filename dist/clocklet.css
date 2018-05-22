@@ -19,7 +19,6 @@
   margin-top: 1px;
   padding: 8px;
   transition: opacity 0.2s ease-out;
-  z-index: 99998;
   border-radius: 3px;
 }
 .clocklet:not(.clocklet--shown) {
@@ -55,7 +54,7 @@
 .clocklet-dial-tick,
 .clocklet-ampm::before,
 .clocklet-hand-origin {
-  z-index: 99999;
+  z-index: 1;
 }
 .clocklet-hand {
   left: 0;
@@ -141,10 +140,12 @@
 .clocklet {
   border: 1px solid #ddd;
   background-color: #eee;
-  box-shadow: 4px 4px 4px rgba(128,128,128,0.5);
 }
-.clocklet[data-clocklet-placement^="top"] {
+[data-clocklet-placement="top"] {
   box-shadow: 4px -4px 4px rgba(128,128,128,0.5);
+}
+[data-clocklet-placement="bottom"] {
+  box-shadow: 4px 4px 4px rgba(128,128,128,0.5);
 }
 .clocklet-plate {
   background-color: #fff;

@@ -3,9 +3,11 @@ $clocklet-active-color = rgb(68,187,255)
 .clocklet
   border            1px solid #ddd
   background-color  #eee
+
+[data-clocklet-placement="top"]
+  box-shadow        4px -4px 4px rgba(128,128,128,.5)
+[data-clocklet-placement="bottom"]
   box-shadow        4px 4px 4px rgba(128,128,128,.5)
-  &[data-clocklet-placement^="top"]
-    box-shadow        4px -4px 4px rgba(128,128,128,.5)
 
 .clocklet-plate
   background-color  white

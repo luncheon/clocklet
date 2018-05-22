@@ -2,10 +2,10 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Frank+Ruhl+Libre:500">
   <link rel="stylesheet" href="https://luncheon.github.io/clocklet/dist/clocklet.css">
   <style>
-    .clocklet {
+    .clocklet-1 {
       font-family: Lato, sans-serif;
     }
-    .clocklet-circle {
+    .clocklet-2 {
       font-family: "Frank Ruhl Libre", serif;
       font-weight: 500;
       border-radius: 50%;
@@ -17,12 +17,12 @@
 </head>
 <body style="margin-top: 280px;">
   <input
-    data-clocklet="format: h:mm AA; placement: top left;"
+    data-clocklet="class-name: clocklet-1; format: h:mm AA; placement: top;"
     maxlength="8"
     placeholder="h:mm AA"
   >
   <input
-    data-clocklet="class-name: clocklet-circle; format: hh:mm a; placement: top right;"
+    data-clocklet="class-name: clocklet-2; format: hh:mm a; placement: top; alignment: right;"
     placeholder="hh:mm a"
     maxlength="8"
   >

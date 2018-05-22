@@ -1,7 +1,9 @@
 const defaultOptions = {
-  className: '',
-  format: 'HH:mm',
-  placement: 'bottom left' as 'top left' | 'top right' | 'bottom left' | 'bottom right',
+  className:  '',
+  format:     'HH:mm',
+  placement:  'bottom'  as 'top' | 'bottom',
+  alignment:  'left'    as 'left' | 'right',
+  zIndex:     '' as number | string,
 }
 
 export type ClockletOptions = Readonly<typeof defaultOptions>

@@ -20,20 +20,20 @@ th { border-bottom: 3px #c6cbd0 double; }
 .example { margin: 0 0 1em 1.25em; }
 .example > pre { width: 720px; }
 .example > iframe, .example > pre { display: inline-block; }</style></head><body><script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-64398169-1"></script><script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments)} gtag('js', new Date()); gtag('config', 'UA-64398169-1');</script><div style="display: flex; align-items: baseline;"><h1>Clock<strong>let</strong></h1><a href="https://github.com/luncheon/clocklet"><img src="https://cdn.jsdelivr.net/npm/octicons@7.0.1/build/svg/mark-github.svg" alt="GitHub" style="height: 3em; margin-left: 1em; vertical-align: bottom;"></a></div><p>An opinionated clock-style vanilla-js timepicker.</p><section class="features"><h2>Features</h2><div><i data-feather="check-square"></i>Intuitive - it looks like a clock</div><div><i data-feather="check-square"></i>Mouse and touch friendly<div><i data-feather="check-square"></i>3 clicks are sufficient to pick a time - am/pm, hour, minute</div><div><i data-feather="check-square"></i>Click targets often used are large enough</div><div><i data-feather="check-square"></i>No scrolling</div><div><i data-feather="check-square"></i>Unlike Material Design, both hour and minute are available at the same time;<br><i class="feather" style="display: inline-block;"></i>the transition between hour-entering and minute-entering is confusing and bothering</div></div><div><i data-feather="check-square"></i>Keyboard and numpad friendly (by <a target="_blank" href="https://luncheon.github.io/lenientime/demo/">Lenientime</a>)<div><i data-feather="check-square"></i>Autocomplete - e.g. "1"->"01:00", "12"->"12:00", "1234"->"12:34"</div><div><i data-feather="check-square"></i>Up and down arrow key support</div></div></section><section class="examples"><h2>Examples</h2><div class="example"><pre><code class="language-html">&lt;head&gt;
-  &lt;link rel=&quot;stylesheet&quot; href=&quot;https://luncheon.github.io/clocklet/dist/clocklet.min.css&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/clocklet.min.css&quot;&gt;
 &lt;/head&gt;
 &lt;body&gt;
   &lt;input data-clocklet maxlength=&quot;5&quot; value=&quot;12:34&quot;&gt;
-  &lt;script src=&quot;https://luncheon.github.io/clocklet/dist/clocklet.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;../dist/clocklet.js&quot;&gt;&lt;/script&gt;
 &lt;/body&gt;
 </code></pre><iframe src="1.html" width="320" height="320"></iframe></div><div class="example"><pre><code class="language-html">&lt;head&gt;
   &lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Lato|Frank+Ruhl+Libre:500&quot;&gt;
-  &lt;link rel=&quot;stylesheet&quot; href=&quot;https://luncheon.github.io/clocklet/dist/clocklet.css&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/clocklet.css&quot;&gt;
   &lt;style&gt;
-    .clocklet {
+    .clocklet-1 {
       font-family: Lato, sans-serif;
     }
-    .clocklet-circle {
+    .clocklet-2 {
       font-family: &quot;Frank Ruhl Libre&quot;, serif;
       font-weight: 500;
       border-radius: 50%;
@@ -45,15 +45,15 @@ th { border-bottom: 3px #c6cbd0 double; }
 &lt;/head&gt;
 &lt;body style=&quot;margin-top: 280px;&quot;&gt;
   &lt;input
-    data-clocklet=&quot;format: h:mm AA; placement: top left;&quot;
+    data-clocklet=&quot;class-name: clocklet-1; format: h:mm AA; placement: top;&quot;
     maxlength=&quot;8&quot;
     placeholder=&quot;h:mm AA&quot;
   &gt;
   &lt;input
-    data-clocklet=&quot;class-name: clocklet-circle; format: hh:mm a; placement: top right;&quot;
+    data-clocklet=&quot;class-name: clocklet-2; format: hh:mm a; placement: top; alignment: right;&quot;
     placeholder=&quot;hh:mm a&quot;
     maxlength=&quot;8&quot;
   &gt;
-  &lt;script src=&quot;https://luncheon.github.io/clocklet/dist/clocklet.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;../dist/clocklet.js&quot;&gt;&lt;/script&gt;
 &lt;/body&gt;
-</code></pre><iframe src="2.html" width="320" height="360"></iframe></div></section><section class="options"><h2>Options</h2><table><thead><tr><th>Name</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td>className</td><td>string</td><td>""</td><td>Class name to set to the root element of the popup</td></tr><tr><td>placement</td><td>"top left" | "bottom left" | <br>"top right" | "bottom right"</td><td>"bottom left"</td><td>Popup placement</td></tr><tr><td>format</td><td>string</td><td>"HH:mm"</td><td>Time format (template) of the input element</td></tr></tbody></table></section><script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script><script>feather.replace()</script><script src="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/prism.min.js"></script><script src="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/components/prism-markup.min.js"></script></body></html>
+</code></pre><iframe src="2.html" width="320" height="360"></iframe></div></section><section class="options"><h2>Options</h2><table><thead><tr><th>Name</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td>className</td><td>string</td><td>""</td><td>Class name to set to the root element of the popup.</td></tr><tr><td>placement</td><td>"top" | "bottom"</td><td>"bottom"</td><td>Popup placement.</td></tr><tr><td>alignment</td><td>"left" | "right"</td><td>"left"</td><td>Popup alignment.</td></tr><tr><td>zIndex</td><td>number | string</td><td>""</td><td>Popup z-order. If this value is an empty string, [(the input element z-index) + 1] is used.</td></tr><tr><td>format</td><td>string</td><td>"HH:mm"</td><td>Time format (template) of the input element</td></tr></tbody></table></section><script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script><script>feather.replace()</script><script src="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/prism.min.js"></script><script src="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/components/prism-markup.min.js"></script></body></html>

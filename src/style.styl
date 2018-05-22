@@ -25,7 +25,6 @@ dimensions($top, $right = $top, $bottom = $top, $left = $right)
   margin-top        1px
   padding           8px
   transition        opacity .2s ease-out
-  z-index           99998
   border-radius     3px
 
   &:not(.clocklet--shown)
@@ -55,7 +54,7 @@ dimensions($top, $right = $top, $bottom = $top, $left = $right)
 .clocklet-dial-tick
 .clocklet-ampm::before
 .clocklet-hand-origin
-  z-index             99999
+  z-index             1
 
 .clocklet-hand
   dimensions        6.4% 0 50% 0

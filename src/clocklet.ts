@@ -33,13 +33,14 @@ export default class Clocklet {
   public open(input: HTMLInputElement, options?: Partial<ClockletOptions>) {
     const mergedOptions             = mergeDefaultOptions(options)
     const inputRect                 = input.getBoundingClientRect()
-    const placement                 = mergedOptions.placement.split(' ')
     const root                      = this.root
     root.className                  = 'clocklet ' + mergedOptions.className
     root.dataset.clockletPlacement  = mergedOptions.placement
+    root.dataset.clockletAlignment  = mergedOptions.alignment
     root.dataset.clockletFormat     = mergedOptions.format
-    root.style.left                 = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left   - (placement[1] === 'right'  ? root.offsetWidth  - inputRect.width : 0) + 'px'
-    root.style.top                  = document.documentElement.scrollTop  + document.body.scrollTop  + inputRect.bottom - (placement[0] === 'top'    ? root.offsetHeight + inputRect.height + 1 : 0) + 'px'
+    root.style.left                 = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left   - (mergedOptions.alignment === 'right'  ? root.offsetWidth  - inputRect.width : 0) + 'px'
+    root.style.top                  = document.documentElement.scrollTop  + document.body.scrollTop  + inputRect.bottom - (mergedOptions.placement === 'top'    ? root.offsetHeight + inputRect.height + 1 : 0) + 'px'
+    root.style.zIndex               = mergedOptions.zIndex !== '' ? mergedOptions.zIndex as string : (parseInt(getComputedStyle(input).zIndex!, 10) || 0) + 1 as any as string
     root.classList.add('clocklet--shown')
     this.input = input
     this.updateHighlight()
