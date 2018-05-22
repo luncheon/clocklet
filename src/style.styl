@@ -101,7 +101,8 @@ dimensions($top, $right = $top, $bottom = $top, $left = $right)
   dimensions        calc(50% - 5px)
   border-radius     50%
 
-.clocklet[data-value=""]
+.clocklet:not([data-clocklet-value])
+.clocklet[data-clocklet-value=""]
   .clocklet-hand
   .clocklet-hand-origin
     display           none

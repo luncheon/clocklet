@@ -80,12 +80,12 @@ export default class Clocklet {
     }
     if (this.input.value) {
       const time = lenientime(this.input.value)
-      this.root.dataset.value = time.HHmm
+      this.root.dataset.clockletValue = time.HHmm
       this.hour.value(time.hour % 12)
       this.minute.value(time.minute)
       this.ampm.dataset.clockletAmpm = time.a
     } else {
-      this.root.dataset.value = ''
+      this.root.dataset.clockletValue = ''
       this.hour.value(-1)
       this.minute.value(-1)
       this.ampm.dataset.clockletAmpm = 'am'

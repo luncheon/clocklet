@@ -113,8 +113,10 @@
   bottom: calc(50% - 5px);
   border-radius: 50%;
 }
-.clocklet[data-value=""] .clocklet-hand,
-.clocklet[data-value=""] .clocklet-hand-origin {
+.clocklet:not([data-clocklet-value]) .clocklet-hand,
+.clocklet[data-clocklet-value=""] .clocklet-hand,
+.clocklet:not([data-clocklet-value]) .clocklet-hand-origin,
+.clocklet[data-clocklet-value=""] .clocklet-hand-origin {
   display: none;
 }
 .clocklet-dial--hour {
