@@ -7,10 +7,10 @@
   "scripts": {
     "start": "concurrently --kill-others \"npm run watch:js\" \"npm run watch:css\" \"npm run watch:demo\"",
     "build": "npm run build:js && npm run build:css && npm run build:demo",
-    "build:js": "rollup    -c -n clocklet -i src/index.ts -o dist/clocklet.js && uglifyjs -m -c join_vars=true -o dist/clocklet.min.js dist/clocklet.js",
-    "watch:js": "rollup -w -c -n clocklet -i src/index.ts -o dist/clocklet.js",
-    "build:css": "stylus    -o dist/clocklet.css src/style.styl && cleancss -o dist/clocklet.min.css dist/clocklet.css",
-    "watch:css": "stylus -w -o dist/clocklet.css src/style.styl",
+    "build:js": "rollup    -c -n clocklet -i src/script/index.ts -o dist/clocklet.js && uglifyjs -m -c join_vars=true -o dist/clocklet.min.js dist/clocklet.js",
+    "watch:js": "rollup -w -c -n clocklet -i src/script/index.ts -o dist/clocklet.js",
+    "build:css": "stylus    -o dist/clocklet.css src/style/style.styl && cleancss -o dist/clocklet.min.css dist/clocklet.css",
+    "watch:css": "stylus -w -o dist/clocklet.css src/style/style.styl",
     "build:demo": "pug    -o demo demo/index.pug",
     "watch:demo": "pug -w -o demo demo/index.pug"
   },

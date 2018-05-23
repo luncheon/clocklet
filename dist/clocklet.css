@@ -139,6 +139,11 @@
 .clocklet-tick--minute:not([data-clocklet-tick-value$="0"]):not([data-clocklet-tick-value$="5"]) {
   transform: scale(0.6);
 }
+@media screen and (max-width: 480px) {
+  .clocklet {
+    transform: scale(0.8);
+  }
+}
 .clocklet {
   border: 1px solid #ddd;
   background-color: #eee;
