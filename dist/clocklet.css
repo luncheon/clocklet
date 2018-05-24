@@ -151,6 +151,11 @@
     transform: scale(0.8);
   }
 }
+@media screen and (max-width: 400px) {
+  .clocklet {
+    transform: scale(0.75);
+  }
+}
 .clocklet {
   border: 1px solid #ddd;
   background-color: #eee;
