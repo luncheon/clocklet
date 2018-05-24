@@ -1,4 +1,4 @@
-dimensions($top, $right = $top, $bottom = $top, $left = $right)
+coordinate($top, $right = $top, $bottom = $top, $left = $right)
   left    $left
   top     $top
   right   $right
@@ -46,7 +46,7 @@ dimensions($top, $right = $top, $bottom = $top, $left = $right)
   border-radius     50%
 
 .clocklet-dial
-  dimensions        0
+  coordinate        0
   margin            auto
   border-radius     50%
 
@@ -57,7 +57,7 @@ dimensions($top, $right = $top, $bottom = $top, $left = $right)
   z-index             1
 
 .clocklet-hand
-  dimensions        6.4% 0 50% 0
+  coordinate        6.4% 0 50% 0
   margin            auto
   transform-origin  50% 100%
 
@@ -78,7 +78,7 @@ dimensions($top, $right = $top, $bottom = $top, $left = $right)
     content           attr(data-clocklet-tick-value)
 
 .clocklet-ampm
-  dimensions        calc(50% + 12px) calc(50% - 24px) calc(50% - 36px) calc(50% - 24px)
+  coordinate        calc(50% + 12px) calc(50% - 24px) calc(50% - 36px) calc(50% - 24px)
   border-radius     12px
   cursor            pointer
   &::before
@@ -98,7 +98,7 @@ dimensions($top, $right = $top, $bottom = $top, $left = $right)
     left              calc(100% - 24px)
 
 .clocklet-hand-origin
-  dimensions        calc(50% - 5px)
+  coordinate        calc(50% - 5px)
   border-radius     50%
 
 .clocklet:not([data-clocklet-value])
