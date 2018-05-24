@@ -756,6 +756,7 @@
         placement: 'bottom',
         alignment: 'left',
         zIndex: '',
+        dispatchesInputEvents: true,
     };
     function mergeDefaultOptions(options) {
         if (options) {
@@ -797,22 +798,23 @@
             this._open(input, options, false);
         };
         Clocklet.prototype._open = function (input, options, withEvents) {
-            var mergedOptions = mergeDefaultOptions(options);
+            var resolvedOptions = mergeDefaultOptions(options);
             var inputRect = input.getBoundingClientRect();
             var root = this.root;
-            var eventDetail = { options: mergedOptions };
+            var eventDetail = { options: resolvedOptions };
             if (withEvents && dispatchCustomEvent(input, 'clocklet.opening', true, true, eventDetail).defaultPrevented) {
                 return;
             }
             this.input = input;
             this.updateHighlight();
-            root.dataset.clockletPlacement = mergedOptions.placement;
-            root.dataset.clockletAlignment = mergedOptions.alignment;
-            root.dataset.clockletFormat = mergedOptions.format;
-            root.style.left = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left - (mergedOptions.alignment === 'right' ? root.offsetWidth - inputRect.width : 0) + 'px';
-            root.style.top = document.documentElement.scrollTop + document.body.scrollTop + inputRect.bottom - (mergedOptions.placement === 'top' ? root.offsetHeight + inputRect.height + 1 : 0) + 'px';
-            root.style.zIndex = mergedOptions.zIndex !== '' ? mergedOptions.zIndex : (parseInt(getComputedStyle(input).zIndex, 10) || 0) + 1;
-            root.className = 'clocklet clocklet--shown ' + (isTouchDevice ? '' : 'clocklet--hoverable ') + mergedOptions.className;
+            this.dispatchesInputEvents = resolvedOptions.dispatchesInputEvents;
+            root.dataset.clockletPlacement = resolvedOptions.placement;
+            root.dataset.clockletAlignment = resolvedOptions.alignment;
+            root.dataset.clockletFormat = resolvedOptions.format;
+            root.style.left = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left - (resolvedOptions.alignment === 'right' ? root.offsetWidth - inputRect.width : 0) + 'px';
+            root.style.top = document.documentElement.scrollTop + document.body.scrollTop + inputRect.bottom - (resolvedOptions.placement === 'top' ? root.offsetHeight + inputRect.height + 1 : 0) + 'px';
+            root.style.zIndex = resolvedOptions.zIndex !== '' ? resolvedOptions.zIndex : (parseInt(getComputedStyle(input).zIndex, 10) || 0) + 1;
+            root.className = 'clocklet clocklet--shown ' + (isTouchDevice ? '' : 'clocklet--hoverable ') + resolvedOptions.className;
             withEvents && dispatchCustomEvent(input, 'clocklet.opened', true, false, eventDetail);
         };
         Clocklet.prototype.close = function () {
@@ -847,7 +849,7 @@
                             undefined;
                 token && this.input.setSelectionRange(token.index, token.index + token.value.length);
             }
-            dispatchCustomEvent(this.input, 'input', true, false, undefined);
+            this.dispatchesInputEvents && dispatchCustomEvent(this.input, 'input', true, false, undefined);
         };
         Clocklet.prototype.updateHighlight = function () {
             if (!this.input) {

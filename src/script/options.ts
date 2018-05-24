@@ -4,6 +4,7 @@ const defaultOptions = {
   placement:  'bottom'  as 'top' | 'bottom',
   alignment:  'left'    as 'left' | 'right',
   zIndex:     '' as number | string,
+  dispatchesInputEvents: true as boolean,
 }
 
 export type ClockletOptions = Readonly<typeof defaultOptions>

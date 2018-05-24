@@ -8,14 +8,14 @@
     var inputElement = document.querySelector('.clocklet-events');
 
     inputElement.addEventListener('clocklet.opening', function (event) {
-      console.log(event.type, event.target, event.detail.options)
+      console.log(event.type, event.detail.options);
       if (document.querySelector('.clocklet-cancel-opening').checked) {
         event.preventDefault();
       }
     });
 
     inputElement.addEventListener('clocklet.opened', function (event) {
-      console.log(event.type, event.target, event.detail.options)
+      console.log(event.type, event.detail.options);
       requestAnimationFrame(function () {
         var inputRect = event.target.getBoundingClientRect();
         scroll({
@@ -34,14 +34,18 @@
     });
 
     inputElement.addEventListener('clocklet.closing', function (event) {
-      console.log(event.type, event.target)
+      console.log(event.type);
       if (document.querySelector('.clocklet-cancel-closing').checked) {
         event.preventDefault();
       }
     });
 
     inputElement.addEventListener('clocklet.closed', function (event) {
-      console.log(event.type, event.target)
+      console.log(event.type);
+    });
+
+    inputElement.addEventListener('input', function (event) {
+      console.log(event.type, event.target.value);
     });
   })();
 </script>

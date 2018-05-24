@@ -23,6 +23,7 @@ export default class Clocklet {
   )
   ampm    = this.plate.getElementsByClassName('clocklet-ampm')[0] as HTMLElement
   input: HTMLInputElement | undefined
+  dispatchesInputEvents: boolean | undefined
 
   constructor(public root: HTMLElement) {
     addEventListener('input', event => event.target === this.input && this.updateHighlight(), true)
@@ -39,22 +40,23 @@ export default class Clocklet {
   }
 
   private _open(input: HTMLInputElement, options: Partial<ClockletOptions> | undefined, withEvents: boolean) {
-    const mergedOptions             = mergeDefaultOptions(options)
+    const resolvedOptions           = mergeDefaultOptions(options)
     const inputRect                 = input.getBoundingClientRect()
     const root                      = this.root
-    const eventDetail               = { options: mergedOptions }
+    const eventDetail               = { options: resolvedOptions }
     if (withEvents && dispatchCustomEvent(input, 'clocklet.opening', true, true, eventDetail).defaultPrevented) {
       return
     }
     this.input = input
     this.updateHighlight()
-    root.dataset.clockletPlacement  = mergedOptions.placement
-    root.dataset.clockletAlignment  = mergedOptions.alignment
-    root.dataset.clockletFormat     = mergedOptions.format
-    root.style.left                 = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left   - (mergedOptions.alignment === 'right'  ? root.offsetWidth  - inputRect.width : 0) + 'px'
-    root.style.top                  = document.documentElement.scrollTop  + document.body.scrollTop  + inputRect.bottom - (mergedOptions.placement === 'top'    ? root.offsetHeight + inputRect.height + 1 : 0) + 'px'
-    root.style.zIndex               = mergedOptions.zIndex !== '' ? mergedOptions.zIndex as string : (parseInt(getComputedStyle(input).zIndex!, 10) || 0) + 1 as any as string
-    root.className                  = 'clocklet clocklet--shown ' + (isTouchDevice ? '' : 'clocklet--hoverable ') + mergedOptions.className
+    this.dispatchesInputEvents      = resolvedOptions.dispatchesInputEvents
+    root.dataset.clockletPlacement  = resolvedOptions.placement
+    root.dataset.clockletAlignment  = resolvedOptions.alignment
+    root.dataset.clockletFormat     = resolvedOptions.format
+    root.style.left                 = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left   - (resolvedOptions.alignment === 'right'  ? root.offsetWidth  - inputRect.width : 0) + 'px'
+    root.style.top                  = document.documentElement.scrollTop  + document.body.scrollTop  + inputRect.bottom - (resolvedOptions.placement === 'top'    ? root.offsetHeight + inputRect.height + 1 : 0) + 'px'
+    root.style.zIndex               = resolvedOptions.zIndex !== '' ? resolvedOptions.zIndex as string : (parseInt(getComputedStyle(input).zIndex!, 10) || 0) + 1 as any as string
+    root.className                  = 'clocklet clocklet--shown ' + (isTouchDevice ? '' : 'clocklet--hoverable ') + resolvedOptions.className
     withEvents && dispatchCustomEvent(input, 'clocklet.opened', true, false, eventDetail)
   }
 
@@ -92,7 +94,7 @@ export default class Clocklet {
         undefined
       token && this.input.setSelectionRange(token.index, token.index + token.value.length)
     }
-    dispatchCustomEvent(this.input, 'input', true, false, undefined)
+    this.dispatchesInputEvents && dispatchCustomEvent(this.input, 'input', true, false, undefined)
   }
 
   private updateHighlight() {

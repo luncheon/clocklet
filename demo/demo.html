@@ -185,14 +185,14 @@ tbody > tr:nth-child(even) {
     var inputElement = document.querySelector(&#39;.clocklet-events&#39;);
 
     inputElement.addEventListener(&#39;clocklet.opening&#39;, function (event) {
-      console.log(event.type, event.target, event.detail.options)
+      console.log(event.type, event.detail.options);
       if (document.querySelector(&#39;.clocklet-cancel-opening&#39;).checked) {
         event.preventDefault();
       }
     });
 
     inputElement.addEventListener(&#39;clocklet.opened&#39;, function (event) {
-      console.log(event.type, event.target, event.detail.options)
+      console.log(event.type, event.detail.options);
       requestAnimationFrame(function () {
         var inputRect = event.target.getBoundingClientRect();
         scroll({
@@ -211,14 +211,18 @@ tbody > tr:nth-child(even) {
     });
 
     inputElement.addEventListener(&#39;clocklet.closing&#39;, function (event) {
-      console.log(event.type, event.target)
+      console.log(event.type);
       if (document.querySelector(&#39;.clocklet-cancel-closing&#39;).checked) {
         event.preventDefault();
       }
     });
 
     inputElement.addEventListener(&#39;clocklet.closed&#39;, function (event) {
-      console.log(event.type, event.target)
+      console.log(event.type);
+    });
+
+    inputElement.addEventListener(&#39;input&#39;, function (event) {
+      console.log(event.type, event.target.value);
     });
   })();
 &lt;/script&gt;
@@ -232,14 +236,14 @@ tbody > tr:nth-child(even) {
     var inputElement = document.querySelector('.clocklet-events');
 
     inputElement.addEventListener('clocklet.opening', function (event) {
-      console.log(event.type, event.target, event.detail.options)
+      console.log(event.type, event.detail.options);
       if (document.querySelector('.clocklet-cancel-opening').checked) {
         event.preventDefault();
       }
     });
 
     inputElement.addEventListener('clocklet.opened', function (event) {
-      console.log(event.type, event.target, event.detail.options)
+      console.log(event.type, event.detail.options);
       requestAnimationFrame(function () {
         var inputRect = event.target.getBoundingClientRect();
         scroll({
@@ -258,14 +262,18 @@ tbody > tr:nth-child(even) {
     });
 
     inputElement.addEventListener('clocklet.closing', function (event) {
-      console.log(event.type, event.target)
+      console.log(event.type);
       if (document.querySelector('.clocklet-cancel-closing').checked) {
         event.preventDefault();
       }
     });
 
     inputElement.addEventListener('clocklet.closed', function (event) {
-      console.log(event.type, event.target)
+      console.log(event.type);
+    });
+
+    inputElement.addEventListener('input', function (event) {
+      console.log(event.type, event.target.value);
     });
   })();
 </script>
