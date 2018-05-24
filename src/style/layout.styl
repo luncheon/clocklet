@@ -5,7 +5,12 @@ coordinate($top, $right = $top, $bottom = $top, $left = $right)
   bottom  $bottom
 
 .clocklet
-.clocklet *
+.clocklet-plate
+.clocklet-dial
+.clocklet-hand
+.clocklet-hand-origin
+.clocklet-tick
+.clocklet-ampm
   touch-action        manipulation
   -webkit-user-select none
   -moz-user-select    none
@@ -82,7 +87,6 @@ coordinate($top, $right = $top, $bottom = $top, $left = $right)
   border-radius     12px
   cursor            pointer
   &::before
-    content           "AM"
     position          relative
     display           flex
     align-items       center
@@ -91,11 +95,13 @@ coordinate($top, $right = $top, $bottom = $top, $left = $right)
     height            32px
     margin            -4px
     border-radius     50%
-    transition        left .1s ease-out
+    content           "AM"
     left              0
   &[data-clocklet-ampm="pm"]::before
     content           "PM"
     left              calc(100% - 24px)
+  .clocklet--shown &::before
+    transition        left .1s ease-out
 
 .clocklet-hand-origin
   coordinate        calc(50% - 5px)

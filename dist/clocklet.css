@@ -1,5 +1,10 @@
 .clocklet,
-.clocklet * {
+.clocklet-plate,
+.clocklet-dial,
+.clocklet-hand,
+.clocklet-hand-origin,
+.clocklet-tick,
+.clocklet-ampm {
   touch-action: manipulation;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -90,7 +95,6 @@
   cursor: pointer;
 }
 .clocklet-ampm::before {
-  content: "AM";
   position: relative;
   display: flex;
   align-items: center;
@@ -99,12 +103,15 @@
   height: 32px;
   margin: -4px;
   border-radius: 50%;
-  transition: left 0.1s ease-out;
+  content: "AM";
   left: 0;
 }
 .clocklet-ampm[data-clocklet-ampm="pm"]::before {
   content: "PM";
   left: calc(100% - 24px);
+}
+.clocklet--shown .clocklet-ampm::before {
+  transition: left 0.1s ease-out;
 }
 .clocklet-hand-origin {
   left: calc(50% - 5px);
@@ -167,7 +174,7 @@
   background-color: #57c2ff;
   color: #fff;
 }
-.clocklet:not(.clocklet--dragging) .clocklet-tick:hover {
+.clocklet--hoverable:not(.clocklet--dragging) .clocklet-tick:hover {
   background-color: #7ccfff;
 }
 .clocklet-ampm {
