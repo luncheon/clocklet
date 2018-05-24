@@ -1,0 +1,272 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Clocklet - An opinionated clock-style vanilla-js timepicker</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/themes/prism.css"><link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin=""><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Frank+Ruhl+Libre|Playball|Source+Sans+Pro:400,600"><link rel="stylesheet" href="../dist/clocklet.min.css"><style>body {
+  font-family: 'Source Sans Pro';
+  margin: 8px 16px 32px 16px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 3.5em;
+  font-family: "Frank Ruhl Libre", serif;
+  font-weight: normal;
+  letter-spacing: -2px;
+}
+h1 > strong {
+  font-weight: normal;
+  font-family: Playball, cursive;
+  letter-spacing: 0;
+  padding-left: 2px;
+}
+h2 {
+  margin: .25em 0;
+  font-size: 1.5em;
+  font-weight: 600;
+}
+h3 {
+  margin: .25em 0;
+  font-size: 1.25em;
+  font-weight: 600;
+}
+pre,
+code {
+  font-family: Inconsolata, monospace;
+  font-size: 1em;
+}
+
+code[class*="language-"],
+pre[class*="language-"],
+q {
+  font-family: Inconsolata, monospace;
+}
+
+section {
+  padding-left: 20px;
+  margin-bottom: 2em;
+}
+section > h2 {
+  margin-left: -20px;
+}
+
+p {
+  margin: 0;
+}
+
+pre[class*="language-"],
+:not(pre) > code[class*="language-"] {
+  margin: .2em 0;
+  padding: .2em .5em;
+  font-size: .875em;
+}
+code[class*="language-"] {
+  line-height: 1.2;
+}
+q {
+  font-size: .9375em;
+}
+q::before,
+q::after {
+  content: '';
+}
+
+label {
+  display: inline-flex;
+  align-items: center;
+  margin-left: .5em;
+  white-space: nowrap;
+}
+
+svg {
+  vertical-align: middle;
+}
+
+table {
+  border-collapse: collapse;
+}
+th, td {
+  padding: .375em .75em;
+  border: 1px solid #dfe2e5;
+}
+th {
+  border-bottom: 3px #c6cbd0 double;
+}
+tbody > tr:nth-child(even) {
+  background-color: #f6f8fa;
+}
+
+.features {
+  margin: 1.25em 0;
+}
+.feature {
+  margin-left: 20px;
+}
+.feather {
+  width: 1em;
+  height: 1em;
+  margin-left: -20px;
+  margin-right: .5em;
+}
+.features .feather {
+  color: #00cc88;
+}
+.example {
+  margin-bottom: 1em;
+}
+
+@media(max-width: 480px) {
+  body {
+    margin: 8px 8px 32px 8px;
+  }
+  section {
+    padding-left: 12px;
+  }
+  section > h2 {
+    margin-left: -12px;
+  }
+  th, td {
+    padding: .25em .5em;
+  }
+}
+</style></head><body><script async src="https://www.googletagmanager.com/gtag/js?id=UA-64398169-1"></script><script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments)} gtag('js', new Date()); gtag('config', 'UA-64398169-1');</script><script src="../dist/clocklet.min.js"></script><div style="display: flex; align-items: baseline;"><h1>Clock<strong>let</strong></h1><a href="https://github.com/luncheon/clocklet"><img src="https://cdn.jsdelivr.net/npm/octicons@7.0.1/build/svg/mark-github.svg" alt="GitHub" style="height: 3em; margin-left: 1em; vertical-align: bottom;"></a></div><p>An opinionated clock-style vanilla-js timepicker.</p><section class="features"><h2>Features</h2><div class="feature"><i data-feather="check-square"></i>Intuitive - it looks like a clock</div><div class="feature"><i data-feather="check-square"></i>Mouse and touch friendly<div class="feature"><i data-feather="check-square"></i>3 clicks are sufficient to pick a time - am/pm, hour, minute</div><div class="feature"><i data-feather="check-square"></i>Click targets often used are large enough</div><div class="feature"><i data-feather="check-square"></i>No need to scroll</div></div><div class="feature"><i data-feather="check-square"></i>Keyboard and numpad friendly (by <a target="_blank" href="https://luncheon.github.io/lenientime/demo/">Lenientime</a>)<div class="feature"><i data-feather="check-square"></i>Autocomplete - e.g. "1"->"01:00", "12"->"12:00", "1234"->"12:34"</div><div class="feature"><i data-feather="check-square"></i>Up and down arrow key support</div></div></section><section class="options"><h2>Options</h2><table><thead><tr><th>Name</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><q>className</q></td><td><q>string</q></td><td><q>""</q></td><td>Class name to set to the root element of the popup.</td></tr><tr><td><q>placement</q></td><td><q>"top" | "bottom"</q></td><td><q>"bottom"</q></td><td>Popup placement.</td></tr><tr><td><q>alignment</q></td><td><q>"left" | "right"</q></td><td><q>"left"</q></td><td>Popup alignment.</td></tr><tr><td><q>zIndex</q></td><td><q>number | string</q></td><td><q>""</q></td><td>Popup z-order. If this value is an empty string, (1 + z-index of the input element) is used.</td></tr><tr><td><q>format</q></td><td><q>string</q></td><td><q>"HH:mm"</q></td><td>Time format (template) of the input element.</td></tr></tbody></table></section><section class="events"><h2>Events</h2><table><thead><tr><th>Type</th><th>Cancelable</th><th>event.details</th><th>Description</th></tr></thead><tbody><tr><td><q>clocklet.opening</q></td><td><q>true</q></td><td><q>{ options: {...} }</q></td><td>Raises before showing the clocklet popup.</td></tr><tr><td><q>clocklet.opened</q></td><td><q>false</q></td><td><q>{ options: {...} }</q></td><td>Raises after showing the clocklet popup.</td></tr><tr><td><q>clocklet.closing</q></td><td><q>true</q></td><td><q>{}</q></td><td>Raises before hiding the clocklet popup.</td></tr><tr><td><q>clocklet.closed</q></td><td><q>false</q></td><td><q>{}</q></td><td>Raises after hiding the clocklet popup.</td></tr><tr><td><q>input</q></td><td><q>false</q></td><td><q>"clocklet"</q></td><td>Raises after changing the input value.</td></tr></tbody></table></section><section class="examples"><h2>Examples</h2><div class="example"><h3>Default</h3><pre><code class="language-html">&lt;input data-clocklet maxlength=&quot;5&quot; value=&quot;12:34&quot;&gt;
+</code></pre><div class="demo"><input data-clocklet maxlength="5" value="12:34">
+</div></div><div class="example"><h3>Options</h3><pre><code class="language-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Lato|Frank+Ruhl+Libre:500&quot;&gt;
+
+&lt;style&gt;
+  .clocklet-options-1 {
+    font-family: Lato, sans-serif;
+    border-radius: 50%;
+  }
+  .clocklet-options-2 {
+    font-family: &quot;Frank Ruhl Libre&quot;, serif;
+    font-weight: 500;
+  }
+&lt;/style&gt;
+
+&lt;input
+  data-clocklet=&quot;class-name: clocklet-options-1; format: h:mm AA; placement: top;&quot;
+  maxlength=&quot;8&quot;
+  placeholder=&quot;h:mm AA&quot;
+&gt;
+
+&lt;input
+  data-clocklet=&quot;class-name: clocklet-options-2; format: hh:mm a; alignment: right;&quot;
+  placeholder=&quot;hh:mm a&quot;
+  maxlength=&quot;8&quot;
+&gt;
+</code></pre><div class="demo"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Frank+Ruhl+Libre:500">
+
+<style>
+  .clocklet-options-1 {
+    font-family: Lato, sans-serif;
+    border-radius: 50%;
+  }
+  .clocklet-options-2 {
+    font-family: "Frank Ruhl Libre", serif;
+    font-weight: 500;
+  }
+</style>
+
+<input
+  data-clocklet="class-name: clocklet-options-1; format: h:mm AA; placement: top;"
+  maxlength="8"
+  placeholder="h:mm AA"
+>
+
+<input
+  data-clocklet="class-name: clocklet-options-2; format: hh:mm a; alignment: right;"
+  placeholder="hh:mm a"
+  maxlength="8"
+>
+</div></div><div class="example"><h3>Events</h3><pre><code class="language-html">&lt;input class=&quot;clocklet-events&quot; data-clocklet=&quot;placement: top;&quot; maxlength=&quot;5&quot; value=&quot;12:34&quot;&gt;
+
+&lt;label&gt;&lt;input class=&quot;clocklet-cancel-opening&quot; type=&quot;checkbox&quot;&gt;Cancel opening&lt;/label&gt;
+&lt;label&gt;&lt;input class=&quot;clocklet-cancel-closing&quot; type=&quot;checkbox&quot;&gt;Cancel closing&lt;/label&gt;
+
+&lt;script&gt;
+  (function () {
+    var inputElement = document.querySelector(&#39;.clocklet-events&#39;);
+
+    inputElement.addEventListener(&#39;clocklet.opening&#39;, function (event) {
+      console.log(event.type, event.target, event.detail.options)
+      if (document.querySelector(&#39;.clocklet-cancel-opening&#39;).checked) {
+        event.preventDefault();
+      }
+    });
+
+    inputElement.addEventListener(&#39;clocklet.opened&#39;, function (event) {
+      console.log(event.type, event.target, event.detail.options)
+      requestAnimationFrame(function () {
+        var inputRect = event.target.getBoundingClientRect();
+        scroll({
+          top:  document.documentElement.scrollTop
+              + document.body.scrollTop
+              + inputRect.top
+              - (event.detail.options.placement === &#39;top&#39; ? clocklet.root.clientHeight : 0)
+              - 10,
+          left: document.documentElement.scrollLeft
+              + document.body.scrollLeft
+              + (event.detail.options.alignment === &#39;left&#39; ? inputRect.left : inputRect.right - clocklet.root.clientWidth)
+              - 10,
+          behavior: &#39;smooth&#39;,
+        });
+      });
+    });
+
+    inputElement.addEventListener(&#39;clocklet.closing&#39;, function (event) {
+      console.log(event.type, event.target)
+      if (document.querySelector(&#39;.clocklet-cancel-closing&#39;).checked) {
+        event.preventDefault();
+      }
+    });
+
+    inputElement.addEventListener(&#39;clocklet.closed&#39;, function (event) {
+      console.log(event.type, event.target)
+    });
+  })();
+&lt;/script&gt;
+</code></pre><div class="demo" style="display: flex; align-items: center;"><input class="clocklet-events" data-clocklet="placement: top;" maxlength="5" value="12:34">
+
+<label><input class="clocklet-cancel-opening" type="checkbox">Cancel opening</label>
+<label><input class="clocklet-cancel-closing" type="checkbox">Cancel closing</label>
+
+<script>
+  (function () {
+    var inputElement = document.querySelector('.clocklet-events');
+
+    inputElement.addEventListener('clocklet.opening', function (event) {
+      console.log(event.type, event.target, event.detail.options)
+      if (document.querySelector('.clocklet-cancel-opening').checked) {
+        event.preventDefault();
+      }
+    });
+
+    inputElement.addEventListener('clocklet.opened', function (event) {
+      console.log(event.type, event.target, event.detail.options)
+      requestAnimationFrame(function () {
+        var inputRect = event.target.getBoundingClientRect();
+        scroll({
+          top:  document.documentElement.scrollTop
+              + document.body.scrollTop
+              + inputRect.top
+              - (event.detail.options.placement === 'top' ? clocklet.root.clientHeight : 0)
+              - 10,
+          left: document.documentElement.scrollLeft
+              + document.body.scrollLeft
+              + (event.detail.options.alignment === 'left' ? inputRect.left : inputRect.right - clocklet.root.clientWidth)
+              - 10,
+          behavior: 'smooth',
+        });
+      });
+    });
+
+    inputElement.addEventListener('clocklet.closing', function (event) {
+      console.log(event.type, event.target)
+      if (document.querySelector('.clocklet-cancel-closing').checked) {
+        event.preventDefault();
+      }
+    });
+
+    inputElement.addEventListener('clocklet.closed', function (event) {
+      console.log(event.type, event.target)
+    });
+  })();
+</script>
+</div></div></section><script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script><script>feather.replace()</script><script src="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/prism.min.js"></script><script src="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/components/prism-markup.min.js"></script></body></html>

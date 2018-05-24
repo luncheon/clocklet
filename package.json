@@ -11,8 +11,8 @@
     "watch:js": "rollup -w -c -n clocklet -i src/script/index.ts -o dist/clocklet.js",
     "build:css": "stylus    -o dist/clocklet.css src/style/style.styl && cleancss -o dist/clocklet.min.css dist/clocklet.css",
     "watch:css": "stylus -w -o dist/clocklet.css src/style/style.styl",
-    "build:demo": "pug    -o demo demo/index.pug",
-    "watch:demo": "pug -w -o demo demo/index.pug"
+    "build:demo": "pug    -o demo src/demo/demo.pug",
+    "watch:demo": "pug -w -o demo src/demo/demo.pug"
   },
   "keywords": [],
   "author": "",

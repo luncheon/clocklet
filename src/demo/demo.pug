@@ -7,35 +7,9 @@ html
     title Clocklet - An opinionated clock-style vanilla-js timepicker
     link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/themes/prism.css")
     link(rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="")
-    link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Frank+Ruhl+Libre|Playball|Source+Sans+Pro:400,700")
-    style.
-      * { -webkit-overflow-scrolling: touch; }
-      body { font-family: 'Source Sans Pro'; margin: 8px 16px 32px 16px; }
-      h1 { margin: 0; font-size: 350%; font-family: "Frank Ruhl Libre", serif; font-weight: normal; letter-spacing: -2px; }
-      h1 > strong { font-weight: normal; font-family: Playball, cursive; letter-spacing: 0; padding-left: 2px; }
-      h2 { margin: .25em 0; font-family: "Frank Ruhl Libre"; font-weight: normal; }
-      h3 { margin: .5em 0; font-weight: normal; }
-      section { margin-bottom: 2em; }
-      p { margin: 0; }
-      pre[class*="language-"], :not(pre) > code[class*="language-"] { font-family: Inconsolata; margin: 0; padding: .2em .5em; }
-      code[class*="language-"] { line-height: 1.2; font-family: Inconsolata; font-size: 87.5%; }
-      q { font-family: Inconsolata; font-size: 93.75%; }
-      q::before, q::after { content: ''; }
-      label { display: inline-flex; align-items: center; margin-left: .5em; }
-      svg { vertical-align: middle; }
-      iframe { border: 0; display: inline-block; vertical-align: top; }
-      table { margin: 0 20px; border-collapse: collapse; }
-      th, td { padding: .375em .75em; border: 1px solid #dfe2e5; }
-      tbody > tr:nth-child(even) { background-color: #f6f8fa; }
-      th { border-bottom: 3px #c6cbd0 double; }
-      .features { margin: 20px 0; }
-      .features div { margin-left: 1.5em; }
-      .feather { width: 1em; height: 1em; margin-right: .5em; }
-      .features .feather { color: #00cc88; }
-      .example { margin: 0 0 1em 1.25em; }
-      .example > pre { width: 720px; }
-      .example > iframe, .example > pre { display: inline-block; }
+    link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Frank+Ruhl+Libre|Playball|Source+Sans+Pro:400,600")
     link(rel="stylesheet" href="../dist/clocklet.min.css")
+    style: include demo.css
   body
     script(async src="https://www.googletagmanager.com/gtag/js?id=UA-64398169-1")
     script window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments)} gtag('js', new Date()); gtag('config', 'UA-64398169-1');
@@ -50,20 +24,14 @@ html
     section.features
       h2 Features
       mixin feature
-        div
+        .feature
           i(data-feather="check-square")
           block
       +feature Intuitive - it looks like a clock
-      +feature
-        | Mouse and touch friendly
+      +feature Mouse and touch friendly
         +feature 3 clicks are sufficient to pick a time - am/pm, hour, minute
         +feature Click targets often used are large enough
         +feature No need to scroll
-        +feature
-          | Unlike Material Design, both hour and minute are available at the same time;
-          br
-          i.feather(style="display: inline-block;")
-          | the transition between hour-entering and minute-entering is confusing and bothering
       +feature Keyboard and numpad friendly (by <a target="_blank" href="https://luncheon.github.io/lenientime/demo/">Lenientime</a>)
         +feature Autocomplete - e.g. "1"->"01:00", "12"->"12:00", "1234"->"12:34"
         +feature Up and down arrow key support
@@ -97,12 +65,12 @@ html
             td: q zIndex
             td: q number | string
             td: q ""
-            td Popup z-order. If this value is an empty string, [(the input element z-index) + 1] is used.
+            td Popup z-order. If this value is an empty string, (1 + z-index of the input element) is used.
           tr
             td: q format
             td: q string
             td: q "HH:mm"
-            td Time format (template) of the input element
+            td Time format (template) of the input element.
 
     section.events
       h2 Events
@@ -110,7 +78,6 @@ html
         thead
           tr
             th Type
-            th Bubbles
             th Cancelable
             th event.details
             th Description
@@ -118,30 +85,25 @@ html
           tr
             td: q clocklet.opening
             td: q true
-            td: q true
-            td: q { options: { ...resolvedOptions } }
+            td: q { options: {...} }
             td Raises before showing the clocklet popup.
           tr
             td: q clocklet.opened
-            td: q true
             td: q false
-            td: q { options: { ...resolvedOptions } }
+            td: q { options: {...} }
             td Raises after showing the clocklet popup.
           tr
             td: q clocklet.closing
-            td: q true
             td: q true
             td: q {}
             td Raises before hiding the clocklet popup.
           tr
             td: q clocklet.closed
-            td: q true
             td: q false
             td: q {}
             td Raises after hiding the clocklet popup.
           tr
             td: q input
-            td: q true
             td: q false
             td: q "clocklet"
             td Raises after changing the input value.
