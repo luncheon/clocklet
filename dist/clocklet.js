@@ -676,6 +676,29 @@
         }, true);
     }
 
+    /*! *****************************************************************************
+    Copyright (c) Microsoft Corporation. All rights reserved.
+    Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+    this file except in compliance with the License. You may obtain a copy of the
+    License at http://www.apache.org/licenses/LICENSE-2.0
+
+    THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+    WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+    MERCHANTABLITY OR NON-INFRINGEMENT.
+
+    See the Apache Version 2.0 License for specific language governing permissions
+    and limitations under the License.
+    ***************************************************************************** */
+
+    var __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+
     var isTouchDevice = matchMedia('(hover: none)').matches;
 
     var ClockletDial = /** @class */ (function () {
@@ -750,7 +773,7 @@
         return ClockletDial;
     }());
 
-    var defaultOptions = {
+    var defaultDefaultOptions = {
         className: '',
         format: 'HH:mm',
         placement: 'bottom',
@@ -758,14 +781,6 @@
         zIndex: '',
         dispatchesInputEvents: true,
     };
-    function mergeDefaultOptions(options) {
-        if (options) {
-            return Object.keys(defaultOptions).reduce(function (merged, prop) { return (merged[prop] = options[prop] || defaultOptions[prop], merged); }, {});
-        }
-        else {
-            return defaultOptions;
-        }
-    }
     function parseOptions(optionsString) {
         if (!optionsString) {
             return;
@@ -780,13 +795,14 @@
     }
 
     var Clocklet = /** @class */ (function () {
-        function Clocklet(root) {
+        function Clocklet(root, options) {
             var _this = this;
             this.root = root;
             this.plate = this.root.firstElementChild;
             this.hour = new ClockletDial(this.plate.getElementsByClassName('clocklet-dial--hour')[0], 12, function (value) { return _this.value({ h: value }); }, function () { return _this.root.classList.add('clocklet--dragging'); }, function () { return _this.root.classList.remove('clocklet--dragging'); });
             this.minute = new ClockletDial(this.plate.getElementsByClassName('clocklet-dial--minute')[0], 60, function (value) { return _this.value({ m: value }); }, function () { return _this.root.classList.add('clocklet--dragging'); }, function () { return _this.root.classList.remove('clocklet--dragging'); });
             this.ampm = this.plate.getElementsByClassName('clocklet-ampm')[0];
+            this.defaultOptions = __assign(Object.create(defaultDefaultOptions), options);
             addEventListener('input', function (event) { return event.target === _this.input && _this.updateHighlight(); }, true);
             root.addEventListener('mousedown', function (event) { return event.preventDefault(); });
             this.ampm.addEventListener('mousedown', function () { return _this.value({ a: _this.ampm.dataset.clockletAmpm === 'pm' ? 'am' : 'pm' }); });
@@ -798,7 +814,7 @@
             this._open(input, options, false);
         };
         Clocklet.prototype._open = function (input, options, withEvents) {
-            var resolvedOptions = mergeDefaultOptions(options);
+            var resolvedOptions = __assign(Object.create(this.defaultOptions), options);
             var inputRect = input.getBoundingClientRect();
             var root = this.root;
             var eventDetail = { options: resolvedOptions };
@@ -849,7 +865,7 @@
                             undefined;
                 token && this.input.setSelectionRange(token.index, token.index + token.value.length);
             }
-            this.dispatchesInputEvents && dispatchCustomEvent(this.input, 'input', true, false, undefined);
+            this.dispatchesInputEvents && this.input.value !== oldValue && dispatchCustomEvent(this.input, 'input', true, false, undefined);
         };
         Clocklet.prototype.updateHighlight = function () {
             if (!this.input) {

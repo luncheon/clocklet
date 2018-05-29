@@ -8,12 +8,12 @@ html
     link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/themes/prism.css")
     link(rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="")
     link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Frank+Ruhl+Libre|Playball|Source+Sans+Pro:400,600")
-    link(rel="stylesheet" href="../dist/clocklet.min.css")
+    link(rel="stylesheet" href="../dist/clocklet.css")
     style: include demo.css
   body
     script(async src="https://www.googletagmanager.com/gtag/js?id=UA-64398169-1")
     script window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments)} gtag('js', new Date()); gtag('config', 'UA-64398169-1');
-    script(src="../dist/clocklet.min.js")
+    script(src="../dist/clocklet.js")
 
     div(style="display: flex; align-items: baseline;")
       h1 Clock#[strong let]
@@ -52,6 +52,11 @@ html
             td: q ""
             td Class name to set to the root element of the popup.
           tr
+            td: q format
+            td: q string
+            td: q "HH:mm"
+            td Time format (template) of the input element.
+          tr
             td: q placement
             td: q "top" | "bottom"
             td: q "bottom"
@@ -66,11 +71,6 @@ html
             td: q number | string
             td: q ""
             td Popup z-order. If this value is an empty string, (1 + z-index of the input element) is used.
-          tr
-            td: q format
-            td: q string
-            td: q "HH:mm"
-            td Time format (template) of the input element.
 
     section.events
       h2 Events
@@ -122,6 +122,10 @@ html
         h3 Events
         pre: code.language-html: include:escape-html 3.html
         .demo(style="display: flex; align-items: center;"): include 3.html
+      .example
+        h4 Scroll into clocklet
+        pre: code.language-html: include:escape-html 4.html
+        .demo: include 4.html
 
     script(src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js")
     script feather.replace()

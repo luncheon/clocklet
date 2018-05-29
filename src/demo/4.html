@@ -1,0 +1,23 @@
+<input class="clocklet-scroll-into-view" data-clocklet maxlength="5" value="01:23">
+
+<script>
+  document
+    .querySelector('.clocklet-scroll-into-view')
+    .addEventListener('clocklet.opened', function (event) {
+      requestAnimationFrame(function () {
+        var inputRect = event.target.getBoundingClientRect();
+        var clockletRect = clocklet.root.getBoundingClientRect();
+        scroll({
+          top:  document.documentElement.scrollTop
+              + document.body.scrollTop
+              + (event.detail.options.placement === 'top' ? clockletRect.top : inputRect.top)
+              - 10,
+          left: document.documentElement.scrollLeft
+              + document.body.scrollLeft
+              + clockletRect.left
+              - 10,
+          behavior: 'smooth',
+        });
+      });
+    });
+</script>

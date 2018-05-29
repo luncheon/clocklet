@@ -1,20 +1,19 @@
-const defaultOptions = {
-  className:  '',
-  format:     'HH:mm',
-  placement:  'bottom'  as 'top' | 'bottom',
-  alignment:  'left'    as 'left' | 'right',
-  zIndex:     '' as number | string,
-  dispatchesInputEvents: true as boolean,
+export interface ClockletOptions {
+  className:  string
+  format:     string
+  placement:  'top' | 'bottom'
+  alignment:  'left' | 'right'
+  zIndex:     number | string
+  dispatchesInputEvents:  boolean
 }
 
-export type ClockletOptions = Readonly<typeof defaultOptions>
-
-export function mergeDefaultOptions(options?: Partial<ClockletOptions>): ClockletOptions {
-  if (options) {
-    return (Object.keys(defaultOptions) as (keyof ClockletOptions)[]).reduce((merged, prop) => (merged[prop] = options[prop] || defaultOptions[prop], merged), {} as typeof defaultOptions)
-  } else {
-    return defaultOptions
-  }
+export const defaultDefaultOptions = {
+  className:  '',
+  format:     'HH:mm',
+  placement:  'bottom',
+  alignment:  'left',
+  zIndex:     '',
+  dispatchesInputEvents: true,
 }
 
 export function parseOptions(optionsString?: string): Partial<ClockletOptions> | undefined {

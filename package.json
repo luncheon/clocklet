@@ -29,5 +29,8 @@
     "stylus": "^0.54.5",
     "typescript": "^2.8.3",
     "uglify-js": "^3.3.25"
+  },
+  "dependencies": {
+    "tslib": ">=1.0.0 <2.0.0"
   }
 }

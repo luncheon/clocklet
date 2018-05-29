@@ -1,11 +1,13 @@
+import { __assign } from 'tslib'
 import lenientime from 'lenientime/es/core'
 import Lenientime from 'lenientime/es/core/lenientime'
 import { tokenizeTemplate } from 'lenientime/es/core/token'
 import isTouchDevice from './is-touch-device'
 import ClockletDial from './dial'
-import { ClockletOptions, mergeDefaultOptions }  from './options'
+import { ClockletOptions, defaultDefaultOptions }  from './options'
 
 export default class Clocklet {
+  defaultOptions: ClockletOptions
   plate   = this.root.firstElementChild as HTMLElement
   hour    = new ClockletDial(
     this.plate.getElementsByClassName('clocklet-dial--hour')[0] as HTMLElement,
@@ -25,22 +27,23 @@ export default class Clocklet {
   input: HTMLInputElement | undefined
   dispatchesInputEvents: boolean | undefined
 
-  constructor(public root: HTMLElement) {
+  constructor(public root: HTMLElement, options?: Partial<Readonly<ClockletOptions>>) {
+    this.defaultOptions = __assign(Object.create(defaultDefaultOptions), options)
     addEventListener('input', event => event.target === this.input && this.updateHighlight(), true)
     root.addEventListener('mousedown', event => event.preventDefault())
     this.ampm.addEventListener('mousedown', () => this.value({ a: this.ampm.dataset.clockletAmpm === 'pm' ? 'am' : 'pm' }))
   }
 
-  public open(input: HTMLInputElement, options?: Partial<ClockletOptions>) {
+  public open(input: HTMLInputElement, options?: Partial<Readonly<ClockletOptions>>) {
     this._open(input, options, true)
   }
 
-  public openWithoutEvents(input: HTMLInputElement, options?: Partial<ClockletOptions>) {
+  public openWithoutEvents(input: HTMLInputElement, options?: Partial<Readonly<ClockletOptions>>) {
     this._open(input, options, false)
   }
 
   private _open(input: HTMLInputElement, options: Partial<ClockletOptions> | undefined, withEvents: boolean) {
-    const resolvedOptions           = mergeDefaultOptions(options)
+    const resolvedOptions           = __assign(Object.create(this.defaultOptions), options)
     const inputRect                 = input.getBoundingClientRect()
     const root                      = this.root
     const eventDetail               = { options: resolvedOptions }
@@ -94,7 +97,7 @@ export default class Clocklet {
         undefined
       token && this.input.setSelectionRange(token.index, token.index + token.value.length)
     }
-    this.dispatchesInputEvents && dispatchCustomEvent(this.input, 'input', true, false, undefined)
+    this.dispatchesInputEvents && this.input.value !== oldValue && dispatchCustomEvent(this.input, 'input', true, false, undefined)
   }
 
   private updateHighlight() {

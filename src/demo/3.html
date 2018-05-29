@@ -1,4 +1,4 @@
-<input class="clocklet-events" data-clocklet="placement: top;" maxlength="5" value="12:34">
+<input class="clocklet-events" data-clocklet="format: _H:_m;" maxlength="5" value=" 1:23">
 
 <label><input class="clocklet-cancel-opening" type="checkbox">Cancel opening</label>
 <label><input class="clocklet-cancel-closing" type="checkbox">Cancel closing</label>
@@ -8,44 +8,29 @@
     var inputElement = document.querySelector('.clocklet-events');
 
     inputElement.addEventListener('clocklet.opening', function (event) {
-      console.log(event.type, event.detail.options);
+      console.log(event.type, event.target.value, event.detail.options);
       if (document.querySelector('.clocklet-cancel-opening').checked) {
         event.preventDefault();
       }
     });
 
     inputElement.addEventListener('clocklet.opened', function (event) {
-      console.log(event.type, event.detail.options);
-      requestAnimationFrame(function () {
-        var inputRect = event.target.getBoundingClientRect();
-        var clockletRect = clocklet.root.getBoundingClientRect();
-        scroll({
-          top:  document.documentElement.scrollTop
-              + document.body.scrollTop
-              + (event.detail.options.placement === 'top' ? clockletRect.top : inputRect.top)
-              - 10,
-          left: document.documentElement.scrollLeft
-              + document.body.scrollLeft
-              + clockletRect.left
-              - 10,
-          behavior: 'smooth',
-        });
-      });
+      console.log(event.type, event.target.value, event.detail.options);
     });
 
     inputElement.addEventListener('clocklet.closing', function (event) {
-      console.log(event.type);
+      console.log(event.type, event.target.value);
       if (document.querySelector('.clocklet-cancel-closing').checked) {
         event.preventDefault();
       }
     });
 
     inputElement.addEventListener('clocklet.closed', function (event) {
-      console.log(event.type);
+      console.log(event.type, event.target.value);
     });
 
     inputElement.addEventListener('input', function (event) {
-      console.log(event.type, event.target.value);
+      console.log(event.type, event.target.value, event.target.value);
     });
   })();
 </script>
