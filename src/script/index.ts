@@ -2,8 +2,7 @@ import adjustOnArrowKeys  from 'lenientime/es/input-helpers/adjust-on-arrow-keys
 import complete           from 'lenientime/es/input-helpers/complete'
 
 import Clocklet           from './clocklet'
-import { parseOptions }   from './options'
-import template           from './template.pug'
+import { parseOptions, ClockletOptions }  from './options'
 
 {
   const lenientimeOptions = {
@@ -17,17 +16,30 @@ import template           from './template.pug'
   adjustOnArrowKeys(lenientimeOptions)
 }
 
-document.body.innerHTML += template
+function clocklet(options: Partial<ClockletOptions> & {
+  appendTo?:        HTMLElement
+  target?:          HTMLInputElement | string | ((element: Element) => boolean)
+  optionsSelector?: (target: HTMLInputElement) => Partial<Readonly<ClockletOptions>> | undefined
+} = {}) {
+  const instance = new Clocklet(options)
+  ;(options.appendTo || document.body).appendChild(instance.root)
 
-const clocklet = new Clocklet(document.body.getElementsByClassName('clocklet')[0] as HTMLElement)
+  const target = options.target || 'input[data-clocklet]:enabled:not([readonly])'
+  const optionsSelector = options.optionsSelector || (target => parseOptions(target.dataset.clocklet))
+  const close = instance.close.bind(instance)
 
-addEventListener('focus', event => {
-  const target = event.target as HTMLInputElement
-  if (target.tagName === 'INPUT' && !target.readOnly && !target.disabled && 'clocklet' in target.dataset) {
-    clocklet.open(target, parseOptions(target.dataset.clocklet))
+  if (target instanceof Element) {
+    target.addEventListener('focus', event => instance.open(event.target as HTMLInputElement, optionsSelector(event.target as HTMLInputElement)))
+    target.addEventListener('blur', close)
+  } else {
+    const isTarget = typeof target === 'function' ? target : (element: Element) => (Element.prototype.matches || Element.prototype.msMatchesSelector).call(element, target) as boolean
+    document.body.addEventListener('focus', event => {
+      const element = event.target as HTMLInputElement
+      isTarget(element) && instance.open(element, optionsSelector(element))
+    }, true)
+    document.body.addEventListener('blur', close, true)
   }
-}, true)
+  return instance
+}
 
-addEventListener('blur', event => clocklet.close(), true)
-
-export default clocklet
+export default clocklet()

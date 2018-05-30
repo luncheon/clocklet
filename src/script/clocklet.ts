@@ -5,9 +5,11 @@ import { tokenizeTemplate } from 'lenientime/es/core/token'
 import isTouchDevice from './is-touch-device'
 import ClockletDial from './dial'
 import { ClockletOptions, defaultDefaultOptions }  from './options'
+import template from './template.pug'
 
 export default class Clocklet {
   defaultOptions: ClockletOptions
+  root    = Clocklet._createElement()
   plate   = this.root.firstElementChild as HTMLElement
   hour    = new ClockletDial(
     this.plate.getElementsByClassName('clocklet-dial--hour')[0] as HTMLElement,
@@ -27,11 +29,18 @@ export default class Clocklet {
   input: HTMLInputElement | undefined
   dispatchesInputEvents: boolean | undefined
 
-  constructor(public root: HTMLElement, options?: Partial<Readonly<ClockletOptions>>) {
+  constructor(options?: Partial<Readonly<ClockletOptions>>) {
     this.defaultOptions = __assign(Object.create(defaultDefaultOptions), options)
     addEventListener('input', event => event.target === this.input && this.updateHighlight(), true)
-    root.addEventListener('mousedown', event => event.preventDefault())
+    this.root.addEventListener('mousedown', event => event.preventDefault())
     this.ampm.addEventListener('mousedown', () => this.value({ a: this.ampm.dataset.clockletAmpm === 'pm' ? 'am' : 'pm' }))
+  }
+
+  private static _createElement() {
+    const element = document.createElement('div')
+    element.className = 'clocklet'
+    element.innerHTML = template
+    return element
   }
 
   public open(input: HTMLInputElement, options?: Partial<Readonly<ClockletOptions>>) {
