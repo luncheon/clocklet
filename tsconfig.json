@@ -1,14 +1,19 @@
 {
   "compilerOptions": {
-    "outDir": "./lib",
     "target": "es5",
+    "module": "es2015",
     "moduleResolution": "node",
+    "declaration": true,
+    "importHelpers": true,
     "removeComments": false,
     "preserveConstEnums": true,
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "baseUrl": "."
+    "noUnusedLocals": true,
+    "newLine": "LF",
+    "baseUrl": ".",
+    "types": []
   },
   "include": [
     "src/**/*"

@@ -1,0 +1,36 @@
+.clocklet {
+  border: 1px solid #ddd;
+  background-color: #eee;
+}
+[data-clocklet-placement="top"] {
+  box-shadow: 4px -4px 4px rgba(128,128,128,0.5);
+}
+[data-clocklet-placement="bottom"] {
+  box-shadow: 4px 4px 4px rgba(128,128,128,0.5);
+}
+.clocklet-plate {
+  background-color: #fff;
+}
+.clocklet-hand {
+  background-color: #a1ddff;
+}
+.clocklet-hand-origin {
+  background-color: #4bf;
+}
+.clocklet-tick--selected {
+  background-color: #57c2ff;
+  color: #fff;
+}
+.clocklet--hoverable:not(.clocklet--dragging) .clocklet-tick:hover {
+  background-color: #7ccfff;
+}
+.clocklet-ampm {
+  background-color: rgba(204,204,204,0.6);
+}
+.clocklet-ampm::before {
+  background-color: #57c2ff;
+  color: #fff;
+}
+.clocklet-ampm:hover::before {
+  background-color: #7ccfff;
+}

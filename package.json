@@ -3,26 +3,32 @@
   "version": "0.0.0",
   "description": "An opinionated clock-style vanilla-js timepicker",
   "repository": "luncheon/clocklet",
-  "main": "dist/clocklet.min.js",
+  "main": "umd/clocklet.min.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
   "scripts": {
-    "start": "concurrently --kill-others \"npm run watch:js\" \"npm run watch:css\" \"npm run watch:demo\"",
-    "build": "npm run build:js && npm run build:css && npm run build:demo",
-    "build:js": "rollup    -c -n clocklet -i src/script/index.ts -o dist/clocklet.js && uglifyjs -m -c join_vars=true -o dist/clocklet.min.js dist/clocklet.js",
-    "watch:js": "rollup -w -c -n clocklet -i src/script/index.ts -o dist/clocklet.js",
-    "build:css": "stylus    -o dist/clocklet.css src/style/style.styl && cleancss -o dist/clocklet.min.css dist/clocklet.css",
-    "watch:css": "stylus -w -o dist/clocklet.css src/style/style.styl",
-    "build:demo": "pug    -o demo src/demo/demo.pug",
-    "watch:demo": "pug -w -o demo src/demo/demo.pug"
+    "clean": "rimraf es/ umd/ css/ demo/",
+    "start": "concurrently --kill-others \"npm run watch:umd\" \"npm run watch:css\" \"npm run watch:demo\"",
+    "build": "npm run build:es && npm run build:umd && npm run build:css && npm run build:demo",
+    "build:es": "rimraf es/ && tsc -p . --outDir es/",
+    "build:umd": "rimraf umd/ && rollup    -c -n clocklet -i src/script/index.ts -o umd/clocklet.js && uglifyjs -m -c join_vars=true -o umd/clocklet.min.js umd/clocklet.js",
+    "watch:umd": "rimraf umd/ && rollup -w -c -n clocklet -i src/script/index.ts -o umd/clocklet.js",
+    "build:css": "rimraf css/ && mkdirp css/ && stylus    -o css/ src/style/ && postcss css/ -d css/ --ext min.css -u cssnano --no-map",
+    "watch:css": "rimraf css/ && mkdirp css/ && stylus -w -o css/ src/style/",
+    "build:demo": "rimraf demo/ && pug    -o demo/ src/demo/demo.pug",
+    "watch:demo": "rimraf demo/ && pug -w -o demo/ src/demo/demo.pug"
   },
   "keywords": [],
   "author": "",
   "license": "WTFPL",
   "devDependencies": {
-    "clean-css-cli": "^4.1.11",
     "concurrently": "^3.5.1",
+    "cssnano": "^3.10.0",
     "jstransformer-escape-html": "^1.1.0",
-    "lenientime": "github:luncheon/lenientime",
+    "mkdirp": "^0.5.1",
+    "postcss-cli": "^5.0.0",
     "pug-cli": "^1.0.0-alpha6",
+    "rimraf": "^2.6.2",
     "rollup": "^0.58.2",
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-pug": "^0.1.6",
@@ -31,6 +37,7 @@
     "uglify-js": "^3.3.25"
   },
   "dependencies": {
+    "lenientime": "github:luncheon/lenientime",
     "tslib": ">=1.0.0 <2.0.0"
   }
 }

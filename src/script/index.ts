@@ -1,8 +1,8 @@
-import adjustOnArrowKeys  from 'lenientime/es/input-helpers/adjust-on-arrow-keys'
-import complete           from 'lenientime/es/input-helpers/complete'
+import adjustOnArrowKeys from 'lenientime/es/input-helpers/adjust-on-arrow-keys'
+import complete from 'lenientime/es/input-helpers/complete'
 
-import Clocklet           from './clocklet'
-import { parseOptions, ClockletOptions }  from './options'
+import Clocklet from './clocklet'
+import { parseOptions, ClockletOptions } from './options'
 
 {
   const lenientimeOptions = {
