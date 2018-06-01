@@ -3,15 +3,17 @@ export interface ClockletOptions {
   format:     string
   placement:  'top' | 'bottom'
   alignment:  'left' | 'right'
+  appendTo:   'body' | 'parent'
   zIndex:     number | string
   dispatchesInputEvents:  boolean
 }
 
-export const defaultDefaultOptions = {
+export const defaultDefaultOptions: ClockletOptions = {
   className:  '',
   format:     'HH:mm',
   placement:  'bottom',
   alignment:  'left',
+  appendTo:   'body',
   zIndex:     '',
   dispatchesInputEvents: true,
 }

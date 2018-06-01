@@ -4,6 +4,7 @@ coordinate($top, $right = $top, $bottom = $top, $left = $right)
   right   $right
   bottom  $bottom
 
+.clocklet-container
 .clocklet
 .clocklet-plate
 .clocklet-dial
@@ -21,10 +22,13 @@ coordinate($top, $right = $top, $bottom = $top, $left = $right)
   position            absolute
   font-size           inherit
 
+.clocklet-container
+  display           inline
+  width             0
+  height            0
+
 .clocklet
   font-size         16px
-  left              0
-  top               0
   width             270px
   height            270px
   margin-top        1px

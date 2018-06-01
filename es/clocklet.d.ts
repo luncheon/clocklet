@@ -1,12 +1,13 @@
 import ClockletDial from './dial';
 import { ClockletOptions } from './options';
 export default class Clocklet {
-    defaultOptions: ClockletOptions;
-    root: HTMLDivElement;
+    container: HTMLDivElement;
+    root: HTMLElement;
     plate: HTMLElement;
     hour: ClockletDial;
     minute: ClockletDial;
     ampm: HTMLElement;
+    defaultOptions: ClockletOptions;
     input: HTMLInputElement | undefined;
     dispatchesInputEvents: boolean | undefined;
     constructor(options?: Partial<Readonly<ClockletOptions>>);

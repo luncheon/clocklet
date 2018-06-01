@@ -16,14 +16,12 @@ import { parseOptions, ClockletOptions } from './options'
   adjustOnArrowKeys(lenientimeOptions)
 }
 
-function clocklet(options: Partial<ClockletOptions> & {
-  appendTo?:        HTMLElement
+function clocklet(options: {
   target?:          HTMLInputElement | string | ((element: Element) => boolean)
   optionsSelector?: (target: HTMLInputElement) => Partial<Readonly<ClockletOptions>> | undefined
+  defaultOptions?:  Partial<Readonly<ClockletOptions>>
 } = {}) {
-  const instance = new Clocklet(options)
-  ;(options.appendTo || document.body).appendChild(instance.root)
-
+  const instance = new Clocklet(options.defaultOptions)
   const target = options.target || 'input[data-clocklet]:enabled:not([readonly])'
   const optionsSelector = options.optionsSelector || (target => parseOptions(target.dataset.clocklet))
   const close = instance.close.bind(instance)

@@ -9,7 +9,8 @@ import { dispatchCustomEvent } from './event';
 var Clocklet = /** @class */ (function () {
     function Clocklet(options) {
         var _this = this;
-        this.root = createClockletElements();
+        this.container = createClockletElements();
+        this.root = this.container.firstElementChild;
         this.plate = this.root.firstElementChild;
         this.hour = new ClockletDial(this.plate.getElementsByClassName('clocklet-dial--hour')[0], 12, function (value) { return _this.value({ h: value }); });
         this.minute = new ClockletDial(this.plate.getElementsByClassName('clocklet-dial--minute')[0], 60, function (value) { return _this.value({ m: value }); });
@@ -30,7 +31,7 @@ var Clocklet = /** @class */ (function () {
     Clocklet.prototype._open = function (input, options, withEvents) {
         var resolvedOptions = __assign(Object.create(this.defaultOptions), options);
         var inputRect = input.getBoundingClientRect();
-        var root = this.root;
+        var _a = this, container = _a.container, root = _a.root;
         var eventDetail = { options: resolvedOptions };
         if (withEvents && dispatchCustomEvent(input, 'clocklet.opening', true, true, eventDetail).defaultPrevented) {
             return;
@@ -41,10 +42,42 @@ var Clocklet = /** @class */ (function () {
         root.dataset.clockletPlacement = resolvedOptions.placement;
         root.dataset.clockletAlignment = resolvedOptions.alignment;
         root.dataset.clockletFormat = resolvedOptions.format;
-        root.style.left = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left - (resolvedOptions.alignment === 'right' ? root.offsetWidth - inputRect.width : 0) + 'px';
-        root.style.top = document.documentElement.scrollTop + document.body.scrollTop + inputRect.bottom - (resolvedOptions.placement === 'top' ? root.offsetHeight + inputRect.height + 1 : 0) + 'px';
-        root.style.zIndex = resolvedOptions.zIndex !== '' ? resolvedOptions.zIndex : (parseInt(getComputedStyle(input).zIndex, 10) || 0) + 1;
-        root.className = 'clocklet clocklet--shown ' + (isTouchDevice ? '' : 'clocklet--hoverable ') + resolvedOptions.className;
+        root.dataset.clockletAppendTo = resolvedOptions.appendTo;
+        root.className = 'clocklet ' + (isTouchDevice ? '' : 'clocklet--hoverable ') + resolvedOptions.className;
+        if (resolvedOptions.placement === 'top') {
+            root.style.top = '';
+            root.style.bottom = '0';
+        }
+        else {
+            root.style.top = inputRect.height + "px";
+            root.style.bottom = '';
+        }
+        if (resolvedOptions.alignment === 'right') {
+            root.style.left = '';
+            root.style.right = "-" + inputRect.width + "px";
+        }
+        else {
+            root.style.left = '0';
+            root.style.right = '';
+        }
+        container.style.zIndex = resolvedOptions.zIndex !== '' ? resolvedOptions.zIndex : (parseInt(getComputedStyle(input).zIndex, 10) || 0) + 1;
+        if (resolvedOptions.appendTo === 'parent') {
+            container.style.position = 'relative';
+            container.style.left = '0';
+            container.style.top = '0';
+            input.parentElement.insertBefore(container, input);
+        }
+        else {
+            container.style.position = 'absolute';
+            container.style.left = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left + 'px';
+            container.style.top = document.documentElement.scrollTop + document.body.scrollTop + inputRect.top + 'px';
+            container.style.right = '';
+            container.style.bottom = '';
+            if (container.parentElement !== document.body) {
+                document.body.appendChild(container);
+            }
+        }
+        setTimeout(function () { return root.classList.add('clocklet--shown'); });
         withEvents && dispatchCustomEvent(input, 'clocklet.opened', true, false, eventDetail);
     };
     Clocklet.prototype.close = function () {
@@ -58,7 +91,7 @@ var Clocklet = /** @class */ (function () {
             return;
         }
         this.input = undefined;
-        this.root.className = 'clocklet';
+        this.root.classList.remove('clocklet--shown');
         dispatchCustomEvent(input, 'clocklet.closed', true, false, eventDetail);
     };
     Clocklet.prototype.value = function (time) {
@@ -104,7 +137,7 @@ var Clocklet = /** @class */ (function () {
 export default Clocklet;
 function createClockletElements() {
     var element = document.createElement('div');
-    element.className = 'clocklet';
+    element.className = 'clocklet-container';
     element.innerHTML = template;
     return element;
 }

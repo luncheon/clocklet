@@ -3,6 +3,7 @@ export var defaultDefaultOptions = {
     format: 'HH:mm',
     placement: 'bottom',
     alignment: 'left',
+    appendTo: 'body',
     zIndex: '',
     dispatchesInputEvents: true,
 };

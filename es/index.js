@@ -15,8 +15,7 @@ import { parseOptions } from './options';
 }
 function clocklet(options) {
     if (options === void 0) { options = {}; }
-    var instance = new Clocklet(options);
-    (options.appendTo || document.body).appendChild(instance.root);
+    var instance = new Clocklet(options.defaultOptions);
     var target = options.target || 'input[data-clocklet]:enabled:not([readonly])';
     var optionsSelector = options.optionsSelector || (function (target) { return parseOptions(target.dataset.clocklet); });
     var close = instance.close.bind(instance);

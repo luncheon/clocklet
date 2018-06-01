@@ -9,12 +9,13 @@ import template from './template.pug'
 import { dispatchCustomEvent } from './event';
 
 export default class Clocklet {
+  container = createClockletElements()
+  root      = this.container.firstElementChild as HTMLElement
+  plate     = this.root.firstElementChild as HTMLElement
+  hour      = new ClockletDial(this.plate.getElementsByClassName('clocklet-dial--hour')[0]   as HTMLElement, 12, value => this.value({ h: value }))
+  minute    = new ClockletDial(this.plate.getElementsByClassName('clocklet-dial--minute')[0] as HTMLElement, 60, value => this.value({ m: value }))
+  ampm      = this.plate.getElementsByClassName('clocklet-ampm')[0] as HTMLElement
   defaultOptions: ClockletOptions
-  root    = createClockletElements()
-  plate   = this.root.firstElementChild as HTMLElement
-  hour    = new ClockletDial(this.plate.getElementsByClassName('clocklet-dial--hour')[0]   as HTMLElement, 12, value => this.value({ h: value }))
-  minute  = new ClockletDial(this.plate.getElementsByClassName('clocklet-dial--minute')[0] as HTMLElement, 60, value => this.value({ m: value }))
-  ampm    = this.plate.getElementsByClassName('clocklet-ampm')[0] as HTMLElement
   input: HTMLInputElement | undefined
   dispatchesInputEvents: boolean | undefined
 
@@ -36,9 +37,9 @@ export default class Clocklet {
   }
 
   private _open(input: HTMLInputElement, options: Partial<ClockletOptions> | undefined, withEvents: boolean) {
-    const resolvedOptions           = __assign(Object.create(this.defaultOptions), options)
+    const resolvedOptions           = __assign(Object.create(this.defaultOptions), options) as ClockletOptions
     const inputRect                 = input.getBoundingClientRect()
-    const root                      = this.root
+    const { container, root }           = this
     const eventDetail               = { options: resolvedOptions }
     if (withEvents && dispatchCustomEvent(input, 'clocklet.opening', true, true, eventDetail).defaultPrevented) {
       return
@@ -46,13 +47,44 @@ export default class Clocklet {
     this.input = input
     this.updateHighlight()
     this.dispatchesInputEvents      = resolvedOptions.dispatchesInputEvents
+
     root.dataset.clockletPlacement  = resolvedOptions.placement
     root.dataset.clockletAlignment  = resolvedOptions.alignment
     root.dataset.clockletFormat     = resolvedOptions.format
-    root.style.left                 = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left   - (resolvedOptions.alignment === 'right'  ? root.offsetWidth  - inputRect.width : 0) + 'px'
-    root.style.top                  = document.documentElement.scrollTop  + document.body.scrollTop  + inputRect.bottom - (resolvedOptions.placement === 'top'    ? root.offsetHeight + inputRect.height + 1 : 0) + 'px'
-    root.style.zIndex               = resolvedOptions.zIndex !== '' ? resolvedOptions.zIndex as string : (parseInt(getComputedStyle(input).zIndex!, 10) || 0) + 1 as any as string
-    root.className                  = 'clocklet clocklet--shown ' + (isTouchDevice ? '' : 'clocklet--hoverable ') + resolvedOptions.className
+    root.dataset.clockletAppendTo   = resolvedOptions.appendTo
+    root.className                  = 'clocklet ' + (isTouchDevice ? '' : 'clocklet--hoverable ') + resolvedOptions.className
+    if (resolvedOptions.placement === 'top') {
+      root.style.top      = ''
+      root.style.bottom   = '0'
+    } else {
+      root.style.top      = `${inputRect.height}px`
+      root.style.bottom   = ''
+    }
+    if (resolvedOptions.alignment === 'right') {
+      root.style.left     = ''
+      root.style.right    = `-${inputRect.width}px`
+    } else {
+      root.style.left     = '0'
+      root.style.right    = ''
+    }
+
+    container.style.zIndex    = resolvedOptions.zIndex !== '' ? resolvedOptions.zIndex as string : (parseInt(getComputedStyle(input).zIndex!, 10) || 0) + 1 as any as string
+    if (resolvedOptions.appendTo === 'parent') {
+      container.style.position  = 'relative'
+      container.style.left      = '0'
+      container.style.top       = '0'
+      input.parentElement!.insertBefore(container, input)
+    } else {
+      container.style.position  = 'absolute'
+      container.style.left      = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left + 'px'
+      container.style.top       = document.documentElement.scrollTop  + document.body.scrollTop  + inputRect.top  + 'px'
+      container.style.right     = ''
+      container.style.bottom    = ''
+      if (container.parentElement !== document.body) {
+        document.body.appendChild(container)
+      }
+    }
+    setTimeout(() => root.classList.add('clocklet--shown'))
     withEvents && dispatchCustomEvent(input, 'clocklet.opened', true, false, eventDetail)
   }
 
@@ -67,7 +99,7 @@ export default class Clocklet {
       return
     }
     this.input = undefined
-    this.root.className = 'clocklet'
+    this.root.classList.remove('clocklet--shown')
     dispatchCustomEvent(input, 'clocklet.closed', true, false, eventDetail)
   }
 
@@ -114,7 +146,7 @@ export default class Clocklet {
 
 function createClockletElements() {
   const element = document.createElement('div')
-  element.className = 'clocklet'
+  element.className = 'clocklet-container'
   element.innerHTML = template
   return element
 }
