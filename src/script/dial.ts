@@ -28,10 +28,6 @@ export default class ClockletDial {
     }
   }
 
-  public contains(element: HTMLElement) {
-    return this.dial.contains(element)
-  }
-
   private _onDragStart(event: Event & Readonly<{ touches?: TouchList }>) {
     if (event.touches && event.touches.length > 1) {
       this.dragging = false

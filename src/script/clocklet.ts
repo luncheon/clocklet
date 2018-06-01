@@ -54,21 +54,21 @@ export default class Clocklet {
     root.dataset.clockletAppendTo   = resolvedOptions.appendTo
     root.className                  = 'clocklet ' + (isTouchDevice ? '' : 'clocklet--hoverable ') + resolvedOptions.className
     if (resolvedOptions.placement === 'top') {
-      root.style.top      = ''
-      root.style.bottom   = '0'
+      root.style.top    = ''
+      root.style.bottom = '0'
     } else {
-      root.style.top      = `${inputRect.height}px`
-      root.style.bottom   = ''
+      root.style.top    = `${inputRect.height}px`
+      root.style.bottom = ''
     }
     if (resolvedOptions.alignment === 'right') {
-      root.style.left     = ''
-      root.style.right    = `-${inputRect.width}px`
+      root.style.left   = ''
+      root.style.right  = `-${inputRect.width}px`
     } else {
-      root.style.left     = '0'
-      root.style.right    = ''
+      root.style.left   = '0'
+      root.style.right  = ''
     }
 
-    container.style.zIndex    = resolvedOptions.zIndex !== '' ? resolvedOptions.zIndex as string : (parseInt(getComputedStyle(input).zIndex!, 10) || 0) + 1 as any as string
+    container.style.zIndex = resolvedOptions.zIndex !== '' ? resolvedOptions.zIndex as string : (parseInt(getComputedStyle(input).zIndex!, 10) || 0) + 1 as any as string
     if (resolvedOptions.appendTo === 'parent') {
       container.style.position  = 'relative'
       container.style.left      = '0'
@@ -78,8 +78,6 @@ export default class Clocklet {
       container.style.position  = 'absolute'
       container.style.left      = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left + 'px'
       container.style.top       = document.documentElement.scrollTop  + document.body.scrollTop  + inputRect.top  + 'px'
-      container.style.right     = ''
-      container.style.bottom    = ''
       if (container.parentElement !== document.body) {
         document.body.appendChild(container)
       }

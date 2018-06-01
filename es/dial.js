@@ -28,9 +28,6 @@ var ClockletDial = /** @class */ (function () {
             currentSelected && currentSelected.classList.add(selectedClassName);
         }
     };
-    ClockletDial.prototype.contains = function (element) {
-        return this.dial.contains(element);
-    };
     ClockletDial.prototype._onDragStart = function (event) {
         if (event.touches && event.touches.length > 1) {
             this.dragging = false;

@@ -71,8 +71,6 @@ var Clocklet = /** @class */ (function () {
             container.style.position = 'absolute';
             container.style.left = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left + 'px';
             container.style.top = document.documentElement.scrollTop + document.body.scrollTop + inputRect.top + 'px';
-            container.style.right = '';
-            container.style.bottom = '';
             if (container.parentElement !== document.body) {
                 document.body.appendChild(container);
             }

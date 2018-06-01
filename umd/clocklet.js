@@ -737,9 +737,6 @@
                 currentSelected && currentSelected.classList.add(selectedClassName);
             }
         };
-        ClockletDial.prototype.contains = function (element) {
-            return this.dial.contains(element);
-        };
         ClockletDial.prototype._onDragStart = function (event) {
             if (event.touches && event.touches.length > 1) {
                 this.dragging = false;
@@ -868,8 +865,6 @@
                 container.style.position = 'absolute';
                 container.style.left = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left + 'px';
                 container.style.top = document.documentElement.scrollTop + document.body.scrollTop + inputRect.top + 'px';
-                container.style.right = '';
-                container.style.bottom = '';
                 if (container.parentElement !== document.body) {
                     document.body.appendChild(container);
                 }
