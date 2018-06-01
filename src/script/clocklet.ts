@@ -6,25 +6,14 @@ import isTouchDevice from './is-touch-device'
 import ClockletDial from './dial'
 import { ClockletOptions, defaultDefaultOptions }  from './options'
 import template from './template.pug'
+import { dispatchCustomEvent } from './event';
 
 export default class Clocklet {
   defaultOptions: ClockletOptions
-  root    = Clocklet._createElement()
+  root    = createClockletElements()
   plate   = this.root.firstElementChild as HTMLElement
-  hour    = new ClockletDial(
-    this.plate.getElementsByClassName('clocklet-dial--hour')[0] as HTMLElement,
-    12,
-    value => this.value({ h: value }),
-    () => this.root.classList.add('clocklet--dragging'),
-    () => this.root.classList.remove('clocklet--dragging'),
-  )
-  minute  = new ClockletDial(
-    this.plate.getElementsByClassName('clocklet-dial--minute')[0] as HTMLElement,
-    60,
-    value => this.value({ m: value }),
-    () => this.root.classList.add('clocklet--dragging'),
-    () => this.root.classList.remove('clocklet--dragging'),
-  )
+  hour    = new ClockletDial(this.plate.getElementsByClassName('clocklet-dial--hour')[0]   as HTMLElement, 12, value => this.value({ h: value }))
+  minute  = new ClockletDial(this.plate.getElementsByClassName('clocklet-dial--minute')[0] as HTMLElement, 60, value => this.value({ m: value }))
   ampm    = this.plate.getElementsByClassName('clocklet-ampm')[0] as HTMLElement
   input: HTMLInputElement | undefined
   dispatchesInputEvents: boolean | undefined
@@ -34,13 +23,8 @@ export default class Clocklet {
     addEventListener('input', event => event.target === this.input && this.updateHighlight(), true)
     this.root.addEventListener('mousedown', event => event.preventDefault())
     this.ampm.addEventListener('mousedown', () => this.value({ a: this.ampm.dataset.clockletAmpm === 'pm' ? 'am' : 'pm' }))
-  }
-
-  private static _createElement() {
-    const element = document.createElement('div')
-    element.className = 'clocklet'
-    element.innerHTML = template
-    return element
+    this.root.addEventListener('clocklet.dragstart', () => this.root.classList.add('clocklet--dragging'))
+    this.root.addEventListener('clocklet.dragend', () => this.root.classList.remove('clocklet--dragging'))
   }
 
   public open(input: HTMLInputElement, options?: Partial<Readonly<ClockletOptions>>) {
@@ -128,11 +112,11 @@ export default class Clocklet {
   }
 }
 
-function dispatchCustomEvent(target: EventTarget, type: string, bubbles: boolean, cancelable: boolean, detail: any) {
-  const event = document.createEvent('CustomEvent')
-  event.initCustomEvent(type, bubbles, cancelable, detail)
-  target.dispatchEvent(event)
-  return event
+function createClockletElements() {
+  const element = document.createElement('div')
+  element.className = 'clocklet'
+  element.innerHTML = template
+  return element
 }
 
 function findHourToken(time: Lenientime, template: string) {

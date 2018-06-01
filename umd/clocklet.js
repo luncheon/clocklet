@@ -702,13 +702,18 @@
 
     var isTouchDevice = matchMedia('(hover: none)').matches;
 
+    function dispatchCustomEvent(target, type, bubbles, cancelable, detail) {
+        var event = document.createEvent('CustomEvent');
+        event.initCustomEvent(type, bubbles, cancelable, detail);
+        target.dispatchEvent(event);
+        return event;
+    }
+
     var ClockletDial = /** @class */ (function () {
-        function ClockletDial(dial, maxValue, setValue, onDragStart, onDragEnd) {
+        function ClockletDial(dial, maxValue, setValue) {
             this.dial = dial;
             this.maxValue = maxValue;
             this.setValue = setValue;
-            this.onDragStart = onDragStart;
-            this.onDragEnd = onDragEnd;
             this.hand = this.dial.getElementsByClassName("clocklet-hand")[0];
             this.dragging = false;
             if (isTouchDevice) {
@@ -744,7 +749,7 @@
             var tickValue = event.target.dataset.clockletTickValue;
             tickValue && this.setValue(tickValue);
             event.preventDefault();
-            this.onDragStart();
+            dispatchCustomEvent(this.dial, 'clocklet.dragstart', true, false);
         };
         ClockletDial.prototype._onDrag = function (event) {
             if (!this.dragging) {
@@ -769,7 +774,7 @@
         ClockletDial.prototype._onDragEnd = function (event) {
             this.dragging = false;
             event.preventDefault();
-            this.onDragEnd();
+            dispatchCustomEvent(this.dial, 'clocklet.dragend', true, false);
         };
         return ClockletDial;
     }());
@@ -800,22 +805,18 @@
     var Clocklet = /** @class */ (function () {
         function Clocklet(options) {
             var _this = this;
-            this.root = Clocklet._createElement();
+            this.root = createClockletElements();
             this.plate = this.root.firstElementChild;
-            this.hour = new ClockletDial(this.plate.getElementsByClassName('clocklet-dial--hour')[0], 12, function (value) { return _this.value({ h: value }); }, function () { return _this.root.classList.add('clocklet--dragging'); }, function () { return _this.root.classList.remove('clocklet--dragging'); });
-            this.minute = new ClockletDial(this.plate.getElementsByClassName('clocklet-dial--minute')[0], 60, function (value) { return _this.value({ m: value }); }, function () { return _this.root.classList.add('clocklet--dragging'); }, function () { return _this.root.classList.remove('clocklet--dragging'); });
+            this.hour = new ClockletDial(this.plate.getElementsByClassName('clocklet-dial--hour')[0], 12, function (value) { return _this.value({ h: value }); });
+            this.minute = new ClockletDial(this.plate.getElementsByClassName('clocklet-dial--minute')[0], 60, function (value) { return _this.value({ m: value }); });
             this.ampm = this.plate.getElementsByClassName('clocklet-ampm')[0];
             this.defaultOptions = __assign(Object.create(defaultDefaultOptions), options);
             addEventListener('input', function (event) { return event.target === _this.input && _this.updateHighlight(); }, true);
             this.root.addEventListener('mousedown', function (event) { return event.preventDefault(); });
             this.ampm.addEventListener('mousedown', function () { return _this.value({ a: _this.ampm.dataset.clockletAmpm === 'pm' ? 'am' : 'pm' }); });
+            this.root.addEventListener('clocklet.dragstart', function () { return _this.root.classList.add('clocklet--dragging'); });
+            this.root.addEventListener('clocklet.dragend', function () { return _this.root.classList.remove('clocklet--dragging'); });
         }
-        Clocklet._createElement = function () {
-            var element = document.createElement('div');
-            element.className = 'clocklet';
-            element.innerHTML = template;
-            return element;
-        };
         Clocklet.prototype.open = function (input, options) {
             this._open(input, options, true);
         };
@@ -896,11 +897,11 @@
         };
         return Clocklet;
     }());
-    function dispatchCustomEvent(target, type, bubbles, cancelable, detail) {
-        var event = document.createEvent('CustomEvent');
-        event.initCustomEvent(type, bubbles, cancelable, detail);
-        target.dispatchEvent(event);
-        return event;
+    function createClockletElements() {
+        var element = document.createElement('div');
+        element.className = 'clocklet';
+        element.innerHTML = template;
+        return element;
     }
     function findHourToken(time, template$$1) {
         return findToken(time, template$$1, /[Hhk]$/);

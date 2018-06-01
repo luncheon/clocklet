@@ -10,7 +10,6 @@ export default class Clocklet {
     input: HTMLInputElement | undefined;
     dispatchesInputEvents: boolean | undefined;
     constructor(options?: Partial<Readonly<ClockletOptions>>);
-    private static _createElement();
     open(input: HTMLInputElement, options?: Partial<Readonly<ClockletOptions>>): void;
     openWithoutEvents(input: HTMLInputElement, options?: Partial<Readonly<ClockletOptions>>): void;
     private _open(input, options, withEvents);

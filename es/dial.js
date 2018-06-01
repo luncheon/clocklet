@@ -1,11 +1,10 @@
 import isTouchDevice from './is-touch-device';
+import { dispatchCustomEvent } from './event';
 var ClockletDial = /** @class */ (function () {
-    function ClockletDial(dial, maxValue, setValue, onDragStart, onDragEnd) {
+    function ClockletDial(dial, maxValue, setValue) {
         this.dial = dial;
         this.maxValue = maxValue;
         this.setValue = setValue;
-        this.onDragStart = onDragStart;
-        this.onDragEnd = onDragEnd;
         this.hand = this.dial.getElementsByClassName("clocklet-hand")[0];
         this.dragging = false;
         if (isTouchDevice) {
@@ -41,7 +40,7 @@ var ClockletDial = /** @class */ (function () {
         var tickValue = event.target.dataset.clockletTickValue;
         tickValue && this.setValue(tickValue);
         event.preventDefault();
-        this.onDragStart();
+        dispatchCustomEvent(this.dial, 'clocklet.dragstart', true, false);
     };
     ClockletDial.prototype._onDrag = function (event) {
         if (!this.dragging) {
@@ -66,7 +65,7 @@ var ClockletDial = /** @class */ (function () {
     ClockletDial.prototype._onDragEnd = function (event) {
         this.dragging = false;
         event.preventDefault();
-        this.onDragEnd();
+        dispatchCustomEvent(this.dial, 'clocklet.dragend', true, false);
     };
     return ClockletDial;
 }());

@@ -5,25 +5,22 @@ import isTouchDevice from './is-touch-device';
 import ClockletDial from './dial';
 import { defaultDefaultOptions } from './options';
 import template from './template.pug';
+import { dispatchCustomEvent } from './event';
 var Clocklet = /** @class */ (function () {
     function Clocklet(options) {
         var _this = this;
-        this.root = Clocklet._createElement();
+        this.root = createClockletElements();
         this.plate = this.root.firstElementChild;
-        this.hour = new ClockletDial(this.plate.getElementsByClassName('clocklet-dial--hour')[0], 12, function (value) { return _this.value({ h: value }); }, function () { return _this.root.classList.add('clocklet--dragging'); }, function () { return _this.root.classList.remove('clocklet--dragging'); });
-        this.minute = new ClockletDial(this.plate.getElementsByClassName('clocklet-dial--minute')[0], 60, function (value) { return _this.value({ m: value }); }, function () { return _this.root.classList.add('clocklet--dragging'); }, function () { return _this.root.classList.remove('clocklet--dragging'); });
+        this.hour = new ClockletDial(this.plate.getElementsByClassName('clocklet-dial--hour')[0], 12, function (value) { return _this.value({ h: value }); });
+        this.minute = new ClockletDial(this.plate.getElementsByClassName('clocklet-dial--minute')[0], 60, function (value) { return _this.value({ m: value }); });
         this.ampm = this.plate.getElementsByClassName('clocklet-ampm')[0];
         this.defaultOptions = __assign(Object.create(defaultDefaultOptions), options);
         addEventListener('input', function (event) { return event.target === _this.input && _this.updateHighlight(); }, true);
         this.root.addEventListener('mousedown', function (event) { return event.preventDefault(); });
         this.ampm.addEventListener('mousedown', function () { return _this.value({ a: _this.ampm.dataset.clockletAmpm === 'pm' ? 'am' : 'pm' }); });
+        this.root.addEventListener('clocklet.dragstart', function () { return _this.root.classList.add('clocklet--dragging'); });
+        this.root.addEventListener('clocklet.dragend', function () { return _this.root.classList.remove('clocklet--dragging'); });
     }
-    Clocklet._createElement = function () {
-        var element = document.createElement('div');
-        element.className = 'clocklet';
-        element.innerHTML = template;
-        return element;
-    };
     Clocklet.prototype.open = function (input, options) {
         this._open(input, options, true);
     };
@@ -105,11 +102,11 @@ var Clocklet = /** @class */ (function () {
     return Clocklet;
 }());
 export default Clocklet;
-function dispatchCustomEvent(target, type, bubbles, cancelable, detail) {
-    var event = document.createEvent('CustomEvent');
-    event.initCustomEvent(type, bubbles, cancelable, detail);
-    target.dispatchEvent(event);
-    return event;
+function createClockletElements() {
+    var element = document.createElement('div');
+    element.className = 'clocklet';
+    element.innerHTML = template;
+    return element;
 }
 function findHourToken(time, template) {
     return findToken(time, template, /[Hhk]$/);

@@ -1,10 +1,11 @@
 import isTouchDevice from './is-touch-device'
+import { dispatchCustomEvent } from './event';
 
 export default class ClockletDial {
   hand = this.dial.getElementsByClassName(`clocklet-hand`)[0] as HTMLElement
   private dragging = false
 
-  constructor(public dial: HTMLElement, private maxValue: number, private setValue: (value: string | number) => void, private onDragStart: () => void, private onDragEnd: () => void) {
+  constructor(public dial: HTMLElement, private maxValue: number, private setValue: (value: string | number) => void) {
     if (isTouchDevice) {
       dial.addEventListener('touchstart', this._onDragStart.bind(this))
       dial.addEventListener('touchmove',  this._onDrag.bind(this))
@@ -40,7 +41,7 @@ export default class ClockletDial {
     const tickValue = (event.target as HTMLElement).dataset.clockletTickValue
     tickValue && this.setValue(tickValue)
     event.preventDefault()
-    this.onDragStart()
+    dispatchCustomEvent(this.dial, 'clocklet.dragstart', true, false);
   }
 
   private _onDrag(event: Event & Readonly<{ clientX: number, clientY: number, targetTouches?: TouchList }>) {
@@ -66,6 +67,6 @@ export default class ClockletDial {
   private _onDragEnd(event: Event) {
     this.dragging = false
     event.preventDefault()
-    this.onDragEnd()
+    dispatchCustomEvent(this.dial, 'clocklet.dragend', true, false);
   }
 }
