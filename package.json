@@ -4,8 +4,8 @@
   "description": "An opinionated clock-style vanilla-js timepicker",
   "repository": "luncheon/clocklet",
   "main": "umd/clocklet.min.js",
-  "module": "es/index.js",
-  "types": "es/index.d.ts",
+  "module": "es/clocklet.js",
+  "types": "es/clocklet.d.ts",
   "scripts": {
     "clean": "rimraf es/ umd/ css/ demo/",
     "start": "concurrently --kill-others \"npm run watch:umd\" \"npm run watch:css\" \"npm run watch:demo\"",
