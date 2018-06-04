@@ -6,7 +6,7 @@ export default class ClockletDial {
     private dragging;
     constructor(dial: HTMLElement, maxValue: number, setValue: (value: string | number) => void);
     value(value: number): void;
-    private _onDragStart(event);
-    private _onDrag(event);
-    private _onDragEnd(event);
+    private _onDragStart;
+    private _onDrag;
+    private _onDragEnd;
 }

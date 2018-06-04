@@ -13,6 +13,6 @@ export default class ClockletClock {
     constructor(options?: Partial<Readonly<ClockletOptions>>);
     open(input: HTMLInputElement, options?: Partial<Readonly<ClockletOptions>>): void;
     close(): void;
-    private value(time);
-    private updateHighlight();
+    private value;
+    private updateHighlight;
 }
