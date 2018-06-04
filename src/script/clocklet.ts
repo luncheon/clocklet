@@ -22,7 +22,7 @@ function clocklet(options: {
   defaultOptions?:  Partial<Readonly<ClockletOptions>>
 } = {}) {
   const instance = new ClockletClock(options.defaultOptions)
-  const target = options.target || 'input[data-clocklet]:enabled:not([readonly])'
+  const target = options.target || 'input[data-clocklet]'
   const optionsSelector = options.optionsSelector || (target => parseOptions(target.dataset.clocklet))
   const close = instance.close.bind(instance)
 
