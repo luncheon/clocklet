@@ -1,11 +1,11 @@
 import { __assign } from 'tslib';
 import lenientime from 'lenientime/es/core';
-import { tokenizeTemplate } from 'lenientime/es/core/token';
 import isTouchDevice from './is-touch-device';
 import ClockletDial from './dial';
 import { defaultDefaultOptions } from './options';
 import template from './template.pug';
 import { dispatchCustomEvent } from './event';
+import { findHourToken, findMinuteToken, findAmpmToken } from './token';
 var ClockletClock = /** @class */ (function () {
     function ClockletClock(options) {
         var _this = this;
@@ -23,17 +23,11 @@ var ClockletClock = /** @class */ (function () {
         this.root.addEventListener('clocklet.dragend', function () { return _this.root.classList.remove('clocklet--dragging'); });
     }
     ClockletClock.prototype.open = function (input, options) {
-        this._open(input, options, true);
-    };
-    ClockletClock.prototype.openWithoutEvents = function (input, options) {
-        this._open(input, options, false);
-    };
-    ClockletClock.prototype._open = function (input, options, withEvents) {
         var resolvedOptions = __assign(Object.create(this.defaultOptions), options);
         var inputRect = input.getBoundingClientRect();
         var _a = this, container = _a.container, root = _a.root;
         var eventDetail = { options: resolvedOptions };
-        if (withEvents && dispatchCustomEvent(input, 'clocklet.opening', true, true, eventDetail).defaultPrevented) {
+        if (dispatchCustomEvent(input, 'clocklet.opening', true, true, eventDetail).defaultPrevented) {
             return;
         }
         this.input = input;
@@ -76,7 +70,7 @@ var ClockletClock = /** @class */ (function () {
             }
         }
         setTimeout(function () { return root.classList.add('clocklet--shown'); });
-        withEvents && dispatchCustomEvent(input, 'clocklet.opened', true, false, eventDetail);
+        dispatchCustomEvent(input, 'clocklet.opened', true, false, eventDetail);
     };
     ClockletClock.prototype.close = function () {
         var input = this.input;
@@ -138,32 +132,4 @@ function createClockletElements() {
     element.className = 'clocklet-container';
     element.innerHTML = template;
     return element;
-}
-function findHourToken(time, template) {
-    return findToken(time, template, /[Hhk]$/);
-}
-function findMinuteToken(time, template) {
-    return findToken(time, template, /m$/);
-}
-function findAmpmToken(time, template) {
-    return findToken(time, template, /a/i);
-}
-function findToken(time, template, pattern) {
-    var index = 0;
-    for (var _i = 0, _a = tokenizeTemplate(template); _i < _a.length; _i++) {
-        var token = _a[_i];
-        if (token.literal) {
-            index += token.property.length;
-        }
-        else {
-            var value = time[token.property];
-            if (pattern.test(token.property)) {
-                return { index: index, value: value };
-            }
-            else {
-                index += value.length;
-            }
-        }
-    }
-    return;
 }

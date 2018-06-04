@@ -12,8 +12,6 @@ export default class ClockletClock {
     dispatchesInputEvents: boolean | undefined;
     constructor(options?: Partial<Readonly<ClockletOptions>>);
     open(input: HTMLInputElement, options?: Partial<Readonly<ClockletOptions>>): void;
-    openWithoutEvents(input: HTMLInputElement, options?: Partial<Readonly<ClockletOptions>>): void;
-    private _open(input, options, withEvents);
     close(): void;
     private value(time);
     private updateHighlight();

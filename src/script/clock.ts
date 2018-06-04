@@ -1,12 +1,11 @@
 import { __assign } from 'tslib'
 import lenientime from 'lenientime/es/core'
-import Lenientime from 'lenientime/es/core/lenientime'
-import { tokenizeTemplate } from 'lenientime/es/core/token'
 import isTouchDevice from './is-touch-device'
 import ClockletDial from './dial'
 import { ClockletOptions, defaultDefaultOptions }  from './options'
 import template from './template.pug'
 import { dispatchCustomEvent } from './event';
+import { findHourToken, findMinuteToken, findAmpmToken } from './token';
 
 export default class ClockletClock {
   container = createClockletElements()
@@ -29,19 +28,11 @@ export default class ClockletClock {
   }
 
   public open(input: HTMLInputElement, options?: Partial<Readonly<ClockletOptions>>) {
-    this._open(input, options, true)
-  }
-
-  public openWithoutEvents(input: HTMLInputElement, options?: Partial<Readonly<ClockletOptions>>) {
-    this._open(input, options, false)
-  }
-
-  private _open(input: HTMLInputElement, options: Partial<ClockletOptions> | undefined, withEvents: boolean) {
     const resolvedOptions           = __assign(Object.create(this.defaultOptions), options) as ClockletOptions
     const inputRect                 = input.getBoundingClientRect()
-    const { container, root }           = this
+    const { container, root }       = this
     const eventDetail               = { options: resolvedOptions }
-    if (withEvents && dispatchCustomEvent(input, 'clocklet.opening', true, true, eventDetail).defaultPrevented) {
+    if (dispatchCustomEvent(input, 'clocklet.opening', true, true, eventDetail).defaultPrevented) {
       return
     }
     this.input = input
@@ -83,7 +74,7 @@ export default class ClockletClock {
       }
     }
     setTimeout(() => root.classList.add('clocklet--shown'))
-    withEvents && dispatchCustomEvent(input, 'clocklet.opened', true, false, eventDetail)
+    dispatchCustomEvent(input, 'clocklet.opened', true, false, eventDetail)
   }
 
   public close() {
@@ -149,31 +140,3 @@ function createClockletElements() {
   return element
 }
 
-function findHourToken(time: Lenientime, template: string) {
-  return findToken(time, template, /[Hhk]$/)
-}
-
-function findMinuteToken(time: Lenientime, template: string) {
-  return findToken(time, template, /m$/)
-}
-
-function findAmpmToken(time: Lenientime, template: string) {
-  return findToken(time, template, /a/i)
-}
-
-function findToken(time: Lenientime, template: string, pattern: RegExp) {
-  let index = 0
-  for (const token of tokenizeTemplate(template)) {
-    if (token.literal) {
-      index += token.property.length
-    } else {
-      const value = time[token.property as keyof Lenientime]
-      if (pattern.test(token.property)) {
-        return { index, value }
-      } else {
-        index += value.length;
-      }
-    }
-  }
-  return
-}
