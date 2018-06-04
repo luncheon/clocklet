@@ -35,6 +35,11 @@ html
       +feature Keyboard and numpad friendly (by <a target="_blank" href="https://luncheon.github.io/lenientime/demo/">Lenientime</a>)
         +feature Autocomplete - e.g. "1"->"01:00", "12"->"12:00", "1234"->"12:34"
         +feature Up and down arrow key support
+      +feature Declarative usage
+        ol(style="margin: 0; padding-left: 20px;")
+          li Load the stylesheet
+          li Load the script
+          li Add <q>"data-clocklet"</q> attribute to input elements (with options)
 
     section.options
       h2 Options
@@ -47,7 +52,7 @@ html
             th Description
         tbody
           tr
-            td: q className
+            td: q class-name
             td: q string
             td: q ""
             td Class name to set to the root element of the popup.
@@ -67,12 +72,12 @@ html
             td: q "left"
             td Popup alignment.
           tr
-            td: q appendTo
+            td: q append-to
             td: q "body" | "parent"
             td: q "body"
             td The parent element into which the popup element will be inserted.
           tr
-            td: q zIndex
+            td: q z-index
             td: q number | string
             td: q ""
             td Popup z-order. If this value is an empty string, (1 + z-index of the input element) is used.
@@ -128,7 +133,7 @@ html
         pre: code.language-html: include:escape-html 3.html
         .demo(style="display: flex; align-items: center;"): include 3.html
       .example
-        h4 Scroll into clocklet
+        h3 Scroll to clocklet on open
         pre: code.language-html: include:escape-html 4.html
         .demo: include 4.html
 
