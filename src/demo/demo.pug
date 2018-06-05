@@ -19,104 +19,10 @@ html
       h1 Clock#[strong let]
       a(href="https://github.com/luncheon/clocklet")
         img(src="https://cdn.jsdelivr.net/npm/octicons@7.0.1/build/svg/mark-github.svg" alt="GitHub" style="height: 3em; margin-left: 1em; vertical-align: bottom;")
-    p An opinionated clock-style vanilla-js timepicker.
-
-    section.features
-      h2 Features
-      mixin feature
-        .feature
-          i(data-feather="check-square")
-          block
-      +feature Intuitive - it looks like a clock
-      +feature Mouse and touch friendly
-        +feature 3 clicks are sufficient to pick a time - am/pm, hour, minute
-        +feature Click targets often used are large enough
-        +feature No need to scroll
-      +feature Keyboard and numpad friendly (by <a target="_blank" href="https://luncheon.github.io/lenientime/demo/">Lenientime</a>)
-        +feature Autocomplete - e.g. "1"->"01:00", "12"->"12:00", "1234"->"12:34"
-        +feature Up and down arrow key support
-      +feature Declarative usage
-        ol(style="margin: 0; padding-left: 20px;")
-          li Load the stylesheet
-          li Load the script
-          li Add <q>"data-clocklet"</q> attribute to input elements (with options)
-
-    section.options
-      h2 Options
-      table
-        thead
-          tr
-            th Name
-            th Type
-            th Default
-            th Description
-        tbody
-          tr
-            td: q class-name
-            td: q string
-            td: q ""
-            td Class name to set to the root element of the popup.
-          tr
-            td: q format
-            td: q string
-            td: q "HH:mm"
-            td Time format (template) of the input element.
-          tr
-            td: q placement
-            td: q "top" | "bottom"
-            td: q "bottom"
-            td Popup placement.
-          tr
-            td: q alignment
-            td: q "left" | "right"
-            td: q "left"
-            td Popup alignment.
-          tr
-            td: q append-to
-            td: q "body" | "parent"
-            td: q "body"
-            td The parent element into which the popup element will be inserted.
-          tr
-            td: q z-index
-            td: q number | string
-            td: q ""
-            td Popup z-order. If this value is an empty string, (1 + z-index of the input element) is used.
-
-    section.events
-      h2 Events
-      table
-        thead
-          tr
-            th Type
-            th Cancelable
-            th event.details
-            th Description
-        tbody
-          tr
-            td: q clocklet.opening
-            td: q true
-            td: q { options: {...} }
-            td Raises before showing the clocklet popup.
-          tr
-            td: q clocklet.opened
-            td: q false
-            td: q { options: {...} }
-            td Raises after showing the clocklet popup.
-          tr
-            td: q clocklet.closing
-            td: q true
-            td: q {}
-            td Raises before hiding the clocklet popup.
-          tr
-            td: q clocklet.closed
-            td: q false
-            td: q {}
-            td Raises after hiding the clocklet popup.
-          tr
-            td: q input
-            td: q false
-            td: q undefined
-            td Raises after changing the input value.
+    p
+      | An opinionated clock-style vanilla-js timepicker.
+      br
+      a(href="https://github.com/luncheon/clocklet") See README on GitHub for details.
 
     section.examples
       h2 Examples
@@ -137,7 +43,5 @@ html
         pre: code.language-html: include:escape-html 4.html
         .demo: include 4.html
 
-    script(src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js")
-    script feather.replace()
     script(src="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/prism.min.js")
     script(src="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/components/prism-markup.min.js")

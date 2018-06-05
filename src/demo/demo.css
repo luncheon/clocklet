@@ -17,7 +17,7 @@ h1 > strong {
   padding-left: 2px;
 }
 h2 {
-  margin: .25em 0;
+  margin: .5em 0;
   font-size: 1.5em;
   font-weight: 600;
 }
@@ -46,10 +46,6 @@ section > h2 {
   margin-left: -20px;
 }
 
-p {
-  margin: 0;
-}
-
 pre[class*="language-"],
 :not(pre) > code[class*="language-"] {
   margin: .2em 0;
@@ -59,14 +55,6 @@ pre[class*="language-"],
 code[class*="language-"] {
   line-height: 1.2;
 }
-q {
-  font-size: .9375em;
-}
-q::before,
-q::after {
-  content: '';
-}
-
 label {
   display: inline-flex;
   align-items: center;
@@ -78,35 +66,6 @@ svg {
   vertical-align: middle;
 }
 
-table {
-  border-collapse: collapse;
-}
-th, td {
-  padding: .375em .75em;
-  border: 1px solid #dfe2e5;
-}
-th {
-  border-bottom: 3px #c6cbd0 double;
-}
-tbody > tr:nth-child(even) {
-  background-color: #f6f8fa;
-}
-
-.features {
-  margin: 1.25em 0;
-}
-.feature {
-  margin-left: 20px;
-}
-.feather {
-  width: 1em;
-  height: 1em;
-  margin-left: -20px;
-  margin-right: .5em;
-}
-.features .feather {
-  color: #00cc88;
-}
 .example {
   margin-bottom: 1em;
 }
@@ -120,8 +79,5 @@ tbody > tr:nth-child(even) {
   }
   section > h2 {
     margin-left: -12px;
-  }
-  th, td {
-    padding: .25em .5em;
   }
 }

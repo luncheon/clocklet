@@ -17,7 +17,7 @@ An opinionated clock-style vanilla-js timepicker.
 * Declarative usage
   1. Load the stylesheet
   2. Load the script
-  3. Add `"data-clocklet"` attribute to input elements (with options)
+  3. Add `"data-clocklet"` attribute to input elements
 
 ## Installation
 
@@ -44,25 +44,54 @@ import clocklet from 'clocklet';
 
 ## Options
 
-| Name       | Type               | Default  | Description                                                                                  |
-| ---------- | ------------------ | -------- | -------------------------------------------------------------------------------------------- |
-| class-name | string             | ""       | Class name to set to the root element of the popup.                                          |
-| format     | string             | "HH:mm"  | Time format (template) of the input element.                                                 |
-| placement  | "top" \| "bottom"  | "bottom" | Popup placement.                                                                             |
-| alignment  | "left" \| "right"  | "left"   | Popup alignment.                                                                             |
-| append-to  | "body" \| "parent" | "body"   | The parent element into which the popup element will be inserted.                            |
-| z-index    | number \| string   | ""       | Popup z-order. If this value is an empty string, (1 + z-index of the input element) is used. |
+Options can be specified as semicolon-separated `data-clocklet` attribute value.  
+
+```html
+<input data-clocklet="format: hh:mm a; placement: top;">
+```
+
+| Name       | Type               | Default  | Description                                                                                     |
+| ---------- | ------------------ | -------- | ----------------------------------------------------------------------------------------------- |
+| class-name | string             | ""       | Class name to set to the root element of the popup.                                             |
+| format     | string             | "HH:mm"  | Time format (template) of the input element.<br>Some tokens are replaced with the selected time value.<br>See the [format tokens](#format-tokens) section below. |
+| placement  | "top" \| "bottom"  | "bottom" | Popup placement.                                                                                |
+| alignment  | "left" \| "right"  | "left"   | Popup alignment.                                                                                |
+| append-to  | "body" \| "parent" | "body"   | The parent element into which the popup element will be inserted.                               |
+| z-index    | number \| string   | ""       | Popup z-order.<br>If this value is an empty string, (1 + z-index of the input element) is used. |
+
+### Format tokens
+
+| Token | Range            | Description                                                      |
+| ----- | ---------------- | ---------------------------------------------------------------- |
+| H     | "0" .. "23"      | Hour in 0-based 24-hour notation with no padding.                |
+| HH    | "00" .. "23"     | Hour in 0-based 24-hour notation with zero padding.              |
+| \_H   | " 0" .. "23"     | Hour in 0-based 24-hour notation with space padding.             |
+| h     | "1" .. "12"      | Hour in 1-based 12-hour notation with no padding.                |
+| hh    | "01" .. "12"     | Hour in 1-based 12-hour notation with zero padding.              |
+| \_h   | " 1" .. "12"     | Hour in 1-based 12-hour notation with space padding.             |
+| k     | "1" .. "24"      | Hour in 1-based 24-hour notation with no padding.                |
+| kk    | "01" .. "24"     | Hour in 1-based 24-hour notation with zero padding.              |
+| \_k   | " 1" .. "24"     | Hour in 1-based 24-hour notation with space padding.             |
+| m     | "1" .. "59"      | Minute with no padding.                                          |
+| mm    | "01" .. "59"     | Minute with zero padding.                                        |
+| \_m   | " 1" .. "59"     | Minute with space padding.                                       |
+| a     | "am" \| "pm"     | Post or ante meridiem abbreviation in lowercase without periods. |
+| aa    | "a.m." \| "p.m." | Post or ante meridiem abbreviation in lowercase with periods.    |
+| A     | "AM" \| "PM"     | Post or ante meridiem abbreviation in uppercase without periods. |
+| AA    | "A.M." \| "P.M." | Post or ante meridiem abbreviation in uppercase with periods.    |
 
 
 ## Events
 
+Following events are raised on the input element by this library.
+
 | Type             | Cancelable | event.details      | Description                               |
 | ---------------- | ---------- | ------------------ | ----------------------------------------- |
-| clocklet.opening | true       | { options: {...} } | Raises before showing the clocklet popup. |
-| clocklet.opened  | false      | { options: {...} } | Raises after showing the clocklet popup.  |
-| clocklet.closing | true       | {}                 | Raises before hiding the clocklet popup.  |
-| clocklet.closed  | false      | {}                 | Raises after hiding the clocklet popup.   |
-| input            | false      | undefined          | Raises after changing the input value.    |
+| clocklet.opening | **true**   | { options: {...} } | Raised before showing the clocklet popup. |
+| clocklet.opened  | false      | { options: {...} } | Raised after showing the clocklet popup.  |
+| clocklet.closing | **true**   | {}                 | Raised before hiding the clocklet popup.  |
+| clocklet.closed  | false      | {}                 | Raised after hiding the clocklet popup.   |
+| input            | false      | undefined          | Raised after changing the input value.    |
 
 
 ## License
