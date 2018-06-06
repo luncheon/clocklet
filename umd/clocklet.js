@@ -714,6 +714,13 @@
         return event;
     }
 
+    function getClockletData(element, attributeName) {
+        return element.getAttribute('data-clocklet-' + attributeName);
+    }
+    function setClockletData(element, attributeName, value) {
+        element.setAttribute('data-clocklet-' + attributeName, value);
+    }
+
     var ClockletDial = /** @class */ (function () {
         function ClockletDial(dial, maxValue, setValue) {
             this.dial = dial;
@@ -748,7 +755,7 @@
                 return;
             }
             this.dragging = true;
-            var tickValue = event.target.dataset.clockletTickValue;
+            var tickValue = getClockletData(event.target, 'tick-value');
             tickValue && this.setValue(tickValue);
             event.preventDefault();
             dispatchCustomEvent(this.dial, 'clocklet.dragstart', true, false);
@@ -759,8 +766,7 @@
             }
             var coordinate = event.targetTouches ? event.targetTouches[0] : event;
             var targetElement = document.elementFromPoint(coordinate.clientX, coordinate.clientY);
-            var targetDataset = targetElement && targetElement.dataset;
-            var tickValue = targetDataset && targetDataset.clockletTickValue;
+            var tickValue = targetElement && getClockletData(targetElement, 'tick-value');
             if (tickValue && this.dial.contains(targetElement)) {
                 this.setValue(tickValue);
             }
@@ -846,7 +852,7 @@
             this.defaultOptions = __assign(Object.create(defaultDefaultOptions), options);
             addEventListener('input', function (event) { return event.target === _this.input && _this.updateHighlight(); }, true);
             this.root.addEventListener('mousedown', function (event) { return event.preventDefault(); });
-            this.ampm.addEventListener('mousedown', function () { return _this.value({ a: _this.ampm.dataset.clockletAmpm === 'pm' ? 'am' : 'pm' }); });
+            this.ampm.addEventListener('mousedown', function () { return _this.value({ a: getClockletData(_this.ampm, 'ampm') === 'pm' ? 'am' : 'pm' }); });
             this.root.addEventListener('clocklet.dragstart', function () { return _this.root.classList.add('clocklet--dragging'); });
             this.root.addEventListener('clocklet.dragend', function () { return _this.root.classList.remove('clocklet--dragging'); });
         }
@@ -860,10 +866,10 @@
             }
             this.input = input;
             this.dispatchesInputEvents = resolvedOptions.dispatchesInputEvents;
-            root.dataset.clockletPlacement = resolvedOptions.placement;
-            root.dataset.clockletAlignment = resolvedOptions.alignment;
-            root.dataset.clockletFormat = resolvedOptions.format || 'HH:mm';
-            root.dataset.clockletAppendTo = resolvedOptions.appendTo;
+            setClockletData(root, 'placement', resolvedOptions.placement);
+            setClockletData(root, 'alignment', resolvedOptions.alignment);
+            setClockletData(root, 'format', resolvedOptions.format);
+            setClockletData(root, 'append-to', resolvedOptions.appendTo);
             root.className = 'clocklet ' + (isTouchDevice ? '' : 'clocklet--hoverable ') + resolvedOptions.className;
             if (resolvedOptions.placement === 'top') {
                 root.style.top = '';
@@ -919,11 +925,11 @@
                 return;
             }
             if (time.a === undefined) {
-                time = { h: time.h, m: time.m, a: this.ampm.dataset.clockletAmpm };
+                time = { h: time.h, m: time.m, a: getClockletData(this.ampm, 'ampm') };
             }
             var oldValue = this.input.value;
-            var _time = lenientime(this.input.value).with(time.a !== undefined ? time : { h: time.h, m: time.m, a: this.ampm.dataset.clockletAmpm });
-            var template$$1 = this.root.dataset.clockletFormat;
+            var _time = lenientime(this.input.value).with(time.a !== undefined ? time : { h: time.h, m: time.m, a: getClockletData(this.ampm, 'ampm') });
+            var template$$1 = getClockletData(this.root, 'format');
             this.input.value = _time.format(template$$1);
             if (this.input.type === 'text') {
                 var token = time.h !== undefined ? findHourToken(_time, template$$1) :
@@ -940,19 +946,19 @@
             }
             var time = this.input.value ? lenientime(this.input.value) : lenientime.INVALID;
             if (time.valid) {
-                this.root.dataset.clockletValue = time.HHmm;
+                setClockletData(this.root, 'value', time.HHmm);
                 this.hour.value(time.hour % 12);
                 this.minute.value(time.minute);
-                this.ampm.dataset.clockletAmpm = time.a;
+                setClockletData(this.ampm, 'ampm', time.a);
             }
             else {
-                this.root.dataset.clockletValue = '';
+                setClockletData(this.root, 'value', '');
                 this.hour.value(-1);
                 this.minute.value(-1);
-                this.ampm.dataset.clockletAmpm = 'am';
+                setClockletData(this.ampm, 'ampm', 'am');
             }
-            var ampmToken = findAmpmToken(time.valid ? time : lenientime.ZERO, this.root.dataset.clockletFormat);
-            this.ampm.dataset.clockletAmpmFormatted = ampmToken && ampmToken.value || '';
+            var ampmToken = findAmpmToken(time.valid ? time : lenientime.ZERO, getClockletData(this.root, 'format'));
+            setClockletData(this.ampm, 'ampm-formatted', ampmToken && ampmToken.value || '');
         };
         return ClockletClock;
     }());
@@ -967,7 +973,7 @@
         var lenientimeOptions = {
             dataAttributeName: 'clocklet',
             formatSelector: function (input) {
-                var options = parseOptions(input.dataset.clocklet);
+                var options = parseOptions(input.getAttribute('data-clocklet'));
                 return options && options.format;
             }
         };
@@ -978,7 +984,7 @@
         if (options === void 0) { options = {}; }
         var instance = new ClockletClock(options.defaultOptions);
         var target = options.target || 'input[data-clocklet]';
-        var optionsSelector = options.optionsSelector || (function (target) { return parseOptions(target.dataset.clocklet); });
+        var optionsSelector = options.optionsSelector || (function (target) { return parseOptions(target.getAttribute('data-clocklet')); });
         var close = instance.close.bind(instance);
         if (target instanceof Element) {
             target.addEventListener('focus', function (event) { return instance.open(event.target, optionsSelector(event.target)); });

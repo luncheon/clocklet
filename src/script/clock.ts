@@ -6,6 +6,7 @@ import { ClockletOptions, defaultDefaultOptions }  from './options'
 import template from './template.pug'
 import { dispatchCustomEvent } from './event';
 import { findHourToken, findMinuteToken, findAmpmToken } from './token';
+import { setClockletData, getClockletData } from './data';
 
 export default class ClockletClock {
   container = createClockletElements()
@@ -22,7 +23,7 @@ export default class ClockletClock {
     this.defaultOptions = __assign(Object.create(defaultDefaultOptions), options)
     addEventListener('input', event => event.target === this.input && this.updateHighlight(), true)
     this.root.addEventListener('mousedown', event => event.preventDefault())
-    this.ampm.addEventListener('mousedown', () => this.value({ a: this.ampm.dataset.clockletAmpm === 'pm' ? 'am' : 'pm' }))
+    this.ampm.addEventListener('mousedown', () => this.value({ a: getClockletData(this.ampm, 'ampm') === 'pm' ? 'am' : 'pm' }))
     this.root.addEventListener('clocklet.dragstart', () => this.root.classList.add('clocklet--dragging'))
     this.root.addEventListener('clocklet.dragend', () => this.root.classList.remove('clocklet--dragging'))
   }
@@ -38,10 +39,10 @@ export default class ClockletClock {
     this.input                      = input
     this.dispatchesInputEvents      = resolvedOptions.dispatchesInputEvents
 
-    root.dataset.clockletPlacement  = resolvedOptions.placement
-    root.dataset.clockletAlignment  = resolvedOptions.alignment
-    root.dataset.clockletFormat     = resolvedOptions.format || 'HH:mm'
-    root.dataset.clockletAppendTo   = resolvedOptions.appendTo
+    setClockletData(root, 'placement', resolvedOptions.placement)
+    setClockletData(root, 'alignment', resolvedOptions.alignment)
+    setClockletData(root, 'format',    resolvedOptions.format)
+    setClockletData(root, 'append-to', resolvedOptions.appendTo)
     root.className                  = 'clocklet ' + (isTouchDevice ? '' : 'clocklet--hoverable ') + resolvedOptions.className
     if (resolvedOptions.placement === 'top') {
       root.style.top    = ''
@@ -97,11 +98,11 @@ export default class ClockletClock {
       return
     }
     if (time.a === undefined) {
-      time = { h: time.h, m: time.m, a: this.ampm.dataset.clockletAmpm as 'am' | 'pm' }
+      time = { h: time.h, m: time.m, a: getClockletData(this.ampm, 'ampm') as 'am' | 'pm' }
     }
     const oldValue = this.input.value
-    const _time = lenientime(this.input.value).with(time.a !== undefined ? time : { h: time.h, m: time.m, a: this.ampm.dataset.clockletAmpm as 'am' | 'pm' })
-    const template = this.root.dataset.clockletFormat!
+    const _time = lenientime(this.input.value).with(time.a !== undefined ? time : { h: time.h, m: time.m, a: getClockletData(this.ampm, 'ampm') as 'am' | 'pm' })
+    const template = getClockletData(this.root, 'format')!
     this.input.value = _time.format(template)
     if (this.input.type === 'text') {
       const token =
@@ -120,18 +121,18 @@ export default class ClockletClock {
     }
     const time = this.input.value ? lenientime(this.input.value) : lenientime.INVALID
     if (time.valid) {
-      this.root.dataset.clockletValue = time.HHmm
+      setClockletData(this.root, 'value', time.HHmm)
       this.hour.value(time.hour % 12)
       this.minute.value(time.minute)
-      this.ampm.dataset.clockletAmpm = time.a
+      setClockletData(this.ampm, 'ampm', time.a)
     } else {
-      this.root.dataset.clockletValue = ''
+      setClockletData(this.root, 'value', '')
       this.hour.value(-1)
       this.minute.value(-1)
-      this.ampm.dataset.clockletAmpm = 'am'
+      setClockletData(this.ampm, 'ampm', 'am')
     }
-    const ampmToken = findAmpmToken(time.valid ? time : lenientime.ZERO, this.root.dataset.clockletFormat!)
-    this.ampm.dataset.clockletAmpmFormatted = ampmToken && ampmToken.value || ''
+    const ampmToken = findAmpmToken(time.valid ? time : lenientime.ZERO, getClockletData(this.root, 'format')!)
+    setClockletData(this.ampm, 'ampm-formatted', ampmToken && ampmToken.value || '')
   }
 }
 

@@ -1,5 +1,6 @@
 import isTouchDevice from './is-touch-device';
 import { dispatchCustomEvent } from './event';
+import { getClockletData } from './data';
 var ClockletDial = /** @class */ (function () {
     function ClockletDial(dial, maxValue, setValue) {
         this.dial = dial;
@@ -34,7 +35,7 @@ var ClockletDial = /** @class */ (function () {
             return;
         }
         this.dragging = true;
-        var tickValue = event.target.dataset.clockletTickValue;
+        var tickValue = getClockletData(event.target, 'tick-value');
         tickValue && this.setValue(tickValue);
         event.preventDefault();
         dispatchCustomEvent(this.dial, 'clocklet.dragstart', true, false);
@@ -45,8 +46,7 @@ var ClockletDial = /** @class */ (function () {
         }
         var coordinate = event.targetTouches ? event.targetTouches[0] : event;
         var targetElement = document.elementFromPoint(coordinate.clientX, coordinate.clientY);
-        var targetDataset = targetElement && targetElement.dataset;
-        var tickValue = targetDataset && targetDataset.clockletTickValue;
+        var tickValue = targetElement && getClockletData(targetElement, 'tick-value');
         if (tickValue && this.dial.contains(targetElement)) {
             this.setValue(tickValue);
         }

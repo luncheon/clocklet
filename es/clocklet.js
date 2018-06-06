@@ -6,7 +6,7 @@ import { parseOptions } from './options';
     var lenientimeOptions = {
         dataAttributeName: 'clocklet',
         formatSelector: function (input) {
-            var options = parseOptions(input.dataset.clocklet);
+            var options = parseOptions(input.getAttribute('data-clocklet'));
             return options && options.format;
         }
     };
@@ -17,7 +17,7 @@ function clocklet(options) {
     if (options === void 0) { options = {}; }
     var instance = new ClockletClock(options.defaultOptions);
     var target = options.target || 'input[data-clocklet]';
-    var optionsSelector = options.optionsSelector || (function (target) { return parseOptions(target.dataset.clocklet); });
+    var optionsSelector = options.optionsSelector || (function (target) { return parseOptions(target.getAttribute('data-clocklet')); });
     var close = instance.close.bind(instance);
     if (target instanceof Element) {
         target.addEventListener('focus', function (event) { return instance.open(event.target, optionsSelector(event.target)); });

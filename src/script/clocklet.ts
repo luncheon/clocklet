@@ -8,7 +8,7 @@ import { parseOptions, ClockletOptions } from './options'
   const lenientimeOptions = {
     dataAttributeName: 'clocklet',
     formatSelector: (input: HTMLInputElement) => {
-      const options = parseOptions(input.dataset.clocklet)
+      const options = parseOptions(input.getAttribute('data-clocklet'))
       return options && options.format
     }
   }
@@ -23,7 +23,7 @@ function clocklet(options: {
 } = {}) {
   const instance = new ClockletClock(options.defaultOptions)
   const target = options.target || 'input[data-clocklet]'
-  const optionsSelector = options.optionsSelector || (target => parseOptions(target.dataset.clocklet))
+  const optionsSelector = options.optionsSelector || (target => parseOptions(target.getAttribute('data-clocklet')))
   const close = instance.close.bind(instance)
 
   if (target instanceof Element) {

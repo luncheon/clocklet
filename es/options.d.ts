@@ -8,4 +8,4 @@ export interface ClockletOptions {
     dispatchesInputEvents: boolean;
 }
 export declare const defaultDefaultOptions: ClockletOptions;
-export declare function parseOptions(optionsString?: string): Partial<ClockletOptions> | undefined;
+export declare function parseOptions(optionsString?: string | null): Partial<ClockletOptions> | undefined;

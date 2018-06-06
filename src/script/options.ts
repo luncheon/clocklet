@@ -18,7 +18,7 @@ export const defaultDefaultOptions: ClockletOptions = {
   dispatchesInputEvents: true,
 }
 
-export function parseOptions(optionsString?: string): Partial<ClockletOptions> | undefined {
+export function parseOptions(optionsString?: string | null): Partial<ClockletOptions> | undefined {
   if (!optionsString) {
     return
   }

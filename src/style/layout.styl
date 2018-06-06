@@ -109,12 +109,12 @@ coordinate($top, $right = $top, $bottom = $top, $left = $right)
     border-radius     50%
     content           attr(data-clocklet-ampm)
     transform         translateX(-1em)
+    .clocklet--shown &
+      transition        transform .1s ease-out
   &[data-clocklet-ampm="pm"]::before
     transform         translateX(1em)
   &[data-clocklet-ampm-formatted]:not([data-clocklet-ampm-formatted=""])::before
     content           attr(data-clocklet-ampm-formatted)
-  .clocklet--shown &::before
-    transition        transform .1s ease-out
 
 .clocklet-hand-origin
   coordinate        calc(50% - 5px)

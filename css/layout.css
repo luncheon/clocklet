@@ -115,14 +115,14 @@
   content: attr(data-clocklet-ampm);
   transform: translateX(-1em);
 }
+.clocklet--shown .clocklet-ampm::before {
+  transition: transform 0.1s ease-out;
+}
 .clocklet-ampm[data-clocklet-ampm="pm"]::before {
   transform: translateX(1em);
 }
 .clocklet-ampm[data-clocklet-ampm-formatted]:not([data-clocklet-ampm-formatted=""])::before {
   content: attr(data-clocklet-ampm-formatted);
-}
-.clocklet--shown .clocklet-ampm::before {
-  transition: transform 0.1s ease-out;
 }
 .clocklet-hand-origin {
   left: calc(50% - 5px);

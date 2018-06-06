@@ -1,5 +1,6 @@
 import isTouchDevice from './is-touch-device'
 import { dispatchCustomEvent } from './event';
+import { getClockletData } from './data';
 
 export default class ClockletDial {
   hand = this.dial.getElementsByClassName(`clocklet-hand`)[0] as HTMLElement
@@ -34,7 +35,7 @@ export default class ClockletDial {
       return
     }
     this.dragging = true
-    const tickValue = (event.target as HTMLElement).dataset.clockletTickValue
+    const tickValue = getClockletData(event.target as HTMLElement, 'tick-value')
     tickValue && this.setValue(tickValue)
     event.preventDefault()
     dispatchCustomEvent(this.dial, 'clocklet.dragstart', true, false);
@@ -46,8 +47,7 @@ export default class ClockletDial {
     }
     const coordinate = event.targetTouches ? event.targetTouches[0] : event
     const targetElement = document.elementFromPoint(coordinate.clientX, coordinate.clientY)
-    const targetDataset = targetElement && (targetElement as HTMLElement).dataset
-    const tickValue = targetDataset && targetDataset.clockletTickValue
+    const tickValue = targetElement && getClockletData(targetElement, 'tick-value')
     if (tickValue && this.dial.contains(targetElement)) {
       this.setValue(tickValue)
     } else {
