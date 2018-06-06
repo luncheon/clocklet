@@ -14,10 +14,12 @@ An opinionated clock-style vanilla-js timepicker.
 * Keyboard and numpad friendly
   * Autocomplete - e.g. `"1"`->`"01:00"`, `"12"`->`"12:00"`, `"1234"`->`"12:34"`
   * Support up/down arrow key to increment/decrement
-* Declarative usage
-  1. Load the stylesheet
-  2. Load the script
-  3. Add `"data-clocklet"` attribute to input elements
+* Declarative usage  
+  1\. Load the stylesheet  
+  2\. Load the script  
+  3\. Add `"data-clocklet"` attribute to time input elements
+* Vanilla JS - no need jQuery or any other frameworks
+* Lightweight (CSS + JS ~ 7kB gzipped)
 
 ## Installation
 
@@ -112,19 +114,32 @@ For example:
 
 ```html
 <input id="my-clocklet" data-clocklet>
+<script>
+  document
+    .getElementById('my-clocklet')
+    .addEventListener('clocklet.opening', function (event) {
+      console.log(event.details.options);
+      if (DO_NOT_NEED_TIMEPICKER) {
+        event.preventDefault();
+      }
+    });
+</script>
 ```
 
-```javascript
-document
-  .getElementById('my-clocklet')
-  .addEventListener('clocklet.opening', function (event) {
-    console.log(event.details.options);
-    if (DO_NOT_NEED_TIMEPICKER) {
-      event.preventDefault();
-    }
-  });
-```
 
+## API
+
+### `clocklet.defaultOptions`
+
+See [default options](#default-options) section.
+
+### `clocklet.open(inputElement[, options])`
+
+Show the timepicker for the specified `inputElement` with the `options` (optional).
+
+### `clocklet.close()`
+
+Hide the timepicker.
 
 ## License
 
