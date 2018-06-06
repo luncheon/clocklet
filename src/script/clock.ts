@@ -35,13 +35,12 @@ export default class ClockletClock {
     if (dispatchCustomEvent(input, 'clocklet.opening', true, true, eventDetail).defaultPrevented) {
       return
     }
-    this.input = input
-    this.updateHighlight()
+    this.input                      = input
     this.dispatchesInputEvents      = resolvedOptions.dispatchesInputEvents
 
     root.dataset.clockletPlacement  = resolvedOptions.placement
     root.dataset.clockletAlignment  = resolvedOptions.alignment
-    root.dataset.clockletFormat     = resolvedOptions.format
+    root.dataset.clockletFormat     = resolvedOptions.format || 'HH:mm'
     root.dataset.clockletAppendTo   = resolvedOptions.appendTo
     root.className                  = 'clocklet ' + (isTouchDevice ? '' : 'clocklet--hoverable ') + resolvedOptions.className
     if (resolvedOptions.placement === 'top') {
@@ -73,6 +72,7 @@ export default class ClockletClock {
         document.body.appendChild(container)
       }
     }
+    this.updateHighlight()
     setTimeout(() => root.classList.add('clocklet--shown'))
     dispatchCustomEvent(input, 'clocklet.opened', true, false, eventDetail)
   }
@@ -101,7 +101,7 @@ export default class ClockletClock {
     }
     const oldValue = this.input.value
     const _time = lenientime(this.input.value).with(time.a !== undefined ? time : { h: time.h, m: time.m, a: this.ampm.dataset.clockletAmpm as 'am' | 'pm' })
-    const template = this.root.dataset.clockletFormat || 'HH:mm'
+    const template = this.root.dataset.clockletFormat!
     this.input.value = _time.format(template)
     if (this.input.type === 'text') {
       const token =
@@ -118,8 +118,8 @@ export default class ClockletClock {
     if (!this.input) {
       return
     }
-    if (this.input.value) {
-      const time = lenientime(this.input.value)
+    const time = this.input.value ? lenientime(this.input.value) : lenientime.INVALID
+    if (time.valid) {
       this.root.dataset.clockletValue = time.HHmm
       this.hour.value(time.hour % 12)
       this.minute.value(time.minute)
@@ -130,6 +130,8 @@ export default class ClockletClock {
       this.minute.value(-1)
       this.ampm.dataset.clockletAmpm = 'am'
     }
+    const ampmToken = findAmpmToken(time.valid ? time : lenientime.ZERO, this.root.dataset.clockletFormat!)
+    this.ampm.dataset.clockletAmpmFormatted = ampmToken && ampmToken.value || ''
   }
 }
 

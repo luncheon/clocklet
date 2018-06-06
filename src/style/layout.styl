@@ -88,25 +88,33 @@ coordinate($top, $right = $top, $bottom = $top, $left = $right)
     content           attr(data-clocklet-tick-value)
 
 .clocklet-ampm
-  coordinate        calc(50% + 12px) calc(50% - 24px) calc(50% - 36px) calc(50% - 24px)
-  border-radius     12px
+  top               calc(50% + .75em)
+  left              0
+  right             0
+  margin            auto
+  width             3em
+  height            1.5em
+  border-radius     .75em
   cursor            pointer
+  display           flex
+  align-items       center
+  justify-content   center
   &::before
     position          relative
     display           flex
     align-items       center
     justify-content   center
-    width             32px
-    height            32px
-    margin            -4px
+    width             2em
+    height            2em
     border-radius     50%
-    content           "AM"
-    left              0
+    content           attr(data-clocklet-ampm)
+    transform         translateX(-1em)
   &[data-clocklet-ampm="pm"]::before
-    content           "PM"
-    left              calc(100% - 24px)
+    transform         translateX(1em)
+  &[data-clocklet-ampm-formatted]:not([data-clocklet-ampm-formatted=""])::before
+    content           attr(data-clocklet-ampm-formatted)
   .clocklet--shown &::before
-    transition        left .1s ease-out
+    transition        transform .1s ease-out
 
 .clocklet-hand-origin
   coordinate        calc(50% - 5px)

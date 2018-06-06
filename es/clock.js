@@ -31,11 +31,10 @@ var ClockletClock = /** @class */ (function () {
             return;
         }
         this.input = input;
-        this.updateHighlight();
         this.dispatchesInputEvents = resolvedOptions.dispatchesInputEvents;
         root.dataset.clockletPlacement = resolvedOptions.placement;
         root.dataset.clockletAlignment = resolvedOptions.alignment;
-        root.dataset.clockletFormat = resolvedOptions.format;
+        root.dataset.clockletFormat = resolvedOptions.format || 'HH:mm';
         root.dataset.clockletAppendTo = resolvedOptions.appendTo;
         root.className = 'clocklet ' + (isTouchDevice ? '' : 'clocklet--hoverable ') + resolvedOptions.className;
         if (resolvedOptions.placement === 'top') {
@@ -69,6 +68,7 @@ var ClockletClock = /** @class */ (function () {
                 document.body.appendChild(container);
             }
         }
+        this.updateHighlight();
         setTimeout(function () { return root.classList.add('clocklet--shown'); });
         dispatchCustomEvent(input, 'clocklet.opened', true, false, eventDetail);
     };
@@ -95,7 +95,7 @@ var ClockletClock = /** @class */ (function () {
         }
         var oldValue = this.input.value;
         var _time = lenientime(this.input.value).with(time.a !== undefined ? time : { h: time.h, m: time.m, a: this.ampm.dataset.clockletAmpm });
-        var template = this.root.dataset.clockletFormat || 'HH:mm';
+        var template = this.root.dataset.clockletFormat;
         this.input.value = _time.format(template);
         if (this.input.type === 'text') {
             var token = time.h !== undefined ? findHourToken(_time, template) :
@@ -110,8 +110,8 @@ var ClockletClock = /** @class */ (function () {
         if (!this.input) {
             return;
         }
-        if (this.input.value) {
-            var time = lenientime(this.input.value);
+        var time = this.input.value ? lenientime(this.input.value) : lenientime.INVALID;
+        if (time.valid) {
             this.root.dataset.clockletValue = time.HHmm;
             this.hour.value(time.hour % 12);
             this.minute.value(time.minute);
@@ -123,6 +123,8 @@ var ClockletClock = /** @class */ (function () {
             this.minute.value(-1);
             this.ampm.dataset.clockletAmpm = 'am';
         }
+        var ampmToken = findAmpmToken(time.valid ? time : lenientime.ZERO, this.root.dataset.clockletFormat);
+        this.ampm.dataset.clockletAmpmFormatted = ampmToken && ampmToken.value || '';
     };
     return ClockletClock;
 }());

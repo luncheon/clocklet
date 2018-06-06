@@ -92,31 +92,37 @@
   content: attr(data-clocklet-tick-value);
 }
 .clocklet-ampm {
-  left: calc(50% - 24px);
-  top: calc(50% + 12px);
-  right: calc(50% - 24px);
-  bottom: calc(50% - 36px);
-  border-radius: 12px;
+  top: calc(50% + 0.75em);
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 3em;
+  height: 1.5em;
+  border-radius: 0.75em;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .clocklet-ampm::before {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  margin: -4px;
+  width: 2em;
+  height: 2em;
   border-radius: 50%;
-  content: "AM";
-  left: 0;
+  content: attr(data-clocklet-ampm);
+  transform: translateX(-1em);
 }
 .clocklet-ampm[data-clocklet-ampm="pm"]::before {
-  content: "PM";
-  left: calc(100% - 24px);
+  transform: translateX(1em);
+}
+.clocklet-ampm[data-clocklet-ampm-formatted]:not([data-clocklet-ampm-formatted=""])::before {
+  content: attr(data-clocklet-ampm-formatted);
 }
 .clocklet--shown .clocklet-ampm::before {
-  transition: left 0.1s ease-out;
+  transition: transform 0.1s ease-out;
 }
 .clocklet-hand-origin {
   left: calc(50% - 5px);
