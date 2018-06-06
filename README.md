@@ -39,16 +39,31 @@ import clocklet from 'clocklet';
 ```html
 <link rel="https://cdn.jsdelivr.net/npm/clocklet@0.1.0/css/clocklet.min.css">
 <script src="https://cdn.jsdelivr.net/npm/clocklet@0.1.0"></script>
+<script>/* `window.clocklet` object is available */</script>
 ``` -->
-
 
 ## Options
 
-Options can be specified as semicolon-separated `data-clocklet` attribute value.  
+### Default options
+
+Default options can be set as properties of `clocklet.defaultOptions` object.  
+Option names must be described in **camelCase**.
+
+```javascript
+clocklet.defaultOptions.zIndex = 9999;
+clocklet.defaultOptions.format = "hh:mm a";
+```
+
+### Element-specific options
+
+Element-specific options can be specified as semicolon-separated `data-clocklet` attribute value.  
+Option names must be described in **kebab-case**.
 
 ```html
-<input data-clocklet="format: hh:mm a; placement: top;">
+<input data-clocklet="class-name: my-clocklet-style; placement: top;">
 ```
+
+### Available options
 
 | Name       | Type               | Default  | Description                                                                                     |
 | ---------- | ------------------ | -------- | ----------------------------------------------------------------------------------------------- |
@@ -92,6 +107,23 @@ Following events are raised on the input element by this library.
 | clocklet.closing | **true**   | {}                 | Raised before hiding the clocklet popup.  |
 | clocklet.closed  | false      | {}                 | Raised after hiding the clocklet popup.   |
 | input            | false      | undefined          | Raised after changing the input value.    |
+
+For example:
+
+```html
+<input id="my-clocklet" data-clocklet>
+```
+
+```javascript
+document
+  .getElementById('my-clocklet')
+  .addEventListener('clocklet.opening', function (event) {
+    console.log(event.details.options);
+    if (DO_NOT_NEED_TIMEPICKER) {
+      event.preventDefault();
+    }
+  });
+```
 
 
 ## License
