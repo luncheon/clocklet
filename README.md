@@ -25,26 +25,24 @@ An opinionated clock-style vanilla-js timepicker.
 
 ## Installation
 
-_T.B.D._
-
-<!-- ### via npm
+### via npm
 
 ```bash
 $ npm install clocklet
 ```
 
 ```javascript
-import 'clocklet/css/clocklet.min.css';
-import clocklet from 'clocklet';
+import "clocklet/css/clocklet.min.css";
+import clocklet from "clocklet";
 ```
 
 ### via CDN
 
 ```html
-<link rel="https://cdn.jsdelivr.net/npm/clocklet@0.1.0/css/clocklet.min.css">
-<script src="https://cdn.jsdelivr.net/npm/clocklet@0.1.0"></script>
+<link rel="https://cdn.jsdelivr.net/npm/clocklet@0.1.1/css/clocklet.min.css">
+<script src="https://cdn.jsdelivr.net/npm/clocklet@0.1.1"></script>
 <script>/* `window.clocklet` object is available */</script>
-``` -->
+```
 
 ## Options
 
@@ -118,8 +116,8 @@ For example:
 <input id="my-clocklet" data-clocklet>
 <script>
   document
-    .getElementById('my-clocklet')
-    .addEventListener('clocklet.opening', function (event) {
+    .getElementById("my-clocklet")
+    .addEventListener("clocklet.opening", function (event) {
       console.log(event.details.options);
       if (DO_NOT_NEED_TIMEPICKER) {
         event.preventDefault();
