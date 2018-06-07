@@ -1,13 +1,19 @@
 {
   "name": "clocklet",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "An opinionated clock-style vanilla-js timepicker",
   "repository": "luncheon/clocklet",
   "main": "umd/clocklet.min.js",
   "module": "es/clocklet.js",
   "types": "es/clocklet.d.ts",
+  "files": [
+    "src",
+    "es",
+    "umd",
+    "css"
+  ],
   "scripts": {
-    "clean": "rimraf es/ umd/ css/ demo/",
+    "clean": "rimraf es/ umd/ css/ docs/demo.html",
     "start": "concurrently --kill-others \"npm run watch:umd\" \"npm run watch:css\" \"npm run watch:demo\"",
     "build": "npm run build:es && npm run build:umd && npm run build:css && npm run build:demo",
     "build:es": "rimraf es/ && tsc -p . --outDir es/",
@@ -15,10 +21,16 @@
     "watch:umd": "rimraf umd/ && rollup -w -c -n clocklet -i src/script/clocklet.ts -o umd/clocklet.js",
     "build:css": "rimraf css/ && mkdirp css/ && stylus    -o css/ src/style/ && postcss css/ -d css/ --ext min.css -u cssnano --no-map",
     "watch:css": "rimraf css/ && mkdirp css/ && stylus -w -o css/ src/style/",
-    "build:demo": "rimraf demo/ && pug    -o demo/ src/demo/demo.pug",
-    "watch:demo": "rimraf demo/ && pug -w -o demo/ src/demo/demo.pug"
+    "build:demo": "rimraf docs/demo.html && pug    -o docs/ src/demo/demo.pug",
+    "watch:demo": "rimraf docs/demo.html && pug -w -o docs/ src/demo/demo.pug"
   },
-  "keywords": [],
+  "keywords": [
+    "timepicker",
+    "time",
+    "picker",
+    "clock",
+    "vanilla-js"
+  ],
   "author": "",
   "license": "WTFPL",
   "devDependencies": {
@@ -37,7 +49,7 @@
     "uglify-js": "^3.4.0"
   },
   "dependencies": {
-    "lenientime": "github:luncheon/lenientime#c538e23fcdd05a710e57dc0b372abc3bcf72da5e",
+    "lenientime": "github:luncheon/lenientime#79d62bfb2d4774821f53ef1e35eb380b626bfb6e",
     "tslib": ">=1.0.0 <2.0.0"
   }
 }
