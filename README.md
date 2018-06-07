@@ -89,9 +89,9 @@ Option names must be described in **kebab-case**.
 | k     | "1" .. "24"      | Hour in 1-based 24-hour notation with no padding.                |
 | kk    | "01" .. "24"     | Hour in 1-based 24-hour notation with zero padding.              |
 | \_k   | " 1" .. "24"     | Hour in 1-based 24-hour notation with space padding.             |
-| m     | "1" .. "59"      | Minute with no padding.                                          |
-| mm    | "01" .. "59"     | Minute with zero padding.                                        |
-| \_m   | " 1" .. "59"     | Minute with space padding.                                       |
+| m     | "0" .. "59"      | Minute with no padding.                                          |
+| mm    | "00" .. "59"     | Minute with zero padding.                                        |
+| \_m   | " 0" .. "59"     | Minute with space padding.                                       |
 | a     | "am" \| "pm"     | Post or ante meridiem abbreviation in lowercase without periods. |
 | aa    | "a.m." \| "p.m." | Post or ante meridiem abbreviation in lowercase with periods.    |
 | A     | "AM" \| "PM"     | Post or ante meridiem abbreviation in uppercase without periods. |
