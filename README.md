@@ -25,7 +25,7 @@ An opinionated clock-style vanilla-js timepicker.
 
 ## Installation
 
-### via npm
+### via npm with a module bundler
 
 ```bash
 $ npm install clocklet
@@ -39,8 +39,8 @@ import clocklet from "clocklet";
 ### via CDN
 
 ```html
-<link rel="https://cdn.jsdelivr.net/npm/clocklet@0.1.1/css/clocklet.min.css">
-<script src="https://cdn.jsdelivr.net/npm/clocklet@0.1.1"></script>
+<link rel="https://cdn.jsdelivr.net/npm/clocklet@0.1.2/css/clocklet.min.css">
+<script src="https://cdn.jsdelivr.net/npm/clocklet@0.1.2"></script>
 <script>/* `window.clocklet` object is available */</script>
 ```
 
@@ -140,6 +140,7 @@ Show the timepicker for the specified `inputElement` with the `options` (optiona
 ### `clocklet.close()`
 
 Hide the timepicker.
+
 
 ## License
 
