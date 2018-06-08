@@ -4,6 +4,7 @@
   "description": "An opinionated clock-style vanilla-js timepicker",
   "repository": "luncheon/clocklet",
   "main": "umd/clocklet.min.js",
+  "module": "es/clocklet.js",
   "types": "es/clocklet.d.ts",
   "files": [
     "src",
@@ -15,7 +16,7 @@
     "clean": "rimraf es/ umd/ css/ docs/demo.html",
     "start": "concurrently --kill-others \"npm run watch:umd\" \"npm run watch:css\" \"npm run watch:demo\"",
     "build": "npm run build:es && npm run build:umd && npm run build:css && npm run build:demo",
-    "build:es": "rimraf es/ && tsc -p . --outDir es/",
+    "build:es": "rimraf es/   && rollup    -c -f es       -i src/script/template.pug -o es/template.pug.js && copyfiles -f src/script/template.pug.d.ts es/ && tsc -p . --outDir es/",
     "build:umd": "rimraf umd/ && rollup    -c -n clocklet -i src/script/clocklet.ts -o umd/clocklet.js && uglifyjs -m -c join_vars=true -o umd/clocklet.min.js umd/clocklet.js",
     "watch:umd": "rimraf umd/ && rollup -w -c -n clocklet -i src/script/clocklet.ts -o umd/clocklet.js",
     "build:css": "rimraf css/ && mkdirp css/ && stylus    -o css/ src/style/ && postcss css/ -d css/ --ext min.css -u cssnano --no-map",
@@ -32,8 +33,13 @@
   ],
   "author": "",
   "license": "WTFPL",
+  "dependencies": {
+    "lenientime": "github:luncheon/lenientime#79d62bfb2d4774821f53ef1e35eb380b626bfb6e",
+    "tslib": ">=1.0.0 <2.0.0"
+  },
   "devDependencies": {
     "concurrently": "^3.5.1",
+    "copyfiles": "^2.0.0",
     "cssnano": "^3.10.0",
     "jstransformer-escape-html": "^1.1.0",
     "mkdirp": "^0.5.1",
@@ -46,9 +52,5 @@
     "stylus": "^0.54.5",
     "typescript": "^2.9.1",
     "uglify-js": "^3.4.0"
-  },
-  "dependencies": {
-    "lenientime": "github:luncheon/lenientime#79d62bfb2d4774821f53ef1e35eb380b626bfb6e",
-    "tslib": ">=1.0.0 <2.0.0"
   }
 }
