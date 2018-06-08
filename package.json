@@ -1,6 +1,6 @@
 {
   "name": "clocklet",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "An opinionated clock-style vanilla-js timepicker",
   "repository": "luncheon/clocklet",
   "main": "umd/clocklet.min.js",
@@ -13,7 +13,7 @@
     "css"
   ],
   "scripts": {
-    "clean": "rimraf es/ umd/ css/ docs/demo.html",
+    "clean": "rimraf es/ umd/ css/ .docs/ docs/demo.html",
     "start": "concurrently --kill-others \"npm run watch:umd\" \"npm run watch:css\" \"npm run watch:demo\"",
     "build": "npm run build:es && npm run build:umd && npm run build:css && npm run build:demo",
     "build:es": "rimraf es/   && rollup    -c -f es       -i src/script/template.pug -o es/template.pug.js && copyfiles -f src/script/template.pug.d.ts es/ && tsc -p . --outDir es/",
@@ -21,8 +21,8 @@
     "watch:umd": "rimraf umd/ && rollup -w -c -n clocklet -i src/script/clocklet.ts -o umd/clocklet.js",
     "build:css": "rimraf css/ && mkdirp css/ && stylus    -o css/ src/style/ && postcss css/ -d css/ --ext min.css -u cssnano --no-map",
     "watch:css": "rimraf css/ && mkdirp css/ && stylus -w -o css/ src/style/",
-    "build:demo": "rimraf docs/demo.html && pug    -O {version:'0.1.2'} -o docs/ src/demo/demo.pug",
-    "watch:demo": "rimraf docs/demo.html && pug -w -O {version:'0.1.2'} -o docs/ src/demo/demo.pug"
+    "build:demo": "rimraf .docs/ docs/demo.html && pug    -o .docs/ src/demo/demo.pug -O {cdnBaseUrl:'..'} && pug -o docs/ src/demo/demo.pug -O {cdnBaseUrl:'https://cdn.jsdelivr.net/npm/clocklet@0.1.3'}",
+    "watch:demo": "rimraf .docs/ docs/demo.html && pug -w -o .docs/ src/demo/demo.pug -O {cdnBaseUrl:'..'}"
   },
   "keywords": [
     "timepicker",
