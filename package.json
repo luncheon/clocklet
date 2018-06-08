@@ -21,8 +21,8 @@
     "watch:umd": "rimraf umd/ && rollup -w -c -n clocklet -i src/script/clocklet.ts -o umd/clocklet.js",
     "build:css": "rimraf css/ && mkdirp css/ && stylus    -o css/ src/style/ && postcss css/ -d css/ --ext min.css -u cssnano --no-map",
     "watch:css": "rimraf css/ && mkdirp css/ && stylus -w -o css/ src/style/",
-    "build:demo": "rimraf docs/demo.html && pug    -o docs/ src/demo/demo.pug",
-    "watch:demo": "rimraf docs/demo.html && pug -w -o docs/ src/demo/demo.pug"
+    "build:demo": "rimraf docs/demo.html && pug    -O {version:'0.1.2'} -o docs/ src/demo/demo.pug",
+    "watch:demo": "rimraf docs/demo.html && pug -w -O {version:'0.1.2'} -o docs/ src/demo/demo.pug"
   },
   "keywords": [
     "timepicker",
