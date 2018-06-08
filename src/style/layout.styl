@@ -34,9 +34,9 @@ coordinate($top, $right = $top, $bottom = $top, $left = $right)
   height            270px
   margin-top        1px
   padding           8px
-  transition        opacity .2s ease-out
   border-radius     3px
-
+  &:not(.clocklet--showing)
+    transition        opacity .2s ease-out
   &:not(.clocklet--shown)
     opacity           0
     pointer-events    none

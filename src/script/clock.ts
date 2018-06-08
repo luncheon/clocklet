@@ -43,7 +43,7 @@ export default class ClockletClock {
     setClockletData(root, 'alignment', resolvedOptions.alignment)
     setClockletData(root, 'format',    resolvedOptions.format)
     setClockletData(root, 'append-to', resolvedOptions.appendTo)
-    root.className                  = 'clocklet ' + (isTouchDevice ? '' : 'clocklet--hoverable ') + resolvedOptions.className
+    root.className                  = 'clocklet clocklet--showing ' + (isTouchDevice ? '' : 'clocklet--hoverable ') + resolvedOptions.className
     if (resolvedOptions.placement === 'top') {
       root.style.top    = ''
       root.style.bottom = '0'
@@ -74,7 +74,12 @@ export default class ClockletClock {
       }
     }
     this.updateHighlight()
-    setTimeout(() => root.classList.add('clocklet--shown'))
+    setTimeout(() => {
+      root.classList.remove('clocklet--showing')
+      if (this.input) {
+        root.classList.add('clocklet--shown')
+      }
+    })
     dispatchCustomEvent(input, 'clocklet.opened', true, false, eventDetail)
   }
 
