@@ -36,8 +36,8 @@ import clocklet from "clocklet";
 ### via CDN
 
 ```html
-<link rel="https://cdn.jsdelivr.net/npm/clocklet@0.1.3/css/clocklet.min.css">
-<script src="https://cdn.jsdelivr.net/npm/clocklet@0.1.3"></script>
+<link rel="https://cdn.jsdelivr.net/npm/clocklet@0.1.4/css/clocklet.min.css">
+<script src="https://cdn.jsdelivr.net/npm/clocklet@0.1.4"></script>
 <script>/* `window.clocklet` object is available */</script>
 ```
 
