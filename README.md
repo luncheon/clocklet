@@ -16,16 +16,13 @@ An opinionated clock-style vanilla-js timepicker.
 * Keyboard and numpad friendly
   * Autocomplete - e.g. `"1"`->`"01:00"`, `"12"`->`"12:00"`, `"1234"`->`"12:34"`
   * Support up/down arrow key to increment/decrement
-* Declarative usage  
-  1\. Load the stylesheet  
-  2\. Load the script  
-  3\. Add `"data-clocklet"` attribute to time input elements
+* Declarative usage
 * Vanilla JS - no need jQuery or any other frameworks
 * Lightweight (CSS + JS ~ 7kB gzipped)
 
 ## Installation
 
-### via npm with a module bundler
+### via npm (with a module bundler)
 
 ```bash
 $ npm install clocklet
@@ -43,6 +40,17 @@ import clocklet from "clocklet";
 <script src="https://cdn.jsdelivr.net/npm/clocklet@0.1.3"></script>
 <script>/* `window.clocklet` object is available */</script>
 ```
+
+
+## Usage
+
+Place `<input>` elements having `data-clocklet` attribute (either before or after loading the clocklet script).  
+When these elements get focused, the timepicker popups.
+
+```html
+<input data-clocklet>
+```
+
 
 ## Options
 
