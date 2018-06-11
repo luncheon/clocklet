@@ -1,4 +1,4 @@
-import isTouchDevice from './is-touch-device'
+import touchEventsSupported from './touch-events-supported';
 import { dispatchCustomEvent } from './event';
 import { getClockletData } from './data';
 
@@ -7,14 +7,18 @@ export default class ClockletDial {
   private dragging = false
 
   constructor(public dial: HTMLElement, private maxValue: number, private setValue: (value: string | number) => void) {
-    if (isTouchDevice) {
-      dial.addEventListener('touchstart', this._onDragStart.bind(this))
-      dial.addEventListener('touchmove',  this._onDrag.bind(this))
-      dial.addEventListener('touchend',   this._onDragEnd.bind(this))
+    if (window.PointerEvent) {
+      dial.addEventListener('pointerdown',  this._onDragStart.bind(this))
+      addEventListener('pointermove',       this._onDrag.bind(this), true)
+      addEventListener('pointerup',         this._onDragEnd.bind(this), true)
+    } else if (touchEventsSupported) {
+      dial.addEventListener('touchstart',   this._onDragStart.bind(this))
+      dial.addEventListener('touchmove',    this._onDrag.bind(this))
+      dial.addEventListener('touchend',     this._onDragEnd.bind(this))
     } else {
-      dial.addEventListener('mousedown',  this._onDragStart.bind(this))
-      addEventListener('mousemove',       this._onDrag.bind(this), true)
-      addEventListener('mouseup',         this._onDragEnd.bind(this), true)
+      dial.addEventListener('mousedown',    this._onDragStart.bind(this))
+      addEventListener('mousemove',         this._onDrag.bind(this), true)
+      addEventListener('mouseup',           this._onDragEnd.bind(this), true)
     }
   }
 

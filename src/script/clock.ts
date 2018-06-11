@@ -1,12 +1,13 @@
 import { __assign } from 'tslib'
 import lenientime from 'lenientime/es/core'
-import isTouchDevice from './is-touch-device'
 import ClockletDial from './dial'
 import { ClockletOptions, defaultDefaultOptions }  from './options'
 import template from './template.pug'
 import { dispatchCustomEvent } from './event';
 import { findHourToken, findMinuteToken, findAmpmToken } from './token';
 import { setClockletData, getClockletData } from './data';
+
+const hoverable = matchMedia('(hover: none)').matches
 
 export default class ClockletClock {
   container = createClockletElements()
@@ -43,7 +44,7 @@ export default class ClockletClock {
     setClockletData(root, 'alignment', resolvedOptions.alignment)
     setClockletData(root, 'format',    resolvedOptions.format)
     setClockletData(root, 'append-to', resolvedOptions.appendTo)
-    root.className                  = 'clocklet clocklet--showing ' + (isTouchDevice ? '' : 'clocklet--hoverable ') + resolvedOptions.className
+    root.className                  = 'clocklet clocklet--showing ' + (hoverable ? '' : 'clocklet--hoverable ') + resolvedOptions.className
     if (resolvedOptions.placement === 'top') {
       root.style.top    = ''
       root.style.bottom = '0'
