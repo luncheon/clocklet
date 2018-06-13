@@ -1,4 +1,4 @@
-# <a name="clocklet" href="#clocklet" style="pointer-events:none">![Clocklet](https://luncheon.github.io/clocklet/docs/logo.png)</a>
+## <a name="clocklet" href="#clocklet" style="pointer-events:none">![Clocklet](https://luncheon.github.io/clocklet/docs/logo.png)</a>
 
 An opinionated clock-style vanilla-js timepicker.  
 [Demo](https://luncheon.github.io/clocklet/docs/demo.html)
@@ -8,7 +8,7 @@ An opinionated clock-style vanilla-js timepicker.
 
 ## Features
 
-* Intuitive - it looks like a clock
+* Intuitive - it just looks like an analog clock
 * Mouse and touch friendly
   * 3 clicks are sufficient to pick a time - am/pm, hour, minute
   * Click targets often used are large enough
@@ -36,8 +36,8 @@ import clocklet from "clocklet";
 ### via CDN
 
 ```html
-<link rel="https://cdn.jsdelivr.net/npm/clocklet@0.1.5/css/clocklet.min.css">
-<script src="https://cdn.jsdelivr.net/npm/clocklet@0.1.5"></script>
+<link rel="https://cdn.jsdelivr.net/npm/clocklet@0.1.6/css/clocklet.min.css">
+<script src="https://cdn.jsdelivr.net/npm/clocklet@0.1.6"></script>
 <script>/* `window.clocklet` object is available */</script>
 ```
 
