@@ -34,21 +34,22 @@ export default class ClockletClock {
   }
 
   public open(input: HTMLInputElement, options?: Partial<Readonly<ClockletOptions>>) {
-    const resolvedOptions           = __assign(Object.create(this.defaultOptions), options) as ClockletOptions
-    const inputRect                 = input.getBoundingClientRect()
-    const { container, root }       = this
-    const eventDetail               = { options: resolvedOptions }
+    const resolvedOptions       = __assign(Object.create(this.defaultOptions), options) as ClockletOptions
+    const inputRect             = input.getBoundingClientRect()
+    const inputStyle            = getComputedStyle(input)
+    const { container, root }   = this
+    const eventDetail           = { options: resolvedOptions }
     if (dispatchCustomEvent(input, 'clocklet.opening', true, true, eventDetail).defaultPrevented) {
       return
     }
-    this.input                      = input
-    this.dispatchesInputEvents      = resolvedOptions.dispatchesInputEvents
+    this.input                  = input
+    this.dispatchesInputEvents  = resolvedOptions.dispatchesInputEvents
 
     setClockletData(root, 'placement', resolvedOptions.placement)
     setClockletData(root, 'alignment', resolvedOptions.alignment)
     setClockletData(root, 'format',    resolvedOptions.format)
     setClockletData(root, 'append-to', resolvedOptions.appendTo)
-    root.className                  = 'clocklet clocklet--showing ' + (hoverable ? '' : 'clocklet--hoverable ') + resolvedOptions.className
+    root.className              = 'clocklet clocklet--showing ' + (hoverable ? '' : 'clocklet--hoverable ') + resolvedOptions.className
     if (resolvedOptions.placement === 'top') {
       root.style.top    = ''
       root.style.bottom = '0'
@@ -64,19 +65,26 @@ export default class ClockletClock {
       root.style.right  = ''
     }
 
-    container.style.zIndex = resolvedOptions.zIndex !== '' ? resolvedOptions.zIndex as string : (parseInt(getComputedStyle(input).zIndex!, 10) || 0) + 1 as any as string
-    if (resolvedOptions.appendTo === 'parent') {
-      container.style.position  = 'relative'
-      container.style.left      = '0'
-      container.style.top       = '0'
-      input.parentElement!.insertBefore(container, input)
+    container.style.zIndex = resolvedOptions.zIndex !== '' ? resolvedOptions.zIndex as string : (parseInt(inputStyle.zIndex!, 10) || 0) + 1 as any as string
+    if (inputStyle.position === 'fixed' ||
+        resolvedOptions.appendTo === 'parent' && (inputStyle.position === 'absolute' || inputStyle.position === 'relative')) {
+      copyStyles(container.style, inputStyle, ['position', 'left', 'top', 'right', 'bottom', 'marginLeft', 'marginTop', 'marginRight', 'marginBottom'])
     } else {
-      container.style.position  = 'absolute'
-      container.style.left      = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left + 'px'
-      container.style.top       = document.documentElement.scrollTop  + document.body.scrollTop  + inputRect.top  + 'px'
-      if (container.parentElement !== document.body) {
-        document.body.appendChild(container)
+      copyStyles(container.style, {} as CSSStyleDeclaration, ['right', 'bottom', 'marginLeft', 'marginTop', 'marginRight', 'marginBottom'])
+      if (resolvedOptions.appendTo === 'parent') {
+        container.style.position  = 'relative'
+        container.style.left      = '0'
+        container.style.top       = '0'
+      } else {
+        container.style.position  = 'absolute'
+        container.style.left      = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left + 'px'
+        container.style.top       = document.documentElement.scrollTop  + document.body.scrollTop  + inputRect.top  + 'px'
       }
+    }
+    if (resolvedOptions.appendTo === 'parent') {
+      input.parentElement!.insertBefore(container, input)
+    } else if (container.parentElement !== document.body) {
+      document.body.appendChild(container)
     }
     this.updateHighlight()
     setTimeout(() => {
@@ -106,9 +114,6 @@ export default class ClockletClock {
   private value(time: { h?: number | string, m?: number | string, a?: 'am' | 'pm' }) {
     if (!this.input) {
       return
-    }
-    if (time.a === undefined) {
-      time = { h: time.h, m: time.m, a: getClockletData(this.ampm, 'ampm') as 'am' | 'pm' }
     }
     const oldValue = this.input.value
     const _time = lenientime(this.input.value).with(time.a !== undefined ? time : { h: time.h, m: time.m, a: getClockletData(this.ampm, 'ampm') as 'am' | 'pm' })
@@ -161,3 +166,8 @@ function createClockletElements() {
   return element
 }
 
+function copyStyles<T>(destination: T, source: Readonly<T>, properties: (keyof T)[]) {
+  for (const property of properties) {
+    destination[property] = source[property] || ''
+  }
+}
