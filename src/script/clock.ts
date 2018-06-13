@@ -27,6 +27,10 @@ export default class ClockletClock {
     this.ampm.addEventListener('mousedown', () => this.value({ a: getClockletData(this.ampm, 'ampm') === 'pm' ? 'am' : 'pm' }))
     this.root.addEventListener('clocklet.dragstart', () => this.root.classList.add('clocklet--dragging'))
     this.root.addEventListener('clocklet.dragend', () => this.root.classList.remove('clocklet--dragging'))
+
+    const relocate = this.relocate.bind(this)
+    addEventListener('resize', relocate);
+    addEventListener('orientationchange', relocate);
   }
 
   public open(input: HTMLInputElement, options?: Partial<Readonly<ClockletOptions>>) {
@@ -139,6 +143,14 @@ export default class ClockletClock {
     }
     const ampmToken = findAmpmToken(time.valid ? time : lenientime.ZERO, getClockletData(this.root, 'format')!)
     setClockletData(this.ampm, 'ampm-formatted', ampmToken && ampmToken.value || '')
+  }
+
+  private relocate() {
+    if (this.input && getClockletData(this.root, 'append-to') === 'body') {
+      const inputRect = this.input.getBoundingClientRect()
+      this.container.style.left = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left + 'px'
+      this.container.style.top  = document.documentElement.scrollTop  + document.body.scrollTop  + inputRect.top  + 'px'
+    }
   }
 }
 
