@@ -7,6 +7,7 @@ import { dispatchCustomEvent } from './event';
 import { findHourToken, findMinuteToken, findAmpmToken } from './token';
 import { setClockletData, getClockletData } from './data';
 
+const coordinateProperties: (keyof CSSStyleDeclaration)[] = ['position', 'left', 'top', 'right', 'bottom', 'marginLeft', 'marginTop', 'marginRight', 'marginBottom']
 const hoverable = matchMedia('(hover: none)').matches
 
 export default class ClockletClock {
@@ -19,6 +20,7 @@ export default class ClockletClock {
   defaultOptions: ClockletOptions
   input: HTMLInputElement | undefined
   dispatchesInputEvents: boolean | undefined
+  private _relocate?: () => void
 
   constructor(options?: Partial<Readonly<ClockletOptions>>) {
     this.defaultOptions = __assign(Object.create(defaultDefaultOptions), options)
@@ -28,7 +30,7 @@ export default class ClockletClock {
     this.root.addEventListener('clocklet.dragstart', () => this.root.classList.add('clocklet--dragging'))
     this.root.addEventListener('clocklet.dragend', () => this.root.classList.remove('clocklet--dragging'))
 
-    const relocate = this.relocate.bind(this)
+    const relocate = () => this._relocate && this._relocate()
     addEventListener('resize', relocate);
     addEventListener('orientationchange', relocate);
   }
@@ -66,25 +68,33 @@ export default class ClockletClock {
     }
 
     container.style.zIndex = resolvedOptions.zIndex !== '' ? resolvedOptions.zIndex as string : (parseInt(inputStyle.zIndex!, 10) || 0) + 1 as any as string
-    if (inputStyle.position === 'fixed' ||
-        resolvedOptions.appendTo === 'parent' && (inputStyle.position === 'absolute' || inputStyle.position === 'relative')) {
-      copyStyles(container.style, inputStyle, ['position', 'left', 'top', 'right', 'bottom', 'marginLeft', 'marginTop', 'marginRight', 'marginBottom'])
-    } else {
-      copyStyles(container.style, {} as CSSStyleDeclaration, ['right', 'bottom', 'marginLeft', 'marginTop', 'marginRight', 'marginBottom'])
-      if (resolvedOptions.appendTo === 'parent') {
-        container.style.position  = 'relative'
-        container.style.left      = '0'
-        container.style.top       = '0'
-      } else {
-        container.style.position  = 'absolute'
-        container.style.left      = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left + 'px'
-        container.style.top       = document.documentElement.scrollTop  + document.body.scrollTop  + inputRect.top  + 'px'
-      }
-    }
     if (resolvedOptions.appendTo === 'parent') {
       input.parentElement!.insertBefore(container, input)
     } else if (container.parentElement !== document.body) {
       document.body.appendChild(container)
+    }
+    if (inputStyle.position === 'fixed' || resolvedOptions.appendTo === 'parent' && inputStyle.position === 'absolute') {
+      this._relocate = undefined
+      copyStyles(container.style, inputStyle, coordinateProperties)
+    } else {
+      copyStyles(container.style, {} as CSSStyleDeclaration, coordinateProperties)
+      if (resolvedOptions.appendTo === 'parent') {
+        container.style.position  = 'relative'
+        this._relocate = () => {
+          container.style.left    = container.style.top
+                                  = ''
+          container.style.left    = `${input.offsetLeft - container.offsetLeft}px`
+          container.style.top     = `${input.offsetTop  - container.offsetTop}px`
+        }
+      } else {
+        container.style.position  = 'absolute'
+        this._relocate = () => {
+          const newInputRect      = input.getBoundingClientRect()
+          container.style.left    = `${document.documentElement.scrollLeft + document.body.scrollLeft + newInputRect.left}px`
+          container.style.top     = `${document.documentElement.scrollTop  + document.body.scrollTop  + newInputRect.top }px`
+        }
+      }
+      this._relocate()
     }
     this.updateHighlight()
     setTimeout(() => {
@@ -148,14 +158,6 @@ export default class ClockletClock {
     }
     const ampmToken = findAmpmToken(time.valid ? time : lenientime.ZERO, getClockletData(this.root, 'format')!)
     setClockletData(this.ampm, 'ampm-formatted', ampmToken && ampmToken.value || '')
-  }
-
-  private relocate() {
-    if (this.input && getClockletData(this.root, 'append-to') === 'body') {
-      const inputRect = this.input.getBoundingClientRect()
-      this.container.style.left = document.documentElement.scrollLeft + document.body.scrollLeft + inputRect.left + 'px'
-      this.container.style.top  = document.documentElement.scrollTop  + document.body.scrollTop  + inputRect.top  + 'px'
-    }
   }
 }
 
