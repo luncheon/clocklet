@@ -1,6 +1,6 @@
-import touchEventsSupported from './touch-events-supported';
-import { dispatchCustomEvent } from './event';
-import { getClockletData } from './data';
+import touchEventsSupported from './touch-events-supported'
+import { dispatchCustomEvent } from './event'
+import { getClockletData } from './data'
 
 export default class ClockletDial {
   hand = this.dial.getElementsByClassName(`clocklet-hand`)[0] as HTMLElement

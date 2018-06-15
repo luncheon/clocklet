@@ -3,9 +3,9 @@ import lenientime from 'lenientime/es/core'
 import ClockletDial from './dial'
 import { ClockletOptions, defaultDefaultOptions }  from './options'
 import template from './template.pug'
-import { dispatchCustomEvent } from './event';
-import { findHourToken, findMinuteToken, findAmpmToken } from './token';
-import { setClockletData, getClockletData } from './data';
+import { dispatchCustomEvent } from './event'
+import { findHourToken, findMinuteToken, findAmpmToken } from './token'
+import { setClockletData, getClockletData } from './data'
 
 const coordinateProperties: (keyof CSSStyleDeclaration)[] = ['position', 'left', 'top', 'right', 'bottom', 'marginLeft', 'marginTop', 'marginRight', 'marginBottom']
 const hoverable = matchMedia('(hover: none)').matches
@@ -52,6 +52,13 @@ export default class ClockletClock {
     setClockletData(root, 'format',    resolvedOptions.format)
     setClockletData(root, 'append-to', resolvedOptions.appendTo)
     root.className              = 'clocklet clocklet--showing ' + (hoverable ? '' : 'clocklet--hoverable ') + resolvedOptions.className
+    container.style.zIndex = resolvedOptions.zIndex !== '' ? resolvedOptions.zIndex as string : (parseInt(inputStyle.zIndex!, 10) || 0) + 1 as any as string
+    if (resolvedOptions.appendTo === 'parent') {
+      input.parentElement!.insertBefore(container, input)
+    } else if (container.parentElement !== document.body) {
+      document.body.appendChild(container)
+    }
+
     if (resolvedOptions.placement === 'top') {
       root.style.top    = ''
       root.style.bottom = '0'
@@ -62,17 +69,14 @@ export default class ClockletClock {
     if (resolvedOptions.alignment === 'right') {
       root.style.left   = ''
       root.style.right  = `-${inputRect.width}px`
+    } else if (resolvedOptions.alignment === 'center') {
+      root.style.left   = `${(input.offsetWidth - root.offsetWidth) / 2}px`
+      root.style.right  = ''
     } else {
       root.style.left   = '0'
       root.style.right  = ''
     }
 
-    container.style.zIndex = resolvedOptions.zIndex !== '' ? resolvedOptions.zIndex as string : (parseInt(inputStyle.zIndex!, 10) || 0) + 1 as any as string
-    if (resolvedOptions.appendTo === 'parent') {
-      input.parentElement!.insertBefore(container, input)
-    } else if (container.parentElement !== document.body) {
-      document.body.appendChild(container)
-    }
     if (inputStyle.position === 'fixed' || resolvedOptions.appendTo === 'parent' && inputStyle.position === 'absolute') {
       this._relocate = undefined
       copyStyles(container.style, inputStyle, coordinateProperties)

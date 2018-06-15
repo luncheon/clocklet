@@ -20,6 +20,7 @@ An opinionated clock-style vanilla-js timepicker.
 * Vanilla JS - no need jQuery or any other frameworks
 * Lightweight (CSS + JS ~ 7kB gzipped)
 
+
 ## Installation
 
 ### via npm (with a module bundler)
@@ -75,14 +76,14 @@ Option names must be described in **kebab-case**.
 
 ### Available options
 
-| Name       | Type               | Default  | Description                                                                                     |
-| ---------- | ------------------ | -------- | ----------------------------------------------------------------------------------------------- |
-| class-name | string             | ""       | Class name to set to the root element of the popup.                                             |
-| format     | string             | "HH:mm"  | Time format (template) of the input element.<br>Some tokens are replaced with the selected time value.<br>See the [format tokens](#format-tokens) section below. |
-| placement  | "top" \| "bottom"  | "bottom" | Popup placement.                                                                                |
-| alignment  | "left" \| "right"  | "left"   | Popup alignment.                                                                                |
-| append-to  | "body" \| "parent" | "body"   | The parent element into which the popup element will be inserted.                               |
-| z-index    | number \| string   | ""       | Popup z-order.<br>If this value is an empty string, (1 + z-index of the input element) is used. |
+| Name       | Type                           | Default  | Description                                                                                     |
+| ---------- | ------------------------------ | -------- | ----------------------------------------------------------------------------------------------- |
+| class-name | string                         | ""       | Class name to set to the root element of the popup.                                             |
+| format     | string                         | "HH:mm"  | Time format (template) of the input element.<br>Some tokens are replaced with the selected time value.<br>See the [format tokens](#format-tokens) section below. |
+| placement  | "top" \| "bottom"              | "bottom" | Popup placement.                                                                                |
+| alignment  | "left" \| "center" \| "right"  | "left"   | Popup alignment.                                                                                |
+| append-to  | "body" \| "parent"             | "body"   | The parent element into which the popup element will be inserted.                               |
+| z-index    | number \| string               | ""       | Popup z-order.<br>If this value is an empty string, (1 + z-index of the input element) is used. |
 
 ### Format tokens
 

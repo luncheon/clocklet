@@ -1,6 +1,6 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Clocklet - An opinionated clock-style vanilla-js timepicker</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.11.0/themes/prism.css"><link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin=""><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Frank+Ruhl+Libre|Playball|Source+Sans+Pro:400,600"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/clocklet@0.1.8/css/clocklet.css"><style>body {
   font-family: 'Source Sans Pro';
-  margin: 8px 16px 32px 16px;
+  margin: 8px 24px 32px 24px;
 }
 
 h1 {
@@ -82,10 +82,10 @@ svg {
   }
 }
 </style></head><body><script async src="https://www.googletagmanager.com/gtag/js?id=UA-64398169-1"></script><script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments)} gtag('js', new Date()); gtag('config', 'UA-64398169-1');</script><script src="https://cdn.jsdelivr.net/npm/clocklet@0.1.8/umd/clocklet.js"></script><div style="display: flex; align-items: baseline;"><h1>Clock<strong>let</strong></h1><a href="https://github.com/luncheon/clocklet"><img src="https://cdn.jsdelivr.net/npm/octicons@7.0.1/build/svg/mark-github.svg" alt="GitHub" style="height: 3em; margin-left: 1em; vertical-align: bottom;"></a></div><p>An opinionated clock-style vanilla-js timepicker.<br><a href="https://github.com/luncheon/clocklet">See README on GitHub for details.</a></p><section class="examples"><h2>Examples</h2><div class="example"><h3>Basic usage</h3><div class="demo"><input data-clocklet>
-<input data-clocklet maxlength="5" value="12:34">
+<input data-clocklet value="12:34">
 <input data-clocklet="format: h:mm a" value="1:23 pm">
 </div><pre><code class="language-html">&lt;input data-clocklet&gt;
-&lt;input data-clocklet maxlength=&quot;5&quot; value=&quot;12:34&quot;&gt;
+&lt;input data-clocklet value=&quot;12:34&quot;&gt;
 &lt;input data-clocklet=&quot;format: h:mm a&quot; value=&quot;1:23 pm&quot;&gt;
 </code></pre></div><div class="example"><h3>Readonly or disabled input</h3><div class="demo"><input data-clocklet placeholder="readonly" readonly>
 <input data-clocklet placeholder="disabled" disabled>
@@ -98,22 +98,21 @@ svg {
     font-family: Changa, sans-serif;
     border-radius: 50%;
   }
+</style>
+<input
+  data-clocklet="class-name: clocklet-options-1; format: h:mm AA; alignment: center; placement: top;"
+  placeholder="h:mm AA"
+>
+
+<style>
   .clocklet-options-2 {
     font-family: "Frank Ruhl Libre", serif;
     font-weight: 500;
   }
 </style>
-
-<input
-  data-clocklet="class-name: clocklet-options-1; format: h:mm AA; placement: top;"
-  placeholder="h:mm AA"
-  maxlength="8"
->
-
 <input
   data-clocklet="class-name: clocklet-options-2; format: hh:mm a; alignment: right; append-to: parent;"
   placeholder="hh:mm a"
-  maxlength="8"
 >
 </div><pre><code class="language-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Changa|Frank+Ruhl+Libre:500&quot;&gt;
 
@@ -122,22 +121,21 @@ svg {
     font-family: Changa, sans-serif;
     border-radius: 50%;
   }
+&lt;/style&gt;
+&lt;input
+  data-clocklet=&quot;class-name: clocklet-options-1; format: h:mm AA; alignment: center; placement: top;&quot;
+  placeholder=&quot;h:mm AA&quot;
+&gt;
+
+&lt;style&gt;
   .clocklet-options-2 {
     font-family: &quot;Frank Ruhl Libre&quot;, serif;
     font-weight: 500;
   }
 &lt;/style&gt;
-
-&lt;input
-  data-clocklet=&quot;class-name: clocklet-options-1; format: h:mm AA; placement: top;&quot;
-  placeholder=&quot;h:mm AA&quot;
-  maxlength=&quot;8&quot;
-&gt;
-
 &lt;input
   data-clocklet=&quot;class-name: clocklet-options-2; format: hh:mm a; alignment: right; append-to: parent;&quot;
   placeholder=&quot;hh:mm a&quot;
-  maxlength=&quot;8&quot;
 &gt;
 </code></pre></div><div class="example"><h3>Events</h3><div class="demo" style="display: flex; align-items: center;"><input class="clocklet-events" data-clocklet="format: _H:_m;" maxlength="5" value=" 1:23">
 

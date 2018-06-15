@@ -2,7 +2,7 @@ export interface ClockletOptions {
   className:  string
   format:     string
   placement:  'top' | 'bottom'
-  alignment:  'left' | 'right'
+  alignment:  'left' | 'right' | 'center'
   appendTo:   'body' | 'parent'
   zIndex:     number | string
   dispatchesInputEvents:  boolean
