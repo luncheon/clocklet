@@ -209,6 +209,58 @@ svg {
     });
   })();
 &lt;/script&gt;
+</code></pre></div><div class="example"><h3>Colors</h3><div class="demo"><style>
+  .clocklet-color-example { background-color: #dce1e4; border: none; }
+
+  /* minute - dial, hand, selected tick, hovered tick */
+  .clocklet-color-example .clocklet-dial--minute { background-color: #fcf0e8; }
+  .clocklet-color-example .clocklet-hand--minute { background-color: #f5bb95; }
+  .clocklet-color-example .clocklet-tick--minute.clocklet-tick--selected { background-color: #f2a470; }
+  .clocklet-color-example.clocklet--hoverable:not(.clocklet--dragging) .clocklet-tick--minute:hover { background-color: #f5bb95; }
+
+  /* hour - dial, hand, selected tick, hovered tick */
+  .clocklet-color-example .clocklet-dial--hour { background-color: #e9fdf1; }
+  .clocklet-color-example .clocklet-hand--hour { background-color: #98f5bd; }
+  .clocklet-color-example .clocklet-tick--hour.clocklet-tick--selected { background-color: #44ee88; }
+  .clocklet-color-example.clocklet--hoverable:not(.clocklet--dragging) .clocklet-tick--hour:hover { background-color: #98f5bd; }
+
+  /* hand origin */
+  .clocklet-color-example .clocklet-hand-origin { background-color: #f1e369; }
+
+  /* ampm */
+  .clocklet-color-example .clocklet-ampm::before { background-color: #44eedd; }
+  .clocklet-color-example .clocklet-ampm:hover::before { background-color: #97f5ec; }
+  .clocklet-color-example .clocklet-ampm[data-clocklet-ampm="pm"]::before { background-color: #dd44ee; }
+  .clocklet-color-example .clocklet-ampm[data-clocklet-ampm="pm"]:hover::before { background-color: #eda1f6; }
+</style>
+
+<input data-clocklet="class-name: clocklet-color-example; format: hh:mm a" value="02:55 am">
+</div><pre><code class="language-html">&lt;style&gt;
+  .clocklet-color-example { background-color: #dce1e4; border: none; }
+
+  /* minute - dial, hand, selected tick, hovered tick */
+  .clocklet-color-example .clocklet-dial--minute { background-color: #fcf0e8; }
+  .clocklet-color-example .clocklet-hand--minute { background-color: #f5bb95; }
+  .clocklet-color-example .clocklet-tick--minute.clocklet-tick--selected { background-color: #f2a470; }
+  .clocklet-color-example.clocklet--hoverable:not(.clocklet--dragging) .clocklet-tick--minute:hover { background-color: #f5bb95; }
+
+  /* hour - dial, hand, selected tick, hovered tick */
+  .clocklet-color-example .clocklet-dial--hour { background-color: #e9fdf1; }
+  .clocklet-color-example .clocklet-hand--hour { background-color: #98f5bd; }
+  .clocklet-color-example .clocklet-tick--hour.clocklet-tick--selected { background-color: #44ee88; }
+  .clocklet-color-example.clocklet--hoverable:not(.clocklet--dragging) .clocklet-tick--hour:hover { background-color: #98f5bd; }
+
+  /* hand origin */
+  .clocklet-color-example .clocklet-hand-origin { background-color: #f1e369; }
+
+  /* ampm */
+  .clocklet-color-example .clocklet-ampm::before { background-color: #44eedd; }
+  .clocklet-color-example .clocklet-ampm:hover::before { background-color: #97f5ec; }
+  .clocklet-color-example .clocklet-ampm[data-clocklet-ampm=&quot;pm&quot;]::before { background-color: #dd44ee; }
+  .clocklet-color-example .clocklet-ampm[data-clocklet-ampm=&quot;pm&quot;]:hover::before { background-color: #eda1f6; }
+&lt;/style&gt;
+
+&lt;input data-clocklet=&quot;class-name: clocklet-color-example; format: hh:mm a&quot; value=&quot;02:55 am&quot;&gt;
 </code></pre></div><div class="example"><h3>Scroll to clocklet on open</h3><div class="demo"><input class="clocklet-scroll-into-view" data-clocklet maxlength="5" value="01:23">
 
 <script>
