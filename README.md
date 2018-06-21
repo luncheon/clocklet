@@ -1,9 +1,9 @@
-## <a name="clocklet" href="#clocklet" style="pointer-events:none">![Clocklet](https://luncheon.github.io/clocklet/docs/logo.png)</a>
+## <a name="clocklet" href="#clocklet" style="pointer-events:none">![Clocklet](https://luncheon.github.io/clocklet/logo.png)</a>
 
 An opinionated clock-style vanilla-js timepicker.  
-[Demo](https://luncheon.github.io/clocklet/docs/demo.html)
+[Demo](https://luncheon.github.io/clocklet/demo.html)
 
-<a href="#clocklet" style="pointer-events:none">![Capture](https://luncheon.github.io/clocklet/docs/capture.png)</a>
+<a href="#clocklet" style="pointer-events:none">![Capture](https://luncheon.github.io/clocklet/capture.png)</a>
 
 
 ## Features
