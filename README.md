@@ -42,6 +42,11 @@ import clocklet from "clocklet";
 <script>/* `window.clocklet` object is available */</script>
 ```
 
+### Download directly
+
+<a target="_blank" download="clocklet.min.css" href="https://cdn.jsdelivr.net/npm/clocklet@0.2.1/css/clocklet.min.css">clocklet.min.css</a>  
+<a target="_blank" download="clocklet.min.js"  href="https://cdn.jsdelivr.net/npm/clocklet@0.2.1/umd/clocklet.min.js">clocklet.min.js</a>
+
 
 ## Usage
 
