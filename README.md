@@ -37,15 +37,15 @@ import clocklet from "clocklet";
 ### via CDN
 
 ```html
-<link rel="https://cdn.jsdelivr.net/npm/clocklet@0.2.1/css/clocklet.min.css">
-<script src="https://cdn.jsdelivr.net/npm/clocklet@0.2.1"></script>
+<link rel="https://cdn.jsdelivr.net/npm/clocklet@0.2.2/css/clocklet.min.css">
+<script src="https://cdn.jsdelivr.net/npm/clocklet@0.2.2"></script>
 <script>/* `window.clocklet` object is available */</script>
 ```
 
 ### Download directly
 
-<a target="_blank" download="clocklet.min.css" href="https://cdn.jsdelivr.net/npm/clocklet@0.2.1/css/clocklet.min.css">clocklet.min.css</a>  
-<a target="_blank" download="clocklet.min.js"  href="https://cdn.jsdelivr.net/npm/clocklet@0.2.1/umd/clocklet.min.js">clocklet.min.js</a>
+<a target="_blank" download="clocklet.min.css" href="https://cdn.jsdelivr.net/npm/clocklet@0.2.2/css/clocklet.min.css">clocklet.min.css</a>  
+<a target="_blank" download="clocklet.min.js"  href="https://cdn.jsdelivr.net/npm/clocklet@0.2.2/umd/clocklet.min.js">clocklet.min.js</a>
 
 
 ## Usage
