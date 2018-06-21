@@ -83,12 +83,21 @@ export default class ClockletClock {
     } else {
       copyStyles(container.style, {} as CSSStyleDeclaration, coordinateProperties)
       if (resolvedOptions.appendTo === 'parent') {
-        container.style.position  = 'relative'
-        this._relocate = () => {
-          container.style.left    = container.style.top
-                                  = ''
-          container.style.left    = `${input.offsetLeft - container.offsetLeft}px`
-          container.style.top     = `${input.offsetTop  - container.offsetTop}px`
+        const parentStyle = getComputedStyle(input.parentElement!)
+        if (parentStyle.display === 'flex') {
+          container.style.position  = 'absolute'
+          this._relocate = () => {
+            container.style.left    = `${input.offsetLeft}px`
+            container.style.top     = `${input.offsetTop}px`
+          }
+        } else {
+          container.style.position  = 'relative'
+          this._relocate = () => {
+            container.style.left    = container.style.top
+                                    = ''
+            container.style.left    = `${input.offsetLeft - container.offsetLeft}px`
+            container.style.top     = `${input.offsetTop  - container.offsetTop}px`
+          }
         }
       } else {
         container.style.position  = 'absolute'

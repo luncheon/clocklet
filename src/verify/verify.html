@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="../../css/clocklet.css">
+    <style>
+      h1, h2 { margin-bottom: 0; }
+      section { margin: 20px; }
+    </style>
+  </head>
+  <body style="min-height: 200vh;">
+    <section class="placement-alignment-options">
+      <h1>Options</h1>
+      <section>
+        <h2>Empty</h2>
+        <input data-clocklet>
+      </section>
+      <section>
+        <h2>placement: bottom</h2>
+        <input data-clocklet="placement: bottom;">
+        <input data-clocklet="placement: bottom; alignment: left;">
+        <input data-clocklet="placement: bottom; alignment: center;">
+        <input data-clocklet="placement: bottom; alignment: right;">
+      </section>
+      <section>
+        <h2>placement: top</h2>
+        <input data-clocklet="placement: top;">
+        <input data-clocklet="placement: top; alignment: left;">
+        <input data-clocklet="placement: top; alignment: center;">
+        <input data-clocklet="placement: top; alignment: right;">
+      </section>
+    </section>
+    <script>Array.prototype.forEach.call(document.querySelectorAll('.placement-alignment-options [data-clocklet]'), function (input) { input.placeholder = input.dataset.clocklet })</script>
+
+    <section class="parent-element-characteristics">
+      <h1>Parent element characteristics</h1>
+      <div style="display: flex; justify-content: space-around;">
+        <input data-clocklet="append-to: parent">
+      </div>
+      <div style="position: absolute; right: 40px; top: 160px;">
+        <input data-clocklet="append-to: parent">
+      </div>
+      <div style="position: fixed; right: 40px; top: 200px;">
+        <input data-clocklet="append-to: parent">
+      </div>
+    </section>
+    <script>Array.prototype.forEach.call(document.querySelectorAll('.parent-element-characteristics [data-clocklet]'), function (input) { input.placeholder = input.parentElement.style.cssText })</script>
+
+    <script src="../../umd/clocklet.js"></script>
+  </body>
+</html>
