@@ -84,7 +84,7 @@ export default class ClockletClock {
       copyStyles(container.style, {} as CSSStyleDeclaration, coordinateProperties)
       if (resolvedOptions.appendTo === 'parent') {
         const parentStyle = getComputedStyle(input.parentElement!)
-        if (parentStyle.display === 'flex') {
+        if (parentStyle.display === 'flex' || parentStyle.display === 'inline-flex') {
           container.style.position  = 'absolute'
           this._relocate = () => {
             container.style.left    = `${input.offsetLeft}px`
