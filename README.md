@@ -9,13 +9,13 @@ An opinionated clock-style vanilla-js timepicker.
 ## Features
 
 * Intuitive - it just looks like an analog clock
+* Keyboard and numpad friendly
+  * Autocomplete - e.g. `"1"`->`"01:00"`, `"12"`->`"12:00"`, `"1234"`->`"12:34"`
+  * Support up/down arrow key to increment/decrement
 * Mouse and touch friendly
   * 3 clicks are sufficient to pick a time - am/pm, hour, minute
   * Click targets often used are large enough
   * No need to scroll
-* Keyboard and numpad friendly
-  * Autocomplete - e.g. `"1"`->`"01:00"`, `"12"`->`"12:00"`, `"1234"`->`"12:34"`
-  * Support up/down arrow key to increment/decrement
 * Declarative usage
 * Vanilla JS - no need jQuery or any other frameworks
 * Lightweight (CSS + JS ~ 7kB gzipped)
@@ -37,15 +37,15 @@ import clocklet from "clocklet";
 ### via CDN
 
 ```html
-<link rel="https://cdn.jsdelivr.net/npm/clocklet@0.2.2/css/clocklet.min.css">
-<script src="https://cdn.jsdelivr.net/npm/clocklet@0.2.2"></script>
+<link rel="https://cdn.jsdelivr.net/npm/clocklet@0.2.3/css/clocklet.min.css">
+<script src="https://cdn.jsdelivr.net/npm/clocklet@0.2.3"></script>
 <script>/* `window.clocklet` object is available */</script>
 ```
 
 ### Download directly
 
-<a target="_blank" download="clocklet.min.css" href="https://cdn.jsdelivr.net/npm/clocklet@0.2.2/css/clocklet.min.css">clocklet.min.css</a>  
-<a target="_blank" download="clocklet.min.js"  href="https://cdn.jsdelivr.net/npm/clocklet@0.2.2/umd/clocklet.min.js">clocklet.min.js</a>
+<a target="_blank" download="clocklet.min.css" href="https://cdn.jsdelivr.net/npm/clocklet@0.2.3/css/clocklet.min.css">clocklet.min.css</a>  
+<a target="_blank" download="clocklet.min.js"  href="https://cdn.jsdelivr.net/npm/clocklet@0.2.3/umd/clocklet.min.js">clocklet.min.js</a>
 
 
 ## Usage
