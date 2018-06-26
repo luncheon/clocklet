@@ -16,6 +16,7 @@
   "scripts": {
     "clean": "rimraf es/ umd/ css/ .docs/ docs/demo.html",
     "start": "concurrently --kill-others \"npm run watch:umd\" \"npm run watch:css\" \"npm run watch:demo\"",
+    "diff": "publish-diff",
     "build": "npm run build:es && npm run build:umd && npm run build:css && npm run build:demo",
     "build:es": "rimraf es/   && rollup    -c -f es       -i src/script/template.pug -o es/template.pug.js && copyfiles -f src/script/template.pug.d.ts es/ && tsc -p . --outDir es/",
     "build:umd": "rimraf umd/ && rollup    -c -n clocklet -i src/script/clocklet.ts -o umd/clocklet.js && uglifyjs -m -c join_vars=true -o umd/clocklet.min.js umd/clocklet.js",
@@ -40,19 +41,20 @@
     "tslib": ">=1.0.0 <2.0.0"
   },
   "devDependencies": {
-    "concurrently": "^3.5.1",
+    "concurrently": "^3.6.0",
     "copyfiles": "^2.0.0",
     "cssnano": "^3.10.0",
     "jstransformer-escape-html": "^1.1.0",
     "mkdirp": "^0.5.1",
-    "postcss-cli": "^5.0.0",
+    "postcss-cli": "^5.0.1",
+    "publish-diff": "^0.4.1",
     "pug-cli": "^1.0.0-alpha6",
     "rimraf": "^2.6.2",
-    "rollup": "^0.59.4",
+    "rollup": "^0.61.2",
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-pug": "^0.1.6",
     "stylus": "^0.54.5",
-    "typescript": "^2.9.1",
-    "uglify-js": "^3.4.0"
+    "typescript": "^2.9.2",
+    "uglify-js": "^3.4.2"
   }
 }
