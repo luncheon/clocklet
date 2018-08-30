@@ -1,15 +1,16 @@
 ## <a name="clocklet" href="#clocklet" style="pointer-events:none">![Clocklet](https://luncheon.github.io/clocklet/logo.png)</a>
 
-An opinionated clock-style vanilla-js timepicker.  
-[Demo](https://luncheon.github.io/clocklet/demo.html)
+[![npm](https://img.shields.io/npm/dm/clocklet.svg?style=popout-square&label=npm&colorB=orange)](https://www.npmjs.com/package/clocklet)
+[![jsDelivr](https://data.jsdelivr.com/v1/package/npm/clocklet/badge)](https://www.jsdelivr.com/package/npm/clocklet)
 
-<a href="#clocklet" style="pointer-events:none">![Capture](https://luncheon.github.io/clocklet/capture.png)</a>
+An opinionated clock-style vanilla-js timepicker.  
+[Demo  
+![clocklet capture image](https://luncheon.github.io/clocklet/capture.png)](https://luncheon.github.io/clocklet/demo.html)
 
 
 ## Features
 
-* Intuitive - it just looks like an analog clock
-* Keyboard and numpad friendly
+* **Keyboard and numpad friendly**
   * Autocomplete - e.g. `"1"`->`"01:00"`, `"12"`->`"12:00"`, `"1234"`->`"12:34"`
   * Support up/down arrow key to increment/decrement
 * Mouse and touch friendly
