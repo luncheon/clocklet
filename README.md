@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/dm/clocklet.svg?style=popout-square&label=npm&colorB=orange)](https://www.npmjs.com/package/clocklet)
 [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/clocklet/badge)](https://www.jsdelivr.com/package/npm/clocklet)
-[<img alt="WTFPL" src="http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-1.png" height="20">](http://www.wtfpl.net)
+[<img alt="WTFPL" src="https://luncheon.github.io/wtfpl-badge.png" height="20">](http://www.wtfpl.net)
 
 An opinionated clock-style vanilla-js timepicker.  
 [Demo  
