@@ -3,11 +3,11 @@
     .clocklet-dial.clocklet-dial--minute
       .clocklet-hand.clocklet-hand--minute
       for _, index in Array(60)
-        button.clocklet-tick.clocklet-tick--minute(data-clocklet-tick-value=index style=tickPosition(index, 60, index % 5 ? 46 : 39))
+        button.clocklet-tick.clocklet-tick--minute(type="button" data-clocklet-tick-value=index style=tickPosition(index, 60, index % 5 ? 46 : 39))
     .clocklet-dial.clocklet-dial--hour
       .clocklet-hand.clocklet-hand--hour
       for _, index in Array(12)
-        button.clocklet-tick.clocklet-tick--hour(data-clocklet-tick-value=index style=tickPosition(index, 12, 39))
+        button.clocklet-tick.clocklet-tick--hour(type="button" data-clocklet-tick-value=index style=tickPosition(index, 12, 39))
     .clocklet-ampm
     .clocklet-hand-origin
 
