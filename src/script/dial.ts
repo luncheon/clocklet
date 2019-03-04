@@ -45,6 +45,8 @@ export default class ClockletDial {
     dispatchCustomEvent(this.dial, 'clocklet.dragstart', true, false);
   }
 
+  private _onDrag(event: Event & Readonly<{ clientX: number, clientY: number }>): void
+  private _onDrag(event: Event & Readonly<{ targetTouches?: TouchList }>): void
   private _onDrag(event: Event & Readonly<{ clientX: number, clientY: number, targetTouches?: TouchList }>) {
     if (!this.dragging) {
       return

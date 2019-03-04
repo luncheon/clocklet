@@ -181,8 +181,8 @@ function createClockletElements() {
   return element
 }
 
-function copyStyles<T>(destination: T, source: Readonly<T>, properties: (keyof T)[]) {
+function copyStyles(destination: CSSStyleDeclaration, source: Readonly<CSSStyleDeclaration>, properties: (keyof CSSStyleDeclaration)[]) {
   for (const property of properties) {
-    destination[property] = source[property] || ''
+    (destination as any)[property] = source[property] || ''
   }
 }

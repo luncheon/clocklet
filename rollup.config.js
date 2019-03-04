@@ -8,6 +8,7 @@ export default {
   plugins: [
     resolve(),
     pug({
+      basedir: 'src/demo/',
       pugRuntime: false,
       staticPattern: /\S/,
     }),
