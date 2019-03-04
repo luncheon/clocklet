@@ -39,15 +39,15 @@ import clocklet from "clocklet";
 ### via CDN
 
 ```html
-<link rel="https://cdn.jsdelivr.net/npm/clocklet@0.2.3/css/clocklet.min.css">
-<script src="https://cdn.jsdelivr.net/npm/clocklet@0.2.3"></script>
+<link rel="https://cdn.jsdelivr.net/npm/clocklet@0.2.4/css/clocklet.min.css">
+<script src="https://cdn.jsdelivr.net/npm/clocklet@0.2.4"></script>
 <script>/* `window.clocklet` object is available */</script>
 ```
 
 ### Download directly
 
-<a target="_blank" download="clocklet.min.css" href="https://cdn.jsdelivr.net/npm/clocklet@0.2.3/css/clocklet.min.css">clocklet.min.css</a>  
-<a target="_blank" download="clocklet.min.js"  href="https://cdn.jsdelivr.net/npm/clocklet@0.2.3/umd/clocklet.min.js">clocklet.min.js</a>
+<a target="_blank" download="clocklet.min.css" href="https://cdn.jsdelivr.net/npm/clocklet@0.2.4/css/clocklet.min.css">clocklet.min.css</a>  
+<a target="_blank" download="clocklet.min.js"  href="https://cdn.jsdelivr.net/npm/clocklet@0.2.4/umd/clocklet.min.js">clocklet.min.js</a>
 
 
 ## Usage
@@ -160,4 +160,4 @@ Hide the timepicker.
 
 ## License
 
-WTFPL
+[WTFPL](http://www.wtfpl.net)
