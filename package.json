@@ -15,16 +15,16 @@
   ],
   "scripts": {
     "clean": "rimraf es/ umd/ css/ .docs/ docs/demo.html",
-    "start": "concurrently --kill-others \"npm run watch:umd\" \"npm run watch:css\" \"npm run watch:demo\"",
+    "start": "npm-run-all -p watch:*",
     "diff": "publish-diff",
-    "build": "npm run build:es && npm run build:umd && npm run build:css && npm run build:demo",
+    "build": "npm-run-all -p build:es build:umd build:css build:demo",
     "build:es": "rimraf es/   && rollup    -c -f es       -i src/script/template.pug -o es/template.pug.js && copyfiles -f src/script/template.pug.d.ts es/ && tsc -p . --outDir es/",
     "build:umd": "rimraf umd/ && rollup    -c -n clocklet -i src/script/clocklet.ts -o umd/clocklet.js && uglifyjs -m -c join_vars=true -o umd/clocklet.min.js umd/clocklet.js",
     "watch:umd": "rimraf umd/ && rollup -w -c -n clocklet -i src/script/clocklet.ts -o umd/clocklet.js",
     "build:css": "rimraf css/ && mkdirp css/ && stylus    -o css/ src/style/ && postcss css/ -d css/ --ext min.css -u cssnano --no-map",
     "watch:css": "rimraf css/ && mkdirp css/ && stylus -w -o css/ src/style/",
-    "build:demo": "rimraf .docs/ docs/demo.html && pug    -o .docs/ src/demo/demo.pug -O {cdnBaseUrl:'..'} && pug -o docs/ src/demo/demo.pug -O {cdnBaseUrl:'https://cdn.jsdelivr.net/npm/clocklet@0.2.4'}",
-    "watch:demo": "rimraf .docs/ docs/demo.html && pug -w -o .docs/ src/demo/demo.pug -O {cdnBaseUrl:'..'}"
+    "build:demo": "rimraf .docs/ docs/demo.html && pug    -o .docs/ src/demo/demo.pug -O \"{cdnBaseUrl:'..'}\" && pug -o docs/ src/demo/demo.pug -O \"{cdnBaseUrl:'https://cdn.jsdelivr.net/npm/clocklet@0.2.4'}\"",
+    "watch:demo": "rimraf .docs/ docs/demo.html && pug -w -o .docs/ src/demo/demo.pug -O \"{cdnBaseUrl:'..'}\""
   },
   "keywords": [
     "timepicker",
@@ -41,11 +41,11 @@
     "tslib": ">=1.0.0 <2.0.0"
   },
   "devDependencies": {
-    "concurrently": "^4.1.0",
     "copyfiles": "^2.1.0",
     "cssnano": "^4.1.10",
     "jstransformer-escape-html": "^1.1.0",
     "mkdirp": "^0.5.1",
+    "npm-run-all": "^4.1.5",
     "postcss-cli": "^6.1.2",
     "publish-diff": "^0.4.1",
     "pug-cli": "^1.0.0-alpha6",
