@@ -1,4 +1,4 @@
-import resolve from 'rollup-plugin-node-resolve'
+import resolve from '@rollup/plugin-node-resolve'
 import pug from 'rollup-plugin-pug'
 
 export default {
