@@ -31,11 +31,11 @@ function clocklet(options: {
     target.addEventListener('blur', close)
   } else {
     const isTarget = typeof target === 'function' ? target : (element: Element) => (Element.prototype.matches || Element.prototype.msMatchesSelector).call(element, target) as boolean
-    addEventListener('focus', event => {
+    addEventListener('focusin', event => {
       const element = event.target as HTMLInputElement
       isTarget(element) && instance.open(element, optionsSelector(element))
     }, true)
-    addEventListener('blur', close, true)
+    addEventListener('focusout', close, true)
   }
   return instance
 }
