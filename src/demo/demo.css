@@ -39,11 +39,7 @@ q {
 }
 
 section {
-  padding-left: 20px;
   margin-bottom: 2em;
-}
-section > h2 {
-  margin-left: -20px;
 }
 
 pre[class*="language-"],
@@ -73,11 +69,5 @@ svg {
 @media(max-width: 480px) {
   body {
     margin: 8px 8px 32px 8px;
-  }
-  section {
-    padding-left: 12px;
-  }
-  section > h2 {
-    margin-left: -12px;
   }
 }
