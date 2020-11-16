@@ -1,23 +1,29 @@
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Changa|Frank+Ruhl+Libre:500">
+<div style="display: flex">
+  <div>
+    <h3>without input element</h3>
+    <div id="clocklet-inline-container"></div>
+    <script>
+      const element = document.getElementById("clocklet-inline-container");
+      clocklet.inline(element).value("14:45");
+      element.addEventListener("input", function (event) {
+        const time = event.detail.time;
+        console.log(time.format("hh:mm a"), time);
+      });
+    </script>
+  </div>
 
-<style>
-  .clocklet-options-1 {
-    font-family: Changa, sans-serif;
-    border-radius: 50%;
-  }
-</style>
-<input
-  data-clocklet="class-name: clocklet-options-1; format: h:mm AA; alignment: center; placement: top;"
-  placeholder="h:mm AA"
->
-
-<style>
-  .clocklet-options-2 {
-    font-family: "Frank Ruhl Libre", serif;
-    font-weight: 500;
-  }
-</style>
-<input
-  data-clocklet="class-name: clocklet-options-2; format: hh:mm a; alignment: right; append-to: parent;"
-  placeholder="hh:mm a"
->
+  <div>
+    <h3>with input element</h3>
+    <div id="clocklet-inline-with-input-container"></div>
+    <input id="clocklet-inline-with-input-input">
+  </div>
+  <script>
+    clocklet.inline(
+      document.getElementById("clocklet-inline-with-input-container"),
+      {
+        input: document.getElementById("clocklet-inline-with-input-input"),
+        format: "_H:mm",
+      }
+    );
+  </script>
+</div>

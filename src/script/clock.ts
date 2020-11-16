@@ -35,7 +35,7 @@ export default class ClockletClock {
     addEventListener('orientationchange', relocate);
   }
 
-  public open(input: HTMLInputElement, options?: Partial<Readonly<ClockletOptions>>) {
+  open(input: HTMLInputElement, options?: Partial<Readonly<ClockletOptions>>) {
     const resolvedOptions       = __assign(Object.create(this.defaultOptions), options) as ClockletOptions
     const inputRect             = input.getBoundingClientRect()
     const inputStyle            = getComputedStyle(input)
@@ -119,7 +119,7 @@ export default class ClockletClock {
     dispatchCustomEvent(input, 'clocklet.opened', true, false, eventDetail)
   }
 
-  public close() {
+  close() {
     const input = this.input
     const eventDetail = {}
     if (!input) {
@@ -134,15 +134,36 @@ export default class ClockletClock {
     dispatchCustomEvent(input, 'clocklet.closed', true, false, eventDetail)
   }
 
-  private value(time: { h?: number | string, m?: number | string, a?: 'am' | 'pm' }) {
+  inline(container: HTMLElement, { input, format }: { input?: HTMLInputElement, format?: string } = {}) {
+    const clock = new ClockletClock(this.defaultOptions)
+    container.appendChild(clock.container)
+    clock.container.classList.add('clocklet-container--inline')
+    clock.root.classList.add('clocklet--inline')
+    clock.dispatchesInputEvents = clock.defaultOptions.dispatchesInputEvents
+    format = format || clock.defaultOptions.format
+    setClockletData(clock.root, 'format', format)
+    if (!input) {
+      input = container.appendChild(document.createElement('input'))
+      input.style.display = 'none'
+    }
+    input.setAttribute('data-clocklet', 'format:' + format)
+    input.setAttribute('data-clocklet-inline', '')
+    clock.input = input
+    clock.updateHighlight()
+    return clock
+  }
+
+  value(time: { h?: number | string, m?: number | string, a?: 'am' | 'pm' } | string) {
     if (!this.input) {
       return
     }
     const oldValue = this.input.value
-    const _time = lenientime(this.input.value).with(time.a !== undefined ? time : { h: time.h, m: time.m, a: getClockletData(this.ampm, 'ampm') as 'am' | 'pm' })
+    const _time = typeof time === 'string'
+      ? lenientime(time)
+      : lenientime(this.input.value).with(time.a !== undefined ? time : { h: time.h, m: time.m, a: getClockletData(this.ampm, 'ampm') as 'am' | 'pm' })
     const template = getClockletData(this.root, 'format')!
     this.input.value = _time.format(template)
-    if (this.input.type === 'text') {
+    if (this.input.type === 'text' && typeof time === 'object') {
       const token =
         time.h !== undefined ? findHourToken(_time, template) :
         time.m !== undefined ? findMinuteToken(_time, template) :
@@ -150,7 +171,7 @@ export default class ClockletClock {
         undefined
       token && this.input.setSelectionRange(token.index, token.index + token.value.length)
     }
-    this.dispatchesInputEvents && this.input.value !== oldValue && dispatchCustomEvent(this.input, 'input', true, false, undefined)
+    this.dispatchesInputEvents && this.input.value !== oldValue && dispatchCustomEvent(this.input, 'input', true, false, { time: _time })
   }
 
   private updateHighlight() {

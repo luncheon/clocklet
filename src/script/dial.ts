@@ -22,7 +22,7 @@ export default class ClockletDial {
     }
   }
 
-  public value(value: number) {
+  value(value: number) {
     this.hand.style.transform = `rotate(${value * 360 / this.maxValue}deg)`
     const selectedClassName   = `clocklet-tick--selected`
     const previousSelected    = this.dial.getElementsByClassName(selectedClassName)[0]

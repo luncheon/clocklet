@@ -1,26 +1,36 @@
-<style>
-  .clocklet-color-example { background-color: #dce1e4; border: none; }
+<input class="clocklet-events" data-clocklet="format: _H:_m;" maxlength="5" value=" 1:23">
 
-  /* minute - dial, hand, selected tick, hovered tick */
-  .clocklet-color-example .clocklet-dial--minute { background-color: #fcf0e8; }
-  .clocklet-color-example .clocklet-hand--minute { background-color: #f5bb95; }
-  .clocklet-color-example .clocklet-tick--minute.clocklet-tick--selected { background-color: #f2a470; }
-  .clocklet-color-example.clocklet--hoverable:not(.clocklet--dragging) .clocklet-tick--minute:hover { background-color: #f5bb95; }
+<label><input class="clocklet-cancel-opening" type="checkbox">Cancel opening</label>
+<label><input class="clocklet-cancel-closing" type="checkbox">Cancel closing</label>
 
-  /* hour - dial, hand, selected tick, hovered tick */
-  .clocklet-color-example .clocklet-dial--hour { background-color: #e9fdf1; }
-  .clocklet-color-example .clocklet-hand--hour { background-color: #98f5bd; }
-  .clocklet-color-example .clocklet-tick--hour.clocklet-tick--selected { background-color: #44ee88; }
-  .clocklet-color-example.clocklet--hoverable:not(.clocklet--dragging) .clocklet-tick--hour:hover { background-color: #98f5bd; }
+<script>
+  (function () {
+    var inputElement = document.querySelector('.clocklet-events');
 
-  /* hand origin */
-  .clocklet-color-example .clocklet-hand-origin { background-color: #f1e369; }
+    inputElement.addEventListener('clocklet.opening', function (event) {
+      console.log(event.type, event.target.value, event.detail.options);
+      if (document.querySelector('.clocklet-cancel-opening').checked) {
+        event.preventDefault();
+      }
+    });
 
-  /* ampm */
-  .clocklet-color-example .clocklet-ampm::before { background-color: #44eedd; }
-  .clocklet-color-example .clocklet-ampm:hover::before { background-color: #97f5ec; }
-  .clocklet-color-example .clocklet-ampm[data-clocklet-ampm="pm"]::before { background-color: #dd44ee; }
-  .clocklet-color-example .clocklet-ampm[data-clocklet-ampm="pm"]:hover::before { background-color: #eda1f6; }
-</style>
+    inputElement.addEventListener('clocklet.opened', function (event) {
+      console.log(event.type, event.target.value, event.detail.options);
+    });
 
-<input data-clocklet="class-name: clocklet-color-example; format: hh:mm a" value="02:55 am">
+    inputElement.addEventListener('clocklet.closing', function (event) {
+      console.log(event.type, event.target.value);
+      if (document.querySelector('.clocklet-cancel-closing').checked) {
+        event.preventDefault();
+      }
+    });
+
+    inputElement.addEventListener('clocklet.closed', function (event) {
+      console.log(event.type, event.target.value);
+    });
+
+    inputElement.addEventListener('input', function (event) {
+      console.log(event.type, event.target.value, event.target.value);
+    });
+  })();
+</script>

@@ -26,26 +26,30 @@ html
 
     section.examples
       .example
-        h3 Basic usage
+        h3 1. Basic Usage
         .demo: include 1.html
         pre: code.language-html: include:escape-html 1.html
         a(target="_blank" rel="noopener" href="https://codepen.io/luncheon/pen/XWdeXjY") CodePen
       .example
-        h3 Options
+        h3 2. Inline (no popup)
         .demo: include 2.html
         pre: code.language-html: include:escape-html 2.html
       .example
-        h3 Events
-        .demo(style="display: flex; align-items: center;"): include 3.html
+        h3 3. Options
+        .demo: include 3.html
         pre: code.language-html: include:escape-html 3.html
       .example
-        h3 Colors
-        .demo: include 4.html
+        h3 4. Events
+        .demo(style="display: flex; align-items: center;"): include 4.html
         pre: code.language-html: include:escape-html 4.html
       .example
-        h3 Scroll to clocklet on open
+        h3 5. Colors
         .demo: include 5.html
         pre: code.language-html: include:escape-html 5.html
+      .example
+        h3 6. Scroll to clocklet on open
+        .demo: include 6.html
+        pre: code.language-html: include:escape-html 6.html
 
     script(src="https://cdn.jsdelivr.net/npm/prismjs@1.15.0/prism.min.js")
     script(src="https://cdn.jsdelivr.net/npm/prismjs@1.15.0/components/prism-markup.min.js")

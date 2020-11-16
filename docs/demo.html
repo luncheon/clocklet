@@ -71,13 +71,71 @@ svg {
     margin: 8px 8px 32px 8px;
   }
 }
-</style></head><body><script async src="https://www.googletagmanager.com/gtag/js?id=UA-64398169-1"></script><script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments)} gtag('js', new Date()); gtag('config', 'UA-64398169-1');</script><script src="https://cdn.jsdelivr.net/npm/clocklet@0.2.6/umd/clocklet.js"></script><div style="display: flex; align-items: baseline;"><h1>Clock<strong>let</strong></h1><a href="https://github.com/luncheon/clocklet"><img src="https://cdn.jsdelivr.net/npm/octicons@7.0.1/build/svg/mark-github.svg" alt="GitHub" style="height: 3em; margin-left: 1em; vertical-align: bottom;"></a></div><p>An opinionated clock-style vanilla-js timepicker.<br><a href="https://github.com/luncheon/clocklet">See README on GitHub for details.</a></p><section class="examples"><div class="example"><h3>Basic usage</h3><div class="demo"><input data-clocklet>
+</style></head><body><script async src="https://www.googletagmanager.com/gtag/js?id=UA-64398169-1"></script><script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments)} gtag('js', new Date()); gtag('config', 'UA-64398169-1');</script><script src="https://cdn.jsdelivr.net/npm/clocklet@0.2.6/umd/clocklet.js"></script><div style="display: flex; align-items: baseline;"><h1>Clock<strong>let</strong></h1><a href="https://github.com/luncheon/clocklet"><img src="https://cdn.jsdelivr.net/npm/octicons@7.0.1/build/svg/mark-github.svg" alt="GitHub" style="height: 3em; margin-left: 1em; vertical-align: bottom;"></a></div><p>An opinionated clock-style vanilla-js timepicker.<br><a href="https://github.com/luncheon/clocklet">See README on GitHub for details.</a></p><section class="examples"><div class="example"><h3>1. Basic Usage</h3><div class="demo"><input data-clocklet>
 <input data-clocklet value="12:34">
 <input data-clocklet="format: h:mm a" value="1:23 pm">
 </div><pre><code class="language-html">&lt;input data-clocklet&gt;
 &lt;input data-clocklet value=&quot;12:34&quot;&gt;
 &lt;input data-clocklet=&quot;format: h:mm a&quot; value=&quot;1:23 pm&quot;&gt;
-</code></pre><a target="_blank" rel="noopener" href="https://codepen.io/luncheon/pen/XWdeXjY">CodePen</a></div><div class="example"><h3>Options</h3><div class="demo"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Changa|Frank+Ruhl+Libre:500">
+</code></pre><a target="_blank" rel="noopener" href="https://codepen.io/luncheon/pen/XWdeXjY">CodePen</a></div><div class="example"><h3>2. Inline (no popup)</h3><div class="demo"><div style="display: flex">
+  <div>
+    <h3>without input element</h3>
+    <div id="clocklet-inline-container"></div>
+    <script>
+      const element = document.getElementById("clocklet-inline-container");
+      clocklet.inline(element).value("14:45");
+      element.addEventListener("input", function (event) {
+        const time = event.detail.time;
+        console.log(time.format("hh:mm a"), time);
+      });
+    </script>
+  </div>
+
+  <div>
+    <h3>with input element</h3>
+    <div id="clocklet-inline-with-input-container"></div>
+    <input id="clocklet-inline-with-input-input">
+  </div>
+  <script>
+    clocklet.inline(
+      document.getElementById("clocklet-inline-with-input-container"),
+      {
+        input: document.getElementById("clocklet-inline-with-input-input"),
+        format: "_H:mm",
+      }
+    );
+  </script>
+</div>
+</div><pre><code class="language-html">&lt;div style=&quot;display: flex&quot;&gt;
+  &lt;div&gt;
+    &lt;h3&gt;without input element&lt;/h3&gt;
+    &lt;div id=&quot;clocklet-inline-container&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+      const element = document.getElementById(&quot;clocklet-inline-container&quot;);
+      clocklet.inline(element).value(&quot;14:45&quot;);
+      element.addEventListener(&quot;input&quot;, function (event) {
+        const time = event.detail.time;
+        console.log(time.format(&quot;hh:mm a&quot;), time);
+      });
+    &lt;/script&gt;
+  &lt;/div&gt;
+
+  &lt;div&gt;
+    &lt;h3&gt;with input element&lt;/h3&gt;
+    &lt;div id=&quot;clocklet-inline-with-input-container&quot;&gt;&lt;/div&gt;
+    &lt;input id=&quot;clocklet-inline-with-input-input&quot;&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    clocklet.inline(
+      document.getElementById(&quot;clocklet-inline-with-input-container&quot;),
+      {
+        input: document.getElementById(&quot;clocklet-inline-with-input-input&quot;),
+        format: &quot;_H:mm&quot;,
+      }
+    );
+  &lt;/script&gt;
+&lt;/div&gt;
+</code></pre></div><div class="example"><h3>3. Options</h3><div class="demo"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Changa|Frank+Ruhl+Libre:500">
 
 <style>
   .clocklet-options-1 {
@@ -123,7 +181,7 @@ svg {
   data-clocklet=&quot;class-name: clocklet-options-2; format: hh:mm a; alignment: right; append-to: parent;&quot;
   placeholder=&quot;hh:mm a&quot;
 &gt;
-</code></pre></div><div class="example"><h3>Events</h3><div class="demo" style="display: flex; align-items: center;"><input class="clocklet-events" data-clocklet="format: _H:_m;" maxlength="5" value=" 1:23">
+</code></pre></div><div class="example"><h3>4. Events</h3><div class="demo" style="display: flex; align-items: center;"><input class="clocklet-events" data-clocklet="format: _H:_m;" maxlength="5" value=" 1:23">
 
 <label><input class="clocklet-cancel-opening" type="checkbox">Cancel opening</label>
 <label><input class="clocklet-cancel-closing" type="checkbox">Cancel closing</label>
@@ -195,7 +253,7 @@ svg {
     });
   })();
 &lt;/script&gt;
-</code></pre></div><div class="example"><h3>Colors</h3><div class="demo"><style>
+</code></pre></div><div class="example"><h3>5. Colors</h3><div class="demo"><style>
   .clocklet-color-example { background-color: #dce1e4; border: none; }
 
   /* minute - dial, hand, selected tick, hovered tick */
@@ -247,7 +305,7 @@ svg {
 &lt;/style&gt;
 
 &lt;input data-clocklet=&quot;class-name: clocklet-color-example; format: hh:mm a&quot; value=&quot;02:55 am&quot;&gt;
-</code></pre></div><div class="example"><h3>Scroll to clocklet on open</h3><div class="demo"><input class="clocklet-scroll-into-view" data-clocklet maxlength="5" value="01:23">
+</code></pre></div><div class="example"><h3>6. Scroll to clocklet on open</h3><div class="demo"><input class="clocklet-scroll-into-view" data-clocklet maxlength="5" value="01:23">
 
 <script>
   document

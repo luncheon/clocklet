@@ -59,6 +59,7 @@ When these elements get focused, the timepicker popups.
 <input data-clocklet>
 ```
 
+[CodePen](https://codepen.io/luncheon/pen/XWdeXjY)
 
 ## Options
 
@@ -157,6 +158,10 @@ Show the timepicker for the specified `inputElement` with the `options` (optiona
 
 Hide the timepicker.
 
+### `clocklet.inline(containerElement[, { input, format }])`
+
+Place the timepicker into the `containerElement`.  
+The optional parameter is the binding setting for the `input` element.
 
 ## License
 

@@ -24,6 +24,11 @@ coordinate($top, $right = $top, $bottom = $top, $left = $right)
   position              absolute
   font-size             inherit
 
+.clocklet-container--inline,
+.clocklet--inline {
+  position static
+}
+
 .clocklet-container
   display           inline
   width             0
@@ -38,7 +43,7 @@ coordinate($top, $right = $top, $bottom = $top, $left = $right)
   border-radius     3px
   &:not(.clocklet--showing)
     transition        opacity .2s ease-out
-  &:not(.clocklet--shown)
+  &:not(.clocklet--shown):not(.clocklet--inline)
     opacity           0
     pointer-events    none
 

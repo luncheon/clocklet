@@ -1,36 +1,23 @@
-<input class="clocklet-events" data-clocklet="format: _H:_m;" maxlength="5" value=" 1:23">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Changa|Frank+Ruhl+Libre:500">
 
-<label><input class="clocklet-cancel-opening" type="checkbox">Cancel opening</label>
-<label><input class="clocklet-cancel-closing" type="checkbox">Cancel closing</label>
+<style>
+  .clocklet-options-1 {
+    font-family: Changa, sans-serif;
+    border-radius: 50%;
+  }
+</style>
+<input
+  data-clocklet="class-name: clocklet-options-1; format: h:mm AA; alignment: center; placement: top;"
+  placeholder="h:mm AA"
+>
 
-<script>
-  (function () {
-    var inputElement = document.querySelector('.clocklet-events');
-
-    inputElement.addEventListener('clocklet.opening', function (event) {
-      console.log(event.type, event.target.value, event.detail.options);
-      if (document.querySelector('.clocklet-cancel-opening').checked) {
-        event.preventDefault();
-      }
-    });
-
-    inputElement.addEventListener('clocklet.opened', function (event) {
-      console.log(event.type, event.target.value, event.detail.options);
-    });
-
-    inputElement.addEventListener('clocklet.closing', function (event) {
-      console.log(event.type, event.target.value);
-      if (document.querySelector('.clocklet-cancel-closing').checked) {
-        event.preventDefault();
-      }
-    });
-
-    inputElement.addEventListener('clocklet.closed', function (event) {
-      console.log(event.type, event.target.value);
-    });
-
-    inputElement.addEventListener('input', function (event) {
-      console.log(event.type, event.target.value, event.target.value);
-    });
-  })();
-</script>
+<style>
+  .clocklet-options-2 {
+    font-family: "Frank Ruhl Libre", serif;
+    font-weight: 500;
+  }
+</style>
+<input
+  data-clocklet="class-name: clocklet-options-2; format: hh:mm a; alignment: right; append-to: parent;"
+  placeholder="hh:mm a"
+>
