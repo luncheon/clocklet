@@ -21,7 +21,7 @@
     "build:es": "rimraf es/   && rollup    -c -f es       -i src/script/template.pug -o es/template.pug.js && copyfiles -f src/script/template.pug.d.ts es/ && tsc -p . --outDir es/",
     "build:umd": "rimraf umd/ && rollup    -c -n clocklet -i src/script/clocklet.ts -o umd/clocklet.js && uglifyjs -m -c join_vars=true -o umd/clocklet.min.js umd/clocklet.js",
     "watch:umd": "rimraf umd/ && rollup -w -c -n clocklet -i src/script/clocklet.ts -o umd/clocklet.js",
-    "build:css": "rimraf css/ && mkdirp css/ && stylus    -o css/ src/style/ && postcss css/ -d css/ --ext min.css -u cssnano --no-map",
+    "build:css": "rimraf css/ && mkdirp css/ && stylus    -o css/ src/style/ && cleancss -O2 --batch --batch-suffix '.min' css/*.css",
     "watch:css": "rimraf css/ && mkdirp css/ && stylus -w -o css/ src/style/",
     "build:demo": "rimraf .docs/ docs/demo.html && pug    -o .docs/ src/demo/demo.pug -O \"{cdnBaseUrl:'..'}\" && pug -o docs/ src/demo/demo.pug -O \"{cdnBaseUrl:'https://cdn.jsdelivr.net/npm/clocklet@0.3.0'}\"",
     "watch:demo": "rimraf .docs/ docs/demo.html && pug -w -o .docs/ src/demo/demo.pug -O \"{cdnBaseUrl:'..'}\""
@@ -42,20 +42,19 @@
     "tslib": ">=1.0.0"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^10.0.0",
-    "copyfiles": "^2.4.0",
-    "cssnano": "^4.1.10",
+    "@rollup/plugin-node-resolve": "^11.2.0",
+    "clean-css-cli": "^5.2.1",
+    "copyfiles": "^2.4.1",
     "jstransformer-escape-html": "^1.1.0",
     "mkdirp": "^1.0.4",
     "npm-run-all": "^4.1.5",
-    "postcss-cli": "^8.2.0",
     "publish-diff": "^0.4.1",
     "pug-cli": "^1.0.0-alpha6",
     "rimraf": "^3.0.2",
-    "rollup": "^2.33.2",
+    "rollup": "^2.40.0",
     "rollup-plugin-pug": "^1.1.1",
     "stylus": "^0.54.8",
-    "typescript": "^4.0.5",
-    "uglify-js": "^3.11.6"
+    "typescript": "^4.2.2",
+    "uglify-js": "^3.13.0"
   }
 }
