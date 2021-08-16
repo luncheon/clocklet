@@ -42,8 +42,8 @@
     "tslib": ">=1.0.0"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^13.0.0",
-    "clean-css-cli": "^5.3.0",
+    "@rollup/plugin-node-resolve": "^13.0.4",
+    "clean-css-cli": "^5.3.3",
     "copyfiles": "^2.4.1",
     "jstransformer-escape-html": "^1.1.0",
     "mkdirp": "^1.0.4",
@@ -51,10 +51,10 @@
     "publish-diff": "^0.4.1",
     "pug-cli": "^1.0.0-alpha6",
     "rimraf": "^3.0.2",
-    "rollup": "^2.47.0",
+    "rollup": "^2.56.2",
     "rollup-plugin-pug": "^1.1.1",
     "stylus": "^0.54.8",
-    "typescript": "^4.2.4",
-    "uglify-js": "^3.13.5"
+    "typescript": "^4.3.5",
+    "uglify-js": "^3.14.1"
   }
 }
