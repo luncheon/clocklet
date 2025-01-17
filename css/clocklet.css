@@ -1,0 +1,212 @@
+.clocklet-container,
+.clocklet,
+.clocklet-plate,
+.clocklet-dial,
+.clocklet-hand,
+.clocklet-hand-origin,
+.clocklet-tick,
+.clocklet-ampm {
+  touch-action: manipulation;
+  touch-action: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+  position: absolute;
+  font-size: inherit;
+}
+.clocklet-container--inline,
+.clocklet--inline {
+  position: static;
+}
+.clocklet-container {
+  display: inline;
+  width: 0;
+  height: 0;
+}
+.clocklet {
+  font-size: 16px;
+  width: 270px;
+  height: 270px;
+  margin-top: 1px;
+  padding: 8px;
+  border-radius: 3px;
+}
+.clocklet:not(.clocklet--showing) {
+  transition: opacity 0.2s ease-out;
+}
+.clocklet:not(.clocklet--shown):not(.clocklet--inline) {
+  opacity: 0;
+  pointer-events: none;
+}
+[data-clocklet-placement="bottom"][data-clocklet-alignment="left"] {
+  transform-origin: 0 0;
+}
+[data-clocklet-placement="bottom"][data-clocklet-alignment="right"] {
+  transform-origin: 100% 0;
+}
+[data-clocklet-placement="top"][data-clocklet-alignment="left"] {
+  transform-origin: 0 100%;
+}
+[data-clocklet-placement="top"][data-clocklet-alignment="right"] {
+  transform-origin: 100% 100%;
+}
+.clocklet-plate {
+  position: relative;
+  height: 100%;
+  border-radius: 50%;
+}
+.clocklet-dial {
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  border-radius: 50%;
+}
+.clocklet-hand,
+.clocklet-tick,
+.clocklet-ampm::before,
+.clocklet-hand-origin {
+  z-index: 1;
+}
+.clocklet-hand {
+  left: 0;
+  top: 6.4%;
+  right: 0;
+  bottom: 50%;
+  margin: auto;
+  transform-origin: 50% 100%;
+}
+.clocklet-tick {
+  width: 1.75em;
+  height: 1.75em;
+  margin: -0.875em;
+  border-radius: 50%;
+  padding: 0;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  background-color: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+}
+.clocklet-tick::before {
+  content: attr(data-clocklet-tick-value);
+}
+.clocklet-ampm {
+  top: calc(50% + 0.75em);
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 3em;
+  height: 1.5em;
+  border-radius: 0.75em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.clocklet-ampm::before {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  content: attr(data-clocklet-ampm);
+  transform: translateX(-1em);
+}
+.clocklet--shown .clocklet-ampm::before {
+  transition: transform 0.1s ease-out;
+}
+.clocklet-ampm[data-clocklet-ampm="pm"]::before {
+  transform: translateX(1em);
+}
+.clocklet-ampm[data-clocklet-ampm-formatted]:not([data-clocklet-ampm-formatted=""])::before {
+  content: attr(data-clocklet-ampm-formatted);
+}
+.clocklet-hand-origin {
+  left: calc(50% - 5px);
+  top: calc(50% - 5px);
+  right: calc(50% - 5px);
+  bottom: calc(50% - 5px);
+  border-radius: 50%;
+}
+.clocklet:not([data-clocklet-value]) .clocklet-hand,
+.clocklet[data-clocklet-value=""] .clocklet-hand,
+.clocklet:not([data-clocklet-value]) .clocklet-hand-origin,
+.clocklet[data-clocklet-value=""] .clocklet-hand-origin {
+  display: none;
+}
+.clocklet-dial--hour {
+  width: calc(40% + 56px);
+  height: calc(40% + 56px);
+}
+.clocklet-hand--hour {
+  width: 8px;
+}
+.clocklet-tick--hour[data-clocklet-tick-value="0"]::before {
+  content: "12";
+}
+.clocklet-dial--minute {
+  width: 100%;
+  height: 100%;
+}
+.clocklet-hand--minute {
+  width: 2px;
+}
+.clocklet-tick--minute:not([data-clocklet-tick-value$="0"]):not([data-clocklet-tick-value$="5"]) {
+  transform: scale(0.6);
+}
+@media screen and (max-width: 480px) {
+  .clocklet {
+    transform: scale(0.8);
+  }
+}
+@media screen and (max-width: 400px) {
+  .clocklet {
+    transform: scale(0.75);
+  }
+}
+.clocklet {
+  border: 1px solid #ddd;
+  background-color: #eee;
+}
+[data-clocklet-placement="top"] {
+  box-shadow: 4px -4px 4px rgba(128,128,128,0.5);
+}
+[data-clocklet-placement="bottom"] {
+  box-shadow: 4px 4px 4px rgba(128,128,128,0.5);
+}
+.clocklet-plate {
+  background-color: #fff;
+}
+.clocklet-hand {
+  background-color: #a1ddff;
+}
+.clocklet-hand-origin {
+  background-color: #4bf;
+}
+.clocklet-tick--selected {
+  background-color: #57c2ff;
+  color: #fff;
+}
+.clocklet--hoverable:not(.clocklet--dragging) .clocklet-tick:hover {
+  background-color: #7ccfff;
+}
+.clocklet-ampm {
+  background-color: rgba(204,204,204,0.6);
+}
+.clocklet-ampm::before {
+  background-color: #57c2ff;
+  color: #fff;
+}
+.clocklet-ampm:hover::before {
+  background-color: #7ccfff;
+}
